@@ -1,0 +1,2729 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+<meta name="theme-color" content="#0b0f1a" />
+<title>Vision Flow Studio — Smart Video Breakdown SaaS</title>
+<meta name="description" content="Vision Flow Agency & Academy এর স্মার্ট AI video breakdown studio — script, voiceover, audio, video, links, client requirement থেকে scene-by-scene edit plan তৈরি করে।" />
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%236366f1'/><stop offset='.5' stop-color='%2306b6d4'/><stop offset='1' stop-color='%23f59e0b'/></linearGradient></defs><rect rx='22' width='100' height='100' fill='url(%23g)'/><path d='M38 28 L72 50 L38 72 Z' fill='%230b0f1a'/></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07090f;
+    --bg-2:#0b0f1a;
+    --panel:#101627;
+    --panel-2:#131a2e;
+    --panel-3:#1a2340;
+    --border:rgba(255,255,255,0.06);
+    --border-2:rgba(255,255,255,0.12);
+    --border-3:rgba(255,255,255,0.20);
+    --text:#f1f4fb;
+    --text-2:#c5cce0;
+    --muted:#7f8aa6;
+    --muted-2:#565f7a;
+    --primary:#6366f1;
+    --primary-2:#818cf8;
+    --primary-3:#4f46e5;
+    --accent:#06b6d4;
+    --accent-2:#22d3ee;
+    --gold:#f59e0b;
+    --gold-2:#fbbf24;
+    --success:#10b981;
+    --success-2:#34d399;
+    --warn:#f59e0b;
+    --danger:#ef4444;
+    --radius:14px;
+    --radius-sm:10px;
+    --radius-lg:20px;
+    --shadow:0 8px 24px rgba(0,0,0,.4);
+    --shadow-lg:0 20px 60px rgba(0,0,0,.55);
+    --glow-p:0 0 24px rgba(99,102,241,.4);
+    --grad-primary:linear-gradient(135deg,#6366f1 0%,#8b5cf6 50%,#06b6d4 100%);
+    --grad-primary-2:linear-gradient(135deg,#6366f1 0%,#06b6d4 100%);
+    --grad-gold:linear-gradient(135deg,#f59e0b 0%,#f97316 100%);
+    --grad-card:linear-gradient(180deg, rgba(99,102,241,.07), rgba(6,182,212,.03));
+    --grad-vf:linear-gradient(135deg,#6366f1,#8b5cf6,#06b6d4,#f59e0b);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Inter','Hind Siliguri',system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  body.lang-bn{font-family:'Hind Siliguri','Inter',system-ui,sans-serif}
+  body{
+    min-height:100dvh;
+    background:
+      radial-gradient(1400px 700px at 8% -10%, rgba(99,102,241,.22), transparent 55%),
+      radial-gradient(1000px 600px at 108% 5%, rgba(6,182,212,.18), transparent 55%),
+      radial-gradient(700px 500px at 50% 120%, rgba(245,158,11,.10), transparent 55%),
+      var(--bg);
+    background-attachment:fixed;
+  }
+  ::selection{background:rgba(99,102,241,.4);color:#fff}
+  a{color:var(--accent-2);text-decoration:none}
+  a:hover{color:var(--primary-2)}
+  button{font-family:inherit}
+  .mono{font-family:'JetBrains Mono',monospace}
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:99px}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.15)}
+
+  /* ===== LAYOUT ===== */
+  .container{max-width:1360px;margin:0 auto;padding:16px}
+  header.top{
+    position:sticky;top:0;z-index:50;
+    background:rgba(7,9,15,.75);
+    backdrop-filter:blur(20px) saturate(180%);
+    -webkit-backdrop-filter:blur(20px) saturate(180%);
+    border-bottom:1px solid var(--border);
+    padding:12px 0;
+  }
+  .top-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .logo-vf{
+    width:44px;height:44px;border-radius:12px;
+    background:var(--grad-vf);
+    display:grid;place-items:center;color:#07090f;font-weight:900;
+    box-shadow:0 8px 24px rgba(99,102,241,.45),inset 0 0 0 1px rgba(255,255,255,.15);
+    position:relative;overflow:hidden;flex-shrink:0;
+  }
+  .logo-vf::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.25) 50%,transparent 60%);
+    animation:shine 4s infinite;
+  }
+  @keyframes shine{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
+  .logo-vf svg{position:relative;z-index:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.3))}
+  .brand h1{
+    font-size:19px;margin:0;letter-spacing:-.2px;line-height:1.1;font-weight:800;
+    background:linear-gradient(135deg,#fff 0%,#c5cce0 60%,#818cf8 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .brand small{color:var(--muted);font-size:11.5px;display:block;margin-top:2px;font-weight:500}
+  .brand small b{
+    background:var(--grad-primary-2);-webkit-background-clip:text;background-clip:text;color:transparent;
+    font-weight:700;
+  }
+
+  .top-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+
+  /* ===== BUTTONS ===== */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:7px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid var(--border-2);
+    color:var(--text);padding:9px 14px;
+    border-radius:10px;cursor:pointer;font-size:13.5px;
+    transition:all .18s cubic-bezier(.4,0,.2,1);font-weight:500;
+    white-space:nowrap;
+  }
+  .btn:hover{
+    background:rgba(255,255,255,0.08);
+    border-color:var(--border-3);
+    transform:translateY(-1px);
+    box-shadow:0 4px 12px rgba(0,0,0,.3);
+  }
+  .btn:active{transform:translateY(0)}
+  .btn.primary{
+    background:var(--grad-primary-2);border-color:transparent;color:#fff;font-weight:600;
+    box-shadow:0 6px 20px rgba(99,102,241,.4);
+  }
+  .btn.primary:hover{filter:brightness(1.1);box-shadow:0 8px 28px rgba(99,102,241,.55)}
+  .btn.gold{
+    background:var(--grad-gold);border-color:transparent;color:#07090f;font-weight:700;
+    box-shadow:0 6px 20px rgba(245,158,11,.4);
+  }
+  .btn.gold:hover{filter:brightness(1.08);box-shadow:0 8px 28px rgba(245,158,11,.55)}
+  .btn.ghost{background:transparent}
+  .btn.danger{background:transparent;border-color:rgba(239,68,68,.3);color:#f87171}
+  .btn.danger:hover{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.5)}
+  .btn.icon-only{padding:9px 10px}
+  .btn.sm{padding:7px 11px;font-size:12.5px;border-radius:8px}
+  .btn.lg{padding:13px 22px;font-size:15px;border-radius:12px}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+  .btn-icon{
+    background:rgba(255,255,255,0.04);
+    border:1px solid var(--border-2);
+    color:var(--text);width:36px;height:36px;border-radius:10px;
+    display:grid;place-items:center;cursor:pointer;transition:all .18s;
+  }
+  .btn-icon:hover{background:rgba(255,255,255,0.08);border-color:var(--border-3)}
+
+  /* Language toggle */
+  .lang-toggle{
+    display:inline-flex;background:rgba(255,255,255,0.04);
+    border:1px solid var(--border-2);border-radius:10px;padding:3px;gap:2px;
+  }
+  .lang-toggle button{
+    background:transparent;border:none;color:var(--muted);
+    padding:5px 10px;font-size:12px;font-weight:600;
+    border-radius:7px;cursor:pointer;transition:all .18s;
+    font-family:inherit;
+  }
+  .lang-toggle button.active{
+    background:var(--grad-primary-2);color:#fff;
+    box-shadow:0 2px 8px rgba(99,102,241,.4);
+  }
+
+  .badge{
+    font-size:11px;padding:4px 10px;border-radius:999px;
+    background:rgba(99,102,241,.15);color:var(--primary-2);
+    border:1px solid rgba(99,102,241,.35);font-weight:600;
+    display:inline-flex;align-items:center;gap:5px;
+  }
+  .badge.gold{background:rgba(245,158,11,.15);color:var(--gold-2);border-color:rgba(245,158,11,.35)}
+  .badge.cyan{background:rgba(6,182,212,.12);color:var(--accent-2);border-color:rgba(6,182,212,.35)}
+  .badge.green{background:rgba(16,185,129,.12);color:#34d399;border-color:rgba(16,185,129,.35)}
+  .badge.red{background:rgba(239,68,68,.12);color:#f87171;border-color:rgba(239,68,68,.35)}
+  .dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  /* ===== HERO ===== */
+  .hero{
+    margin-top:16px;padding:24px;border-radius:var(--radius-lg);
+    background:var(--grad-card),linear-gradient(180deg,var(--panel),var(--panel-2));
+    border:1px solid var(--border);
+    position:relative;overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  .hero::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:var(--grad-vf);opacity:.8;
+  }
+  .hero::after{
+    content:"";position:absolute;top:-80px;right:-80px;width:280px;height:280px;
+    background:radial-gradient(circle,rgba(99,102,241,.15),transparent 70%);
+    pointer-events:none;
+  }
+  .hero-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;position:relative;z-index:1}
+  .hero h2{
+    margin:0 0 6px;font-size:26px;line-height:1.15;font-weight:800;letter-spacing:-.5px;
+    background:linear-gradient(135deg,#fff 0%,#818cf8 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.sub{color:var(--muted);margin:0;font-size:14px;max-width:720px;line-height:1.6}
+  .hero-badges{display:flex;gap:6px;flex-wrap:wrap}
+
+  /* ===== INPUT CARDS ===== */
+  .input-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px}
+  @media(min-width:820px){.input-grid{grid-template-columns:1fr 1fr}}
+  .input-card{
+    background:rgba(7,9,15,.5);
+    border:1px solid var(--border-2);
+    border-radius:14px;padding:16px;
+    transition:all .2s;position:relative;
+  }
+  .input-card:hover{border-color:var(--border-3);background:rgba(7,9,15,.7)}
+  .input-card:focus-within{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(99,102,241,.15);
+  }
+  .input-card label.field-title{
+    display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;
+    color:var(--text-2);margin-bottom:10px;
+  }
+  .input-card label.field-title svg{color:var(--primary-2)}
+  .field-hint{font-size:11px;color:var(--muted);margin-top:6px}
+
+  textarea,input[type=text],input[type=url],input[type=password],select{
+    width:100%;background:rgba(7,9,15,.6);
+    border:1px solid var(--border-2);border-radius:10px;
+    color:var(--text);padding:10px 12px;font-size:14px;
+    font-family:inherit;resize:vertical;
+    transition:all .18s;
+  }
+  textarea{min-height:110px;line-height:1.5}
+  textarea:focus,input:focus,select:focus{
+    outline:none;border-color:var(--primary);
+    background:rgba(7,9,15,.85);
+    box-shadow:0 0 0 3px rgba(99,102,241,.15);
+  }
+  textarea::placeholder,input::placeholder{color:var(--muted-2)}
+
+  .upload-btn{
+    background:rgba(255,255,255,0.04);
+    border:1px dashed var(--border-3);color:var(--text-2);
+    padding:14px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    cursor:pointer;transition:all .18s;font-size:13px;font-weight:500;
+  }
+  .upload-btn:hover{
+    border-color:var(--primary);color:var(--text);
+    background:rgba(99,102,241,.08);
+  }
+  .upload-btn.uploaded{
+    border-color:var(--success);background:rgba(16,185,129,.08);color:var(--success-2);
+    border-style:solid;
+  }
+
+  /* ===== MODE SELECTOR ===== */
+  .section-title{
+    font-size:13.5px;font-weight:600;color:var(--text-2);
+    display:flex;align-items:center;gap:8px;margin:20px 0 10px;
+  }
+  .section-title svg{color:var(--primary-2)}
+  .modes{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+  }
+  @media(min-width:640px){.modes{grid-template-columns:repeat(4,1fr)}}
+  .mode{
+    background:rgba(7,9,15,.5);
+    border:1px solid var(--border-2);
+    border-radius:12px;padding:14px 10px;cursor:pointer;
+    text-align:center;transition:all .2s;
+    position:relative;overflow:hidden;
+  }
+  .mode:hover{border-color:var(--border-3);transform:translateY(-1px)}
+  .mode.active{
+    background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(6,182,212,.08));
+    border-color:var(--primary);
+    box-shadow:0 0 0 1px rgba(99,102,241,.3),0 8px 24px rgba(99,102,241,.2);
+  }
+  .mode.active::before{
+    content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:2px;
+    background:var(--grad-primary-2);
+  }
+  .mode .mode-icon{
+    width:36px;height:36px;border-radius:10px;
+    background:rgba(99,102,241,.12);color:var(--primary-2);
+    display:grid;place-items:center;margin:0 auto 8px;font-size:18px;
+    transition:all .2s;
+  }
+  .mode.active .mode-icon{background:var(--grad-primary-2);color:#fff}
+  .mode strong{display:block;color:var(--text);font-size:13.5px;margin-bottom:3px;font-weight:600}
+  .mode small{font-size:11.5px;color:var(--muted);line-height:1.3}
+
+  /* ===== ACTION BAR ===== */
+  .action-bar{
+    margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;
+    padding-top:20px;border-top:1px dashed var(--border-2);
+  }
+  .action-bar .btn.gold{flex:1;min-width:220px}
+
+  /* ===== MAIN GRID ===== */
+  .grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}
+  @media (min-width:1024px){.grid.main{grid-template-columns:340px 1fr}}
+  .card{
+    background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    border:1px solid var(--border);border-radius:var(--radius-lg);
+    padding:18px;box-shadow:var(--shadow);
+  }
+  .card h3{
+    margin:0 0 14px;font-size:15px;display:flex;align-items:center;gap:8px;font-weight:700;
+  }
+  .card h3 .pill{
+    font-size:10.5px;padding:3px 8px;border-radius:999px;
+    background:rgba(99,102,241,.2);color:#c7d2fe;font-weight:600;
+    margin-left:auto;
+  }
+
+  /* ===== PROGRESS ===== */
+  .progress-wrap{margin-bottom:12px}
+  .progress-info{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:6px}
+  .progress-info .phase-text{color:var(--text-2);font-weight:600}
+  .progress{
+    height:6px;background:rgba(255,255,255,0.04);border-radius:999px;overflow:hidden;
+  }
+  .progress > div{
+    height:100%;background:var(--grad-primary-2);
+    transition:width .4s cubic-bezier(.4,0,.2,1);border-radius:999px;
+    box-shadow:0 0 12px rgba(99,102,241,.4);
+  }
+
+  .log{
+    background:rgba(7,9,15,.6);
+    border:1px solid var(--border);border-radius:10px;
+    padding:10px 12px;max-height:220px;overflow:auto;
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);
+    line-height:1.6;
+  }
+  .log .ok{color:#34d399}
+  .log .warn{color:#fbbf24}
+  .log .err{color:#f87171}
+  .log .info{color:#93c5fd}
+  .log-empty{color:var(--muted-2);font-style:italic}
+
+  /* ===== ASSET LIST ===== */
+  .asset-item{
+    padding:9px 12px;background:rgba(7,9,15,.5);
+    border:1px solid var(--border);border-radius:10px;
+    margin-bottom:6px;font-size:12.5px;
+    display:flex;align-items:center;gap:8px;
+    transition:all .18s;
+  }
+  .asset-item.filled{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.05)}
+  .asset-item .asset-label{color:var(--muted);flex-shrink:0}
+  .asset-item .asset-value{color:var(--text);margin-left:auto;font-weight:500;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}
+
+  /* ===== SCENE ===== */
+  .scenes-toolbar{
+    display:flex;justify-content:space-between;align-items:center;gap:8px;
+    margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);
+    flex-wrap:wrap;
+  }
+  .scene{
+    background:linear-gradient(180deg,rgba(99,102,241,.04),rgba(6,182,212,.02));
+    border:1px solid var(--border-2);border-radius:14px;
+    padding:16px;margin-bottom:14px;
+    transition:all .2s;position:relative;
+  }
+  .scene:hover{border-color:var(--border-3);box-shadow:0 4px 20px rgba(0,0,0,.2)}
+  .scene-head{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    margin-bottom:12px;flex-wrap:wrap;padding-bottom:12px;
+    border-bottom:1px dashed var(--border-2);
+  }
+  .scene-head .left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .scene-num{
+    background:var(--grad-primary-2);color:#fff;
+    width:34px;height:34px;border-radius:10px;
+    display:grid;place-items:center;font-weight:800;font-size:14px;
+    box-shadow:0 4px 12px rgba(99,102,241,.4);
+  }
+  .scene-time{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent-2);
+    background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.25);
+    padding:4px 9px;border-radius:6px;font-weight:600;
+  }
+  .scene-dur{
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;
+    background:rgba(255,255,255,0.04);border:1px solid var(--border-2);
+    padding:3px 8px;border-radius:6px;color:var(--muted);font-weight:600;
+  }
+  .mode-tag{
+    font-size:10.5px;padding:3px 9px;border-radius:999px;font-weight:600;
+    display:inline-flex;align-items:center;gap:4px;
+  }
+  .mode-tag.single{background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+  .mode-tag.fastcut{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
+  .mode-tag.mixed{background:rgba(168,85,247,.12);color:#c4b5fd;border:1px solid rgba(168,85,247,.3)}
+
+  .scene-fields{display:grid;grid-template-columns:1fr;gap:10px}
+  @media(min-width:720px){.scene-fields.two-col{grid-template-columns:1fr 1fr}}
+  .field{position:relative}
+  .field-label{
+    font-size:11px;color:var(--muted);font-weight:700;
+    text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;
+    display:flex;align-items:center;gap:6px;
+  }
+  .field-label .field-icon{color:var(--primary-2);font-size:13px}
+  .field-label .copy-btn{margin-left:auto}
+  .scene textarea{
+    background:rgba(7,9,15,.55);font-size:13px;
+    padding:9px 11px;min-height:44px;
+    border-color:var(--border);
+  }
+  .scene textarea:focus{border-color:var(--primary)}
+  .scene textarea.cob{
+    font-family:'JetBrains Mono',monospace;font-size:12px;
+    color:#a5f3fc;background:rgba(6,182,212,.05);
+    border-color:rgba(6,182,212,.2);line-height:1.5;
+  }
+  .scene textarea.cob:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(6,182,212,.15)}
+  .cob-badge{
+    font-size:9.5px;padding:2px 6px;border-radius:4px;
+    background:linear-gradient(135deg,#06b6d4,#8b5cf6);color:#fff;font-weight:700;
+    letter-spacing:.5px;text-transform:uppercase;
+  }
+
+  .copy-btn{
+    background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3);
+    color:var(--primary-2);padding:4px 9px;border-radius:6px;font-size:11px;
+    cursor:pointer;font-weight:600;transition:all .15s;
+    display:inline-flex;align-items:center;gap:4px;
+  }
+  .copy-btn:hover{background:rgba(99,102,241,.22);border-color:rgba(99,102,241,.5)}
+  .copy-btn.copied{background:rgba(16,185,129,.18);border-color:rgba(16,185,129,.4);color:#34d399}
+
+  /* Sub-scenes */
+  .subscenes{
+    margin-top:14px;padding-top:14px;border-top:1px dashed rgba(245,158,11,.3);
+  }
+  .subscenes-title{
+    font-size:12px;font-weight:700;color:var(--gold-2);
+    display:flex;align-items:center;gap:6px;margin-bottom:10px;
+    text-transform:uppercase;letter-spacing:.5px;
+  }
+  .subscene{
+    background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.2);
+    border-radius:10px;padding:10px;margin-top:8px;
+  }
+  .subscene-head{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:8px;gap:8px;flex-wrap:wrap;
+  }
+  .subscene-head .word{
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold-2);font-weight:700;
+    background:rgba(245,158,11,.1);padding:2px 8px;border-radius:6px;
+  }
+  .subscene textarea{
+    background:rgba(7,9,15,.5);font-size:12px;min-height:38px;padding:8px 10px;
+  }
+  .subscene .field{margin-top:6px}
+
+  /* Empty state */
+  .empty{
+    text-align:center;padding:56px 24px;color:var(--muted);
+    border:2px dashed var(--border-2);border-radius:14px;
+    background:rgba(7,9,15,.3);
+  }
+  .empty .icon{
+    font-size:44px;margin-bottom:12px;
+    background:var(--grad-primary-2);-webkit-background-clip:text;background-clip:text;color:transparent;
+    display:inline-block;
+  }
+  .empty h4{margin:0 0 6px;color:var(--text-2);font-size:16px;font-weight:700}
+  .empty p{margin:0;font-size:13px;line-height:1.5;max-width:400px;margin:0 auto}
+
+  /* ===== MODAL ===== */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;
+    display:none;align-items:center;justify-content:center;padding:20px;
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    animation:fadeIn .2s;
+  }
+  .modal-overlay.show{display:flex}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .modal{
+    background:var(--panel);border:1px solid var(--border-2);border-radius:var(--radius-lg);
+    max-width:600px;width:100%;max-height:90vh;overflow:auto;
+    box-shadow:var(--shadow-lg);position:relative;
+    animation:slideUp .3s cubic-bezier(.4,0,.2,1);
+  }
+  .modal-header{
+    padding:20px 22px;border-bottom:1px solid var(--border);
+    display:flex;justify-content:space-between;align-items:center;
+    position:sticky;top:0;background:var(--panel);z-index:1;
+  }
+  .modal-header h3{margin:0;font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .modal-body{padding:20px 22px}
+  .modal-close{
+    background:rgba(255,255,255,0.04);border:1px solid var(--border-2);
+    color:var(--muted);width:32px;height:32px;border-radius:8px;cursor:pointer;
+    display:grid;place-items:center;transition:all .15s;
+  }
+  .modal-close:hover{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#f87171}
+
+  /* API list */
+  .api-list{display:grid;gap:8px}
+  .api-item{
+    display:flex;align-items:center;gap:12px;
+    background:rgba(7,9,15,.5);border:1px solid var(--border-2);
+    border-radius:12px;padding:12px 14px;
+    cursor:pointer;transition:all .18s;position:relative;
+  }
+  .api-item:hover{border-color:var(--border-3);background:rgba(7,9,15,.7)}
+  .api-item.selected{
+    background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(6,182,212,.05));
+    border-color:var(--primary);
+    box-shadow:0 0 0 1px rgba(99,102,241,.3);
+  }
+  .api-item .api-icon{
+    width:38px;height:38px;border-radius:10px;
+    background:var(--grad-primary-2);display:grid;place-items:center;
+    color:#fff;font-weight:800;font-size:14px;flex-shrink:0;
+  }
+  .api-item .api-icon.google{background:linear-gradient(135deg,#4285f4,#34a853)}
+  .api-item .api-icon.openrouter{background:linear-gradient(135deg,#a855f7,#ec4899)}
+  .api-item .api-icon.groq{background:linear-gradient(135deg,#f97316,#ef4444)}
+  .api-item .api-icon.custom{background:linear-gradient(135deg,#64748b,#334155)}
+  .api-item .api-info{flex:1;min-width:0}
+  .api-item .api-name{font-weight:600;font-size:13.5px;color:var(--text);margin-bottom:2px}
+  .api-item .api-desc{font-size:11.5px;color:var(--muted)}
+  .api-item .api-status{display:flex;align-items:center;gap:6px;flex-shrink:0}
+  .status-dot{width:8px;height:8px;border-radius:50%;background:var(--muted-2)}
+  .status-dot.ready{background:var(--success-2);box-shadow:0 0 10px var(--success-2)}
+  .status-dot.active{background:var(--accent-2);box-shadow:0 0 10px var(--accent-2)}
+  .api-remove{
+    background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);
+    color:#f87171;width:26px;height:26px;border-radius:6px;cursor:pointer;
+    display:grid;place-items:center;font-size:12px;
+  }
+  .api-remove:hover{background:rgba(239,68,68,.2)}
+
+  .custom-form{
+    margin-top:14px;background:rgba(7,9,15,.4);
+    border:1px dashed var(--border-3);border-radius:12px;
+    padding:14px;display:none;
+  }
+  .custom-form.show{display:block;animation:slideUp .3s}
+  .form-row{display:grid;gap:10px;margin-bottom:10px}
+  .form-row.two{grid-template-columns:1fr 1fr}
+  @media(max-width:520px){.form-row.two{grid-template-columns:1fr}}
+  .form-row label{font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:4px;display:block}
+
+  .key-input-group{
+    display:flex;gap:8px;margin-top:12px;
+    padding:14px;background:rgba(99,102,241,.06);
+    border:1px solid rgba(99,102,241,.25);border-radius:12px;
+  }
+  .key-input-group input{flex:1;background:rgba(7,9,15,.6)}
+
+  /* History */
+  .history-item{
+    background:rgba(7,9,15,.5);border:1px solid var(--border-2);
+    border-radius:10px;padding:12px;margin-bottom:8px;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    transition:all .15s;
+  }
+  .history-item:hover{border-color:var(--border-3);background:rgba(7,9,15,.7)}
+  .history-item .h-info{min-width:0;flex:1}
+  .history-item .h-title{font-weight:600;font-size:13.5px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .history-item .h-meta{font-size:11.5px;color:var(--muted);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap}
+
+  /* Footer */
+  footer.vf{
+    margin-top:28px;padding:24px 16px;text-align:center;
+    border-top:1px solid var(--border);
+    color:var(--muted);font-size:12.5px;
+  }
+  footer.vf .vf-brand{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--grad-vf);-webkit-background-clip:text;background-clip:text;color:transparent;
+    font-weight:800;
+  }
+
+  /* Toast */
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);
+    background:var(--panel-3);border:1px solid var(--border-3);
+    color:var(--text);padding:12px 18px;border-radius:12px;
+    font-size:13px;font-weight:500;z-index:200;
+    transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+    box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:8px;
+    max-width:90vw;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .toast.ok{border-color:rgba(16,185,129,.5);background:linear-gradient(135deg,rgba(16,185,129,.15),var(--panel-3))}
+  .toast.err{border-color:rgba(239,68,68,.5);background:linear-gradient(135deg,rgba(239,68,68,.15),var(--panel-3))}
+  .toast.warn{border-color:rgba(245,158,11,.5);background:linear-gradient(135deg,rgba(245,158,11,.15),var(--panel-3))}
+
+  /* Loader */
+  .spinner{
+    width:16px;height:16px;border:2px solid rgba(255,255,255,.15);
+    border-top-color:currentColor;border-radius:50%;
+    animation:spin .8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Onboarding hint */
+  .setup-hint{
+    background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(239,68,68,.05));
+    border:1px solid rgba(245,158,11,.3);
+    border-radius:12px;padding:14px 16px;margin-top:14px;
+    display:flex;align-items:flex-start;gap:12px;
+  }
+  .setup-hint .hint-icon{
+    width:32px;height:32px;border-radius:8px;
+    background:rgba(245,158,11,.15);color:var(--gold-2);
+    display:grid;place-items:center;flex-shrink:0;font-size:16px;
+  }
+  .setup-hint .hint-text{font-size:13px;line-height:1.5;color:var(--text-2)}
+  .setup-hint .hint-text strong{color:var(--gold-2)}
+  .setup-hint button{margin-top:8px}
+
+  /* Mobile */
+  @media(max-width:640px){
+    .container{padding:12px}
+    .brand h1{font-size:16px}
+    .brand small{font-size:10.5px}
+    .hero{padding:18px}
+    .hero h2{font-size:20px}
+    .hero p.sub{font-size:13px}
+    .card{padding:14px}
+    .top-actions .btn span.hide-sm{display:none}
+    .scene{padding:12px}
+    .scene-num{width:30px;height:30px;font-size:13px}
+  }
+  .hidden{display:none !important}
+
+  /* ===== RHYTHM PROFILE ===== */
+  .rhythm-row{margin-top:14px}
+  .rhythm-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .rhythm-chip{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:7px 13px;border-radius:999px;cursor:pointer;
+    font-size:12.5px;font-weight:600;
+    background:rgba(255,255,255,0.04);
+    border:1px solid var(--border-2);color:var(--text-2);
+    transition:all .18s;white-space:nowrap;
+  }
+  .rhythm-chip:hover{border-color:var(--border-3);background:rgba(255,255,255,0.08);color:var(--text)}
+  .rhythm-chip.active{
+    background:linear-gradient(135deg,rgba(99,102,241,.22),rgba(6,182,212,.10));
+    border-color:var(--primary);color:#fff;
+    box-shadow:0 0 0 1px rgba(99,102,241,.3),0 4px 14px rgba(99,102,241,.2);
+  }
+
+  /* ===== ASSET TYPE BADGE (per scene) ===== */
+  .asset-type-badge{
+    display:inline-flex;align-items:center;gap:5px;
+    font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;
+    text-transform:uppercase;letter-spacing:.4px;
+  }
+  .at-ai-image{background:rgba(99,102,241,.18);color:#a5b4fc;border:1px solid rgba(99,102,241,.35)}
+  .at-ai-video{background:rgba(6,182,212,.15);color:var(--accent-2);border:1px solid rgba(6,182,212,.35)}
+  .at-stock{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.35)}
+  .at-motion-text{background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+  .at-screen-rec{background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+  .at-avatar{background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.35)}
+  .at-infographic{background:rgba(249,115,22,.12);color:#fb923c;border:1px solid rgba(249,115,22,.35)}
+
+  /* ===== TIMELINE SECTION ===== */
+  .timeline-section{
+    margin-top:14px;padding:12px 14px;
+    background:rgba(6,182,212,.04);
+    border:1px solid rgba(6,182,212,.18);
+    border-radius:10px;
+  }
+  .timeline-title{
+    font-size:12px;font-weight:700;color:var(--accent-2);
+    display:flex;align-items:center;gap:6px;margin-bottom:10px;
+    text-transform:uppercase;letter-spacing:.5px;
+  }
+  .timeline-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  @media(max-width:640px){.timeline-grid{grid-template-columns:1fr}}
+  .tl-field{}
+  .tl-label{font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px}
+  .tl-field textarea{min-height:52px;font-size:12.5px;line-height:1.45}
+  .tl-full{grid-column:1/-1}
+
+  /* ===== CLIENT PRESET ===== */
+  .preset-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  @media(max-width:540px){.preset-grid{grid-template-columns:1fr}}
+  .preset-field label{font-size:12px;font-weight:600;color:var(--text-2);display:block;margin-bottom:5px}
+  .preset-field input,.preset-field select{font-size:13px}
+  .preset-saved-list{margin-top:14px;max-height:220px;overflow:auto}
+  .preset-item{
+    padding:10px 12px;background:rgba(255,255,255,0.03);
+    border:1px solid var(--border);border-radius:10px;margin-bottom:8px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+  }
+  .preset-item:hover{border-color:var(--border-2)}
+  .preset-name{font-size:13.5px;font-weight:600;color:var(--text)}
+  .preset-meta{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .preset-actions{display:flex;gap:6px;flex-shrink:0}
+
+  /* ===== PRIORITY ENGINE INDICATOR ===== */
+  .priority-row{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    font-size:11.5px;color:var(--muted);margin-top:10px;
+    padding:8px 12px;background:rgba(16,185,129,.05);
+    border:1px solid rgba(16,185,129,.18);border-radius:8px;
+  }
+  .priority-row .pr-on{color:#34d399;font-weight:600}
+  .priority-row .pr-off{color:var(--muted-2);text-decoration:line-through}
+  .priority-row strong{color:var(--text-2);font-weight:700;margin-right:2px}
+</style>
+</head>
+<body class="lang-en">
+
+<header class="top">
+  <div class="container">
+    <div class="top-row">
+      <div class="brand">
+        <div class="logo-vf">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M9 5l11 7-11 7V5z"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Vision Flow Studio</h1>
+          <small>by <b>Vision Flow Agency &amp; Academy</b></small>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" data-lang="en" class="active">EN</button>
+          <button type="button" data-lang="bn">বাংলা</button>
+        </div>
+        <button type="button" class="btn sm" id="btnNew">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          <span class="hide-sm" data-i18n="btn_new">New</span>
+        </button>
+        <button type="button" class="btn sm" id="btnHistory">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>
+          <span class="hide-sm" data-i18n="btn_history">History</span>
+        </button>
+        <button type="button" class="btn sm" id="btnPreset">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          <span class="hide-sm" data-i18n="btn_preset">Presets</span>
+        </button>
+        <button type="button" class="btn sm primary" id="btnSettings">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 0 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 0 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 0 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 0 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9c.2.6.7 1.1 1.5 1.1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+          <span data-i18n="btn_api">API Setup</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-head">
+      <div>
+        <h2 data-i18n="hero_title">🎬 AI Video Breakdown Studio</h2>
+        <p class="sub" data-i18n="hero_sub">Drop your script or voiceover — AI automatically decides scene duration, visuals, fonts, motion, SFX, BGM and generates ready-to-use Google Flow prompts for every scene.</p>
+      </div>
+      <div class="hero-badges">
+        <span class="badge cyan" id="apiBadge"><span class="dot"></span> <span id="apiBadgeText">Gemini 2.5 Flash</span></span>
+        <span class="badge gold" id="modeBadge" data-i18n="mode_smart_auto">Smart Auto Mode</span>
+      </div>
+    </div>
+
+    <!-- Setup hint (shows when no API key) -->
+    <div class="setup-hint" id="setupHint">
+      <div class="hint-icon">🔑</div>
+      <div class="hint-text">
+        <div><strong data-i18n="hint_title">One-time setup:</strong> <span data-i18n="hint_body">Add your free AI API key to unlock the studio. Your key stays only in your browser.</span></div>
+        <button type="button" class="btn sm gold" id="btnOpenSetup" style="margin-top:8px">
+          <span data-i18n="hint_btn">Setup API Key →</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="input-grid">
+      <!-- Script -->
+      <div class="input-card">
+        <label class="field-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+          <span data-i18n="input_script">Script or Voiceover Text</span>
+        </label>
+        <textarea id="script" data-i18n-ph="ph_script" placeholder="Paste the client's full script here… or one VO line per row. Or drop a Drive/Docs link below."></textarea>
+        <input type="url" id="scriptLink" data-i18n-ph="ph_script_link" placeholder="Google Drive / Docs link (optional)" style="margin-top:10px"/>
+      </div>
+
+      <!-- Media -->
+      <div class="input-card">
+        <label class="field-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <span data-i18n="input_media">Voiceover Audio / Video / Reference</span>
+        </label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <label class="upload-btn" id="audioUploadLabel">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            <span id="audioUploadText" data-i18n="upload_audio">Upload Audio</span>
+            <input type="file" id="audioFile" accept="audio/*" hidden>
+          </label>
+          <label class="upload-btn" id="videoUploadLabel">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7zM14 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"/></svg>
+            <span id="videoUploadText" data-i18n="upload_video">Upload Video</span>
+            <input type="file" id="videoFile" accept="video/*" hidden>
+          </label>
+        </div>
+        <input type="url" id="mediaLink" data-i18n-ph="ph_media_link" placeholder="Drive video / audio link (optional)" style="margin-top:10px"/>
+        <input type="url" id="refLink" data-i18n-ph="ph_ref_link" placeholder="Reference video link (style / tone match)" style="margin-top:8px"/>
+      </div>
+    </div>
+
+    <!-- Modes -->
+    <div class="section-title">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+      <span data-i18n="mode_pick">Choose Scene Breakdown Mode</span>
+    </div>
+    <div class="modes" id="modes">
+      <div class="mode active" data-mode="auto">
+        <div class="mode-icon">🤖</div>
+        <strong data-i18n="mode_auto_t">Smart Auto</strong>
+        <small data-i18n="mode_auto_d">AI decides best cut per line</small>
+      </div>
+      <div class="mode" data-mode="single">
+        <div class="mode-icon">🎬</div>
+        <strong data-i18n="mode_single_t">Single Scene</strong>
+        <small data-i18n="mode_single_d">1 VO line = 1 scene</small>
+      </div>
+      <div class="mode" data-mode="fastcut">
+        <div class="mode-icon">⚡</div>
+        <strong data-i18n="mode_fast_t">Fast Cut</strong>
+        <small data-i18n="mode_fast_d">1 line = 2–3 sub-shots</small>
+      </div>
+      <div class="mode" data-mode="mixed">
+        <div class="mode-icon">🎨</div>
+        <strong data-i18n="mode_mixed_t">Mixed Blend</strong>
+        <small data-i18n="mode_mixed_d">Adaptive mix per scene</small>
+      </div>
+    </div>
+
+    <!-- Rhythm Profile -->
+    <div class="rhythm-row">
+      <div class="section-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        <span data-i18n="rhythm_pick">Edit Rhythm Profile</span>
+        <span style="font-size:11px;color:var(--muted);margin-left:4px" data-i18n="rhythm_pick_sub">(AI uses this to decide pacing, tone & asset types)</span>
+      </div>
+      <div class="rhythm-chips" id="rhythmChips">
+        <button type="button" class="rhythm-chip active" data-rhythm="calm">😌 <span data-i18n="rh_calm">Calm Explainer</span></button>
+        <button type="button" class="rhythm-chip" data-rhythm="viral">⚡ <span data-i18n="rh_viral">Viral Fast Hook</span></button>
+        <button type="button" class="rhythm-chip" data-rhythm="premium">💎 <span data-i18n="rh_premium">Premium Brand Ad</span></button>
+        <button type="button" class="rhythm-chip" data-rhythm="emotional">❤️ <span data-i18n="rh_emotional">Emotional Story</span></button>
+        <button type="button" class="rhythm-chip" data-rhythm="documentary">🎥 <span data-i18n="rh_documentary">Documentary</span></button>
+        <button type="button" class="rhythm-chip" data-rhythm="islamic">🌙 <span data-i18n="rh_islamic">Islamic / Motivational</span></button>
+        <button type="button" class="rhythm-chip" data-rhythm="faceless">🤖 <span data-i18n="rh_faceless">Faceless Automation</span></button>
+      </div>
+    </div>
+
+    <!-- Priority Engine indicator (dynamic) -->
+    <div class="priority-row" id="priorityRow">
+      <strong>🎯 Input Priority:</strong>
+      <span id="priVO" class="pr-off">🎵 VO Audio/Video</span>
+      <span style="color:var(--muted-2)">›</span>
+      <span id="priScript" class="pr-on">📝 Script</span>
+      <span style="color:var(--muted-2)">›</span>
+      <span id="priBrief" class="pr-off">💬 Client Brief</span>
+      <span style="color:var(--muted-2)">›</span>
+      <span id="priRef" class="pr-off">🎬 Reference</span>
+    </div>
+
+    <!-- Requirement -->
+    <div class="input-card" style="margin-top:14px">
+      <label class="field-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <span data-i18n="input_req">Client Requirements (optional)</span>
+      </label>
+      <textarea id="clientReq" data-i18n-ph="ph_req" placeholder="e.g. '3–5s per line', 'dark cinematic tone', 'motion graphic heavy', 'fast hook style'…"></textarea>
+    </div>
+
+    <!-- Action -->
+    <div class="action-bar">
+      <button type="button" class="btn gold lg" id="btnAnalyze">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span data-i18n="btn_analyze">Start AI Breakdown</span>
+      </button>
+      <button type="button" class="btn lg" id="btnExport">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        <span data-i18n="btn_export">Export</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- MAIN GRID -->
+  <div class="grid main">
+    <!-- Sidebar -->
+    <aside>
+      <div class="card">
+        <h3><span data-i18n="side_status">Status</span> <span class="pill" id="phaseText">Idle</span></h3>
+        <div class="progress-wrap">
+          <div class="progress-info">
+            <span class="phase-text" id="phaseLabel" data-i18n="phase_idle">Ready to start</span>
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress"><div id="progressBar" style="width:0%"></div></div>
+        </div>
+        <div class="log" id="log"><div class="log-empty" data-i18n="log_empty">No activity yet…</div></div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <h3><span data-i18n="side_project">Project Info</span></h3>
+        <label class="field-label" data-i18n="lbl_project_title">Project Title</label>
+        <input type="text" id="projectTitle" data-i18n-ph="ph_project" placeholder="e.g. Tech Promo 30s" style="margin-bottom:10px">
+        <label class="field-label" data-i18n="lbl_total_dur">Approx. Total Duration (sec)</label>
+        <input type="text" id="totalDur" data-i18n-ph="ph_dur" placeholder="e.g. 30 / 60 / 90 (optional)">
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <h3><span data-i18n="side_assets">Assets</span></h3>
+        <div class="asset-item" id="assetScript"><span class="asset-label" data-i18n="asset_script">📝 Script</span><span class="asset-value" id="adScript" data-i18n="asset_none">—</span></div>
+        <div class="asset-item" id="assetAudio"><span class="asset-label" data-i18n="asset_audio">🎵 Audio</span><span class="asset-value" id="adAudio" data-i18n="asset_none">—</span></div>
+        <div class="asset-item" id="assetVideo"><span class="asset-label" data-i18n="asset_video">🎬 Video</span><span class="asset-value" id="adVideo" data-i18n="asset_none">—</span></div>
+        <div class="asset-item" id="assetLink"><span class="asset-label" data-i18n="asset_link">🔗 Links</span><span class="asset-value" id="adLink" data-i18n="asset_none">—</span></div>
+      </div>
+    </aside>
+
+    <!-- Scene panel -->
+    <section>
+      <div class="card">
+        <div class="scenes-toolbar">
+          <h3 style="margin:0"><span data-i18n="scene_hdr">🎞️ Scene Breakdown</span> <span class="pill" id="sceneCount">0 scenes</span></h3>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button type="button" class="btn sm" id="btnRegen">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M12 3v6h6"/></svg>
+              <span data-i18n="btn_regen">Regenerate</span>
+            </button>
+            <button type="button" class="btn sm primary" id="btnCopyAll">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span data-i18n="btn_copy_all">Copy All</span>
+            </button>
+          </div>
+        </div>
+        <div id="scenes"></div>
+        <div class="empty" id="emptyState">
+          <div class="icon">🎬</div>
+          <h4 data-i18n="empty_title">No scenes generated yet</h4>
+          <p data-i18n="empty_body">Add your script or audio above, choose a mode, then hit "Start AI Breakdown" to generate professional scene-by-scene direction.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="vf">
+    <div>
+      <span data-i18n="footer_by">Built by</span> <span class="vf-brand">Vision Flow Agency &amp; Academy</span> · <span data-i18n="footer_tag">Empowering Creators with AI</span>
+    </div>
+    <div style="margin-top:8px">
+      <a href="https://visionflow-bd.github.io" target="_blank" rel="noopener">visionflow-bd.github.io</a> · <span data-i18n="footer_client">100% client-side · Your data never leaves your browser</span>
+    </div>
+  </footer>
+</main>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 0 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 0 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 0 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 0 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9c.2.6.7 1.1 1.5 1.1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        <span data-i18n="modal_api_title">AI API Configuration</span>
+      </h3>
+      <button type="button" class="modal-close" data-close="settingsModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--muted);font-size:12.5px;margin:0 0 14px;line-height:1.5">
+        <span data-i18n="modal_api_sub">Select an AI provider and paste your API key. All keys are stored only in your browser's localStorage — nothing goes to any server.</span>
+      </p>
+
+      <div class="api-list" id="apiList"></div>
+
+      <div style="margin-top:14px">
+        <button type="button" class="btn sm" id="btnAddCustom">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          <span data-i18n="btn_add_custom">Add Custom API</span>
+        </button>
+      </div>
+
+      <div class="custom-form" id="customForm">
+        <div class="form-row"><div><label data-i18n="cf_name">Display Name</label><input type="text" id="cfName" placeholder="e.g. My OpenAI Proxy"></div></div>
+        <div class="form-row two">
+          <div><label data-i18n="cf_base">Base URL</label><input type="text" id="cfBase" placeholder="https://api.example.com"></div>
+          <div><label data-i18n="cf_path">Endpoint Path</label><input type="text" id="cfPath" placeholder="/v1/chat/completions"></div>
+        </div>
+        <div class="form-row two">
+          <div><label data-i18n="cf_model">Model Name</label><input type="text" id="cfModel" placeholder="gpt-4o-mini"></div>
+          <div><label data-i18n="cf_format">Response Format</label>
+            <select id="cfFormat"><option value="openai">OpenAI-compatible</option><option value="gemini">Gemini-style</option></select>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:8px">
+          <button type="button" class="btn sm primary" id="btnSaveCustom" data-i18n="btn_save_custom">Save Custom API</button>
+          <button type="button" class="btn sm" id="btnCancelCustom" data-i18n="btn_cancel">Cancel</button>
+        </div>
+      </div>
+
+      <div class="key-input-group">
+        <div style="flex:1">
+          <label style="font-size:11.5px;color:var(--primary-2);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block">
+            <span data-i18n="lbl_key">API Key for</span> <span id="activeApiName">Gemini 3.5 Flash</span>
+          </label>
+          <input type="password" id="apiKey" placeholder="Paste your API key here…">
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">
+            🔒 <span data-i18n="key_note">Stored only in this browser · Nothing sent to any server</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;justify-content:flex-end">
+          <button type="button" class="btn primary sm" id="btnSaveKey" data-i18n="btn_save_key">Save</button>
+          <button type="button" class="btn sm" id="btnTestKey" data-i18n="btn_test_key">Test</button>
+        </div>
+      </div>
+
+      <!-- OpenRouter model selector — shown only when OR is active -->
+      <div id="orModelSection" style="display:none;margin-top:10px;padding:12px;background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.25);border-radius:10px">
+        <label style="font-size:11.5px;color:#c084fc;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block">⚡ OpenRouter Free Model</label>
+        <select id="orModelSelect" style="width:100%;background:rgba(7,9,15,.6);border:1px solid rgba(168,85,247,.3);border-radius:8px;color:var(--text);padding:8px 10px;font-size:13px;font-family:inherit"></select>
+        <div style="font-size:11px;color:var(--muted);margin-top:5px">Free models এ :free suffix থাকে · <a href="https://openrouter.ai/models?order=top-weekly" target="_blank" rel="noopener" style="color:#c084fc">openrouter.ai/models</a> এ সব দেখো</div>
+      </div>
+
+      <div style="margin-top:14px;padding:12px;background:rgba(6,182,212,.05);border:1px solid rgba(6,182,212,.2);border-radius:10px;font-size:12px;color:var(--text-2);line-height:1.6">
+        <strong style="color:var(--accent-2)" data-i18n="key_where_title">🔗 Where to get free API keys:</strong><br>
+        <span data-i18n="key_where_gemini">Gemini: </span><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a><br>
+        <span data-i18n="key_where_or">OpenRouter: </span><a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a><br>
+        <span data-i18n="key_where_groq">Groq: </span><a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORY MODAL -->
+<div class="modal-overlay" id="historyModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>📚 <span data-i18n="modal_hist_title">Project History</span></h3>
+      <button type="button" class="modal-close" data-close="historyModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="historyList"></div>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end;gap:8px">
+        <button type="button" class="btn sm danger" id="btnClearHistory" data-i18n="btn_clear_hist">Clear All</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="modal-overlay" id="exportModal">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header">
+      <h3>📤 <span data-i18n="modal_export_title">Export Project</span></h3>
+      <button type="button" class="modal-close" data-close="exportModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--muted);font-size:13px;margin:0 0 14px" data-i18n="modal_export_sub">Choose your export format:</p>
+      <div style="display:grid;gap:10px">
+        <button type="button" class="btn lg primary" id="btnExpJSON">
+          <span>📦</span> <span data-i18n="exp_json">JSON (Full Data)</span>
+        </button>
+        <button type="button" class="btn lg" id="btnExpCSV">
+          <span>📊</span> <span data-i18n="exp_csv">CSV (Spreadsheet)</span>
+        </button>
+        <button type="button" class="btn lg" id="btnExpTXT">
+          <span>📄</span> <span data-i18n="exp_txt">Plain Text (for editors)</span>
+        </button>
+        <button type="button" class="btn lg" id="btnExpMD">
+          <span>📝</span> <span data-i18n="exp_md">Markdown</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRESET MODAL -->
+<div class="modal-overlay" id="presetModal">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header">
+      <h3>📁 <span data-i18n="modal_preset_title">Client Presets</span></h3>
+      <button type="button" class="modal-close" data-close="presetModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--muted);font-size:13px;margin:0 0 14px" data-i18n="modal_preset_sub">Save per-client settings. One click to load them back next time.</p>
+
+      <div style="padding:14px;background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.2);border-radius:12px">
+        <div style="font-size:13px;font-weight:700;color:var(--primary-2);margin-bottom:12px">💾 <span data-i18n="preset_save_title">Save Current Settings as Preset</span></div>
+        <div class="preset-grid">
+          <div class="preset-field" style="grid-column:1/-1">
+            <label data-i18n="preset_name_lbl">Preset Name (e.g. Client Name / Project Type)</label>
+            <input type="text" id="presetName" data-i18n-ph="preset_name_ph" placeholder="e.g. Bashir Bhai — Islamic Content">
+          </div>
+          <div class="preset-field">
+            <label data-i18n="preset_font_lbl">Preferred Font Style</label>
+            <input type="text" id="presetFont" placeholder="e.g. Montserrat Bold / Bangla Hind">
+          </div>
+          <div class="preset-field">
+            <label data-i18n="preset_pacing_lbl">Pacing Preference</label>
+            <select id="presetPacing">
+              <option value="slow">Slow & Calm</option>
+              <option value="medium" selected>Medium</option>
+              <option value="fast">Fast & Punchy</option>
+              <option value="viral">Ultra Fast (Viral)</option>
+            </select>
+          </div>
+          <div class="preset-field">
+            <label data-i18n="preset_lang_lbl">Language Style</label>
+            <select id="presetLang">
+              <option value="bangla">Bangla VO</option>
+              <option value="english">English VO</option>
+              <option value="mixed">Mixed (BN+EN)</option>
+              <option value="arabic">Arabic / Islamic</option>
+            </select>
+          </div>
+          <div class="preset-field">
+            <label data-i18n="preset_hook_lbl">Hook Intensity</label>
+            <select id="presetHook">
+              <option value="soft">Soft</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard Hook</option>
+              <option value="viral">Viral (Pattern Interrupt)</option>
+            </select>
+          </div>
+          <div class="preset-field">
+            <label data-i18n="preset_color_lbl">Color Mood</label>
+            <select id="presetColor">
+              <option value="cinematic">Dark Cinematic</option>
+              <option value="warm">Warm & Vibrant</option>
+              <option value="minimal">Clean Minimal</option>
+              <option value="islamic">Deep Islamic (Emerald/Gold)</option>
+              <option value="neon">Neon / Futuristic</option>
+            </select>
+          </div>
+          <div class="preset-field">
+            <label data-i18n="preset_density_lbl">Visual Density</label>
+            <select id="presetDensity">
+              <option value="minimal">Minimal (Lots of breathing)</option>
+              <option value="balanced" selected>Balanced</option>
+              <option value="heavy">Heavy (Max elements)</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" class="btn primary" style="margin-top:14px;width:100%" id="btnSavePreset">
+          💾 <span data-i18n="btn_save_preset">Save Preset</span>
+        </button>
+      </div>
+
+      <div style="margin-top:16px">
+        <div style="font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:6px">📂 <span data-i18n="preset_saved_title">Saved Presets</span></div>
+        <div class="preset-saved-list" id="presetList"><div style="color:var(--muted-2);font-size:13px;padding:10px 0" data-i18n="preset_empty">No saved presets yet.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+/* ==================================================
+   Vision Flow Studio — App Logic
+   ================================================== */
+
+// ---- i18n dictionary ----
+const I18N = {
+  en: {
+    btn_new:'New', btn_history:'History', btn_api:'API Setup',
+    hero_title:'🎬 AI Video Breakdown Studio',
+    hero_sub:'Script, voiceover, audio, video, Drive/Docs link, reference and client brief থেকে AI নিজে smart scene breakdown বানাবে — কোথাও hold shot, কোথাও fast-cut, কোথাও mixed edit; আর যেখানেই দরকার সেখানেই ready-to-use AI prompts দেবে.',
+    hint_title:'One-time setup:', hint_body:'নিজের API key যোগ করলে studio চালু হবে। Key শুধু আপনার এই browser এ save হবে — public static hosting এ hidden secret রাখা যায় না.',
+    hint_btn:'Setup API Key →',
+    input_script:'Script or Voiceover Text',
+    ph_script:"Paste the client's full script here… or one VO line per row. Or drop a Drive/Docs link below.",
+    ph_script_link:'Google Drive / Docs link (optional)',
+    input_media:'Voiceover Audio / Video / Reference',
+    upload_audio:'Upload Audio', upload_video:'Upload Video',
+    ph_media_link:'Drive video / audio link (optional)',
+    ph_ref_link:'Reference video link (style / tone match)',
+    mode_pick:'Choose Scene Breakdown Mode',
+    mode_auto_t:'Smart Auto', mode_auto_d:'AI decides best cut per line',
+    mode_single_t:'Single Scene', mode_single_d:'1 VO line = 1 scene',
+    mode_fast_t:'Fast Cut', mode_fast_d:'1 line = 2–3 sub-shots',
+    mode_mixed_t:'Mixed Blend', mode_mixed_d:'Adaptive mix per scene',
+    input_req:'Client Requirements (optional)',
+    ph_req:"e.g. '3–5s per line', 'dark cinematic tone', 'motion graphic heavy', 'fast hook style'…",
+    btn_analyze:'Start AI Breakdown', btn_export:'Export',
+    side_status:'Status', phase_idle:'Ready to start',
+    log_empty:'No activity yet…',
+    side_project:'Project Info',
+    lbl_project_title:'Project Title', ph_project:'e.g. Tech Promo 30s',
+    lbl_total_dur:'Approx. Total Duration (sec)', ph_dur:'e.g. 30 / 60 / 90 (optional)',
+    side_assets:'Assets',
+    asset_script:'📝 Script', asset_audio:'🎵 Audio', asset_video:'🎬 Video', asset_link:'🔗 Links',
+    asset_none:'—',
+    scene_hdr:'🎞️ Scene Breakdown',
+    btn_regen:'Regenerate', btn_copy_all:'Copy All',
+    empty_title:'No scenes generated yet',
+    empty_body:'Add your script or audio above, choose a mode, then hit "Start AI Breakdown" to generate professional scene-by-scene direction.',
+    footer_by:'Built by', footer_tag:'Smart edit planning for creators',
+    footer_client:'100% client-side · Your data never leaves your browser',
+    modal_api_title:'AI API Configuration',
+    modal_api_sub:"Select an AI provider and paste your API key. All keys are stored only in your browser's localStorage — nothing goes to any server.",
+    btn_add_custom:'Add Custom API',
+    cf_name:'Display Name', cf_base:'Base URL', cf_path:'Endpoint Path',
+    cf_model:'Model Name', cf_format:'Response Format',
+    btn_save_custom:'Save Custom API', btn_cancel:'Cancel',
+    lbl_key:'API Key for',
+    key_note:'Stored only in this browser · Nothing sent to any server',
+    btn_save_key:'Save', btn_test_key:'Test',
+    key_where_title:'🔗 Where to get free API keys:',
+    key_where_gemini:'Gemini: ', key_where_or:'OpenRouter: ', key_where_groq:'Groq: ',
+    modal_hist_title:'Project History',
+    btn_clear_hist:'Clear All',
+    modal_export_title:'Export Project', modal_export_sub:'Choose your export format:',
+    exp_json:'JSON (Full Data)', exp_csv:'CSV (Spreadsheet)', exp_txt:'Plain Text (for editors)', exp_md:'Markdown',
+    mode_smart_auto:'Smart Auto Mode', mode_single:'Single Scene Mode', mode_fast:'Fast Cut Mode', mode_mixed:'Mixed Blend Mode',
+    scenes:' scenes',
+    field_vo_en:'🎙️ VO (English)', field_vo_bn:'🎙️ VO (Bangla)',
+    field_visual:'🎨 Visual Direction', field_camera:'📷 Camera Angle',
+    field_light:'💡 Lighting & Color', field_font:'🔤 Font & Animation',
+    field_motion:'🎞️ Motion / SFX / BGM', field_text:'📝 On-Screen Text',
+    field_img:'🖼️ AI Image Prompt', field_vid:'🎬 AI Video Prompt',
+    copy:'copy', copied:'copied',
+    toast_key_saved:'API key saved',
+    toast_api_switched:'API provider switched',
+    toast_no_key:'No API key — open API Setup first',
+    toast_no_input:'Please add a script, audio, or video first',
+    toast_working:'Already working…',
+    toast_test_ok:'API key works!',
+    toast_test_fail:'API test failed',
+    toast_copied:'Copied to clipboard',
+    toast_regen_confirm:'Regenerate all scenes?',
+    toast_new_confirm:'Clear current project?',
+    toast_clear_hist_confirm:'Clear all history?',
+    toast_custom_saved:'Custom API added',
+    toast_custom_missing:'Please fill in all fields',
+    toast_project_loaded:'Project loaded',
+    ph_key:'Paste your API key here…',
+    subshots:'Fast-cut Sub-Shots',
+    trigger_word:'Trigger word',
+    hist_empty:'No saved projects yet',
+    log_start:'Analysis started · Mode:',
+    log_step1:'Extracting VO lines & durations…',
+    log_step1_ok:'VO lines extracted',
+    log_step1_fail:'VO extraction failed',
+    log_step2:'Building detailed scene breakdown…',
+    log_step2_ok:'Scene breakdown complete',
+    log_step2_fail:'Scene breakdown failed',
+    log_done:'All scenes ready!',
+    log_lines_found:'VO lines detected:',
+    log_parse_fail:'JSON parse error',
+    phase_working:'Working…',
+    phase_done:'Complete ✅',
+    phase_error:'Error ❌',
+    open_action:'Open',
+    del_action:'Delete',
+    at_str:'at',
+    btn_preset:'Presets',
+    rhythm_pick:'Edit Rhythm Profile',
+    rhythm_pick_sub:'(AI uses this to decide pacing, tone & asset types)',
+    rh_calm:'Calm Explainer', rh_viral:'Viral Fast Hook', rh_premium:'Premium Brand Ad',
+    rh_emotional:'Emotional Story', rh_documentary:'Documentary',
+    rh_islamic:'Islamic / Motivational', rh_faceless:'Faceless Automation',
+    field_asset:'🎯 Asset Type', field_timeline:'⏱️ Timeline Notes',
+    field_broll:'📹 B-Roll Notes', field_sfxcue:'💥 SFX Cue', field_transition:'🔄 Transition Cue',
+    modal_preset_title:'Client Presets',
+    modal_preset_sub:'Save per-client settings. One click to load them back next time.',
+    preset_save_title:'Save Current Settings as Preset',
+    preset_name_lbl:'Preset Name (e.g. Client Name / Project Type)',
+    preset_name_ph:'e.g. Bashir Bhai — Islamic Content',
+    preset_font_lbl:'Preferred Font Style', preset_pacing_lbl:'Pacing Preference',
+    preset_lang_lbl:'Language Style', preset_hook_lbl:'Hook Intensity',
+    preset_color_lbl:'Color Mood', preset_density_lbl:'Visual Density',
+    btn_save_preset:'Save Preset',
+    preset_saved_title:'Saved Presets',
+    preset_empty:'No saved presets yet.',
+    toast_preset_saved:'Preset saved',
+    toast_preset_loaded:'Preset loaded',
+    toast_preset_deleted:'Preset deleted'
+  },
+  bn: {
+    btn_new:'নতুন', btn_history:'হিস্টরি', btn_api:'API সেটআপ',
+    hero_title:'🎬 AI ভিডিও ব্রেকডাউন স্টুডিও',
+    hero_sub:'স্ক্রিপ্ট বা ভয়েজওভার দাও — AI নিজে থেকে প্রতিটা সিনের ডিউরেশন, ভিজুয়াল, ফন্ট, মোশন, SFX, BGM ঠিক করে দেবে এবং প্রতিটা সিনের জন্য রেডি-টু-ইউজ Google Flow প্রম্পট বানিয়ে দেবে।',
+    hint_title:'এক-বারের সেটআপ:', hint_body:'ফ্রি AI API কী যোগ করলেই স্টুডিও চালু হয়ে যাবে। কী শুধু তোমার ব্রাউজারে সেভ থাকবে।',
+    hint_btn:'API কী সেটআপ করো →',
+    input_script:'স্ক্রিপ্ট বা ভয়েজওভার টেক্সট',
+    ph_script:'ক্লায়েন্টের পুরো স্ক্রিপ্ট এখানে পেস্ট করো… বা প্রতিটা VO লাইন আলাদা লাইনে দাও। অথবা Drive/Docs লিংক নিচে দাও।',
+    ph_script_link:'Google Drive / Docs লিংক (ঐচ্ছিক)',
+    input_media:'ভয়েজওভার অডিও / ভিডিও / রেফারেন্স',
+    upload_audio:'অডিও আপলোড', upload_video:'ভিডিও আপলোড',
+    ph_media_link:'Drive ভিডিও / অডিও লিংক (ঐচ্ছিক)',
+    ph_ref_link:'রেফারেন্স ভিডিও লিংক (স্টাইল / টোন)',
+    mode_pick:'সিন ব্রেকডাউন মোড সিলেক্ট করো',
+    mode_auto_t:'স্মার্ট অটো', mode_auto_d:'AI নিজে সিদ্ধান্ত নেবে',
+    mode_single_t:'সিঙ্গেল সিন', mode_single_d:'১ VO লাইন = ১ সিন',
+    mode_fast_t:'ফাস্ট কাট', mode_fast_d:'১ লাইন = ২–৩ সাব-শট',
+    mode_mixed_t:'মিক্সড ব্লেন্ড', mode_mixed_d:'সব মিক্সড করে',
+    input_req:'ক্লায়েন্টের রিকোয়ারমেন্ট (ঐচ্ছিক)',
+    ph_req:"যেমন: 'প্রতিটা লাইনে ৩-৫ সেকেন্ড', 'ডার্ক সিনেমাটিক', 'মোশন গ্রাফিক বেশি', 'ফাস্ট হুক স্টাইল'…",
+    btn_analyze:'AI ব্রেকডাউন শুরু করো', btn_export:'এক্সপোর্ট',
+    side_status:'স্ট্যাটাস', phase_idle:'শুরু করার জন্য প্রস্তুত',
+    log_empty:'এখনো কোনো অ্যাক্টিভিটি নেই…',
+    side_project:'প্রজেক্ট ইনফো',
+    lbl_project_title:'প্রজেক্টের নাম', ph_project:'যেমন: Tech Promo 30s',
+    lbl_total_dur:'আনুমানিক মোট দৈর্ঘ্য (সেকেন্ড)', ph_dur:'যেমন: 30 / 60 / 90 (ঐচ্ছিক)',
+    side_assets:'অ্যাসেট',
+    asset_script:'📝 স্ক্রিপ্ট', asset_audio:'🎵 অডিও', asset_video:'🎬 ভিডিও', asset_link:'🔗 লিংক',
+    asset_none:'—',
+    scene_hdr:'🎞️ সিন ব্রেকডাউন',
+    btn_regen:'রিজেনারেট', btn_copy_all:'সব কপি',
+    empty_title:'এখনো কোনো সিন জেনারেট হয়নি',
+    empty_body:'উপরে স্ক্রিপ্ট বা অডিও দাও, মোড সিলেক্ট করো, তারপর "AI ব্রেকডাউন শুরু করো" বাটনে ক্লিক করো।',
+    footer_by:'তৈরি করেছে', footer_tag:'AI দিয়ে ক্রিয়েটরদের ক্ষমতায়ন',
+    footer_client:'১০০% ক্লায়েন্ট-সাইড · তোমার ডেটা ব্রাউজার ছাড়ে না',
+    modal_api_title:'AI API কনফিগারেশন',
+    modal_api_sub:'একটা AI প্রোভাইডার সিলেক্ট করে API কী দাও। সব কী শুধু তোমার ব্রাউজারের localStorage এ থাকবে — সার্ভারে কিছু যাবে না।',
+    btn_add_custom:'কাস্টম API যোগ করো',
+    cf_name:'নাম', cf_base:'Base URL', cf_path:'Endpoint Path',
+    cf_model:'মডেল নাম', cf_format:'রেসপন্স ফরম্যাট',
+    btn_save_custom:'কাস্টম সেভ করো', btn_cancel:'ক্যান্সেল',
+    lbl_key:'API কী —',
+    key_note:'শুধু এই ব্রাউজারে সেভ · সার্ভারে কিছু যাবে না',
+    btn_save_key:'সেভ', btn_test_key:'টেস্ট',
+    key_where_title:'🔗 ফ্রি API কী কোথায় পাবে:',
+    key_where_gemini:'Gemini: ', key_where_or:'OpenRouter: ', key_where_groq:'Groq: ',
+    modal_hist_title:'প্রজেক্ট হিস্টরি',
+    btn_clear_hist:'সব মুছে ফেলো',
+    modal_export_title:'প্রজেক্ট এক্সপোর্ট', modal_export_sub:'এক্সপোর্ট ফরম্যাট সিলেক্ট করো:',
+    exp_json:'JSON (পূর্ণ ডেটা)', exp_csv:'CSV (স্প্রেডশিট)', exp_txt:'প্লেইন টেক্সট (এডিটরদের জন্য)', exp_md:'Markdown',
+    mode_smart_auto:'স্মার্ট অটো মোড', mode_single:'সিঙ্গেল সিন মোড', mode_fast:'ফাস্ট কাট মোড', mode_mixed:'মিক্সড ব্লেন্ড মোড',
+    scenes:' সিন',
+    field_vo_en:'🎙️ VO (ইংরেজি)', field_vo_bn:'🎙️ VO (বাংলা)',
+    field_visual:'🎨 ভিজুয়াল ডিরেকশন', field_camera:'📷 ক্যামেরা অ্যাঙ্গেল',
+    field_light:'💡 লাইটিং ও কালার', field_font:'🔤 ফন্ট ও অ্যানিমেশন',
+    field_motion:'🎞️ মোশন / SFX / BGM', field_text:'📝 স্ক্রিনে টেক্সট',
+    field_img:'🖼️ AI ইমেজ প্রম্পট', field_vid:'🎬 AI ভিডিও প্রম্পট',
+    copy:'কপি', copied:'কপি হয়েছে',
+    toast_key_saved:'API কী সেভ হয়েছে',
+    toast_api_switched:'API প্রোভাইডার পরিবর্তন হয়েছে',
+    toast_no_key:'API কী নেই — আগে API সেটআপ খোলো',
+    toast_no_input:'আগে স্ক্রিপ্ট, অডিও বা ভিডিও দাও',
+    toast_working:'আগের কাজ চলছে…',
+    toast_test_ok:'API কী কাজ করছে!',
+    toast_test_fail:'API টেস্ট ব্যর্থ',
+    toast_copied:'ক্লিপবোর্ডে কপি হয়েছে',
+    toast_regen_confirm:'সব সিন আবার জেনারেট করবে?',
+    toast_new_confirm:'বর্তমান প্রজেক্ট মুছে ফেলবে?',
+    toast_clear_hist_confirm:'সব হিস্টরি মুছে ফেলবে?',
+    toast_custom_saved:'কাস্টম API যোগ হয়েছে',
+    toast_custom_missing:'সব ঘর পূরণ করো',
+    toast_project_loaded:'প্রজেক্ট লোড হয়েছে',
+    ph_key:'তোমার API কী এখানে পেস্ট করো…',
+    subshots:'ফাস্ট-কাট সাব-শট',
+    trigger_word:'ট্রিগার শব্দ',
+    hist_empty:'কোনো সেভ করা প্রজেক্ট নেই',
+    log_start:'অ্যানালাইসিস শুরু · মোড:',
+    log_step1:'VO লাইন এবং ডিউরেশন বের করছে…',
+    log_step1_ok:'VO লাইন বের হয়েছে',
+    log_step1_fail:'VO এক্সট্র্যাক্ট ব্যর্থ',
+    log_step2:'ডিটেইলড সিন ব্রেকডাউন বানাচ্ছে…',
+    log_step2_ok:'সিন ব্রেকডাউন সম্পূর্ণ',
+    log_step2_fail:'সিন ব্রেকডাউন ব্যর্থ',
+    log_done:'সব সিন রেডি!',
+    log_lines_found:'VO লাইন পাওয়া গেছে:',
+    log_parse_fail:'JSON পার্স ইরর',
+    phase_working:'কাজ চলছে…',
+    phase_done:'সম্পূর্ণ ✅',
+    phase_error:'ইরর ❌',
+    open_action:'খোলো',
+    del_action:'মুছো',
+    at_str:'',
+    btn_preset:'প্রিসেট',
+    rhythm_pick:'এডিট রিদম প্রোফাইল',
+    rhythm_pick_sub:'(AI এটা দেখে পেসিং, টোন ও অ্যাসেট টাইপ ঠিক করে)',
+    rh_calm:'Calm Explainer', rh_viral:'Viral Fast Hook', rh_premium:'Premium Brand Ad',
+    rh_emotional:'Emotional Story', rh_documentary:'Documentary',
+    rh_islamic:'Islamic / Motivational', rh_faceless:'Faceless Automation',
+    field_asset:'🎯 অ্যাসেট টাইপ', field_timeline:'⏱️ টাইমলাইন নোটস',
+    field_broll:'📹 B-Roll নোটস', field_sfxcue:'💥 SFX কিউ', field_transition:'🔄 ট্রানজিশন কিউ',
+    modal_preset_title:'ক্লায়েন্ট প্রিসেট',
+    modal_preset_sub:'প্রতিটা ক্লায়েন্টের সেটিং সেভ করো। পরেরবার এক ক্লিকেই লোড হবে।',
+    preset_save_title:'বর্তমান সেটিং প্রিসেট হিসেবে সেভ করো',
+    preset_name_lbl:'প্রিসেটের নাম (যেমন: ক্লায়েন্টের নাম / কন্টেন্ট টাইপ)',
+    preset_name_ph:'যেমন: বাশির ভাই — ইসলামিক কন্টেন্ট',
+    preset_font_lbl:'পছন্দের ফন্ট স্টাইল', preset_pacing_lbl:'পেসিং পছন্দ',
+    preset_lang_lbl:'ভাষার স্টাইল', preset_hook_lbl:'হুক ইন্টেনসিটি',
+    preset_color_lbl:'কালার মুড', preset_density_lbl:'ভিজুয়াল ডেনসিটি',
+    btn_save_preset:'প্রিসেট সেভ করো',
+    preset_saved_title:'সেভ করা প্রিসেট',
+    preset_empty:'এখনো কোনো প্রিসেট সেভ করা নেই।',
+    toast_preset_saved:'প্রিসেট সেভ হয়েছে',
+    toast_preset_loaded:'প্রিসেট লোড হয়েছে',
+    toast_preset_deleted:'প্রিসেট মুছা হয়েছে'
+  }
+};
+
+let LANG = localStorage.getItem('vf_lang') || 'bn';
+const t = (key) => (I18N[LANG] && I18N[LANG][key]) || (I18N.en[key] || key);
+
+function applyLang(){
+  document.body.className = 'lang-' + LANG;
+  document.documentElement.lang = LANG === 'bn' ? 'bn' : 'en';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    el.setAttribute('placeholder', t(el.getAttribute('data-i18n-ph')));
+  });
+  document.querySelectorAll('.lang-toggle button').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-lang') === LANG);
+  });
+  document.getElementById('apiKey').setAttribute('placeholder', t('ph_key'));
+  updateModeBadge();
+  if (state.scenes.length) renderScenes();
+}
+
+// ---- Utility ----
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.className = 'toast show ' + type;
+  el.innerHTML = msg;
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => el.classList.remove('show'), 2800);
+}
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function fmt(n){return Number(n||0).toFixed(1)}
+
+// ---- API providers ----
+// OpenRouter free model list (July 2026 verified)
+const OR_FREE_MODELS = [
+  { id:'meta-llama/llama-3.3-70b-instruct:free', label:'Llama 3.3 70B (Free · Stable)' },
+  { id:'nvidia/llama-3.1-nemotron-ultra-253b-v1:free', label:'NVIDIA Nemotron 253B (Free · 1M ctx)' },
+  { id:'qwen/qwen3-coder-480b-a22b:free', label:'Qwen3 Coder 480B (Free · Code)' },
+  { id:'google/gemma-3-12b-it:free', label:'Google Gemma 3 12B (Free)' },
+  { id:'openai/gpt-oss-120b:free', label:'OpenAI GPT-OSS 120B (Free)' },
+];
+function getOrModel(){ return localStorage.getItem('vf_or_model') || OR_FREE_MODELS[0].id; }
+function setOrModel(m){ localStorage.setItem('vf_or_model', m); }
+
+const BUILTIN_APIS = [
+  { id:'gemini-35-flash', name:'Google Gemini 3.5 Flash', desc:'✅ Free tier · Smartest Flash · GA Stable', icon:'G', iconCls:'google',
+    base:'https://generativelanguage.googleapis.com', path:'/v1beta/models/gemini-3.5-flash:generateContent', model:'gemini-3.5-flash', format:'gemini', authType:'query' },
+  { id:'gemini-31-lite', name:'Google Gemini 3.1 Flash-Lite', desc:'✅ Free tier · Ultra fast · Low cost', icon:'G', iconCls:'google',
+    base:'https://generativelanguage.googleapis.com', path:'/v1beta/models/gemini-3.1-flash-lite:generateContent', model:'gemini-3.1-flash-lite', format:'gemini', authType:'query' },
+  { id:'gemini-flash', name:'Google Gemini 2.5 Flash', desc:'Free tier · Stable until Oct 2026', icon:'G', iconCls:'google',
+    base:'https://generativelanguage.googleapis.com', path:'/v1beta/models/gemini-2.5-flash:generateContent', model:'gemini-2.5-flash', format:'gemini', authType:'query' },
+  { id:'gemini-pro', name:'Google Gemini 2.5 Pro', desc:'Best quality · Paid quota required', icon:'G', iconCls:'google',
+    base:'https://generativelanguage.googleapis.com', path:'/v1beta/models/gemini-2.5-pro:generateContent', model:'gemini-2.5-pro', format:'gemini', authType:'query' },
+  { id:'openrouter', name:'OpenRouter (Multi-Model)', desc:'Free models available · Llama / Qwen / NVIDIA', icon:'OR', iconCls:'openrouter',
+    base:'https://openrouter.ai/api', path:'/v1/chat/completions', get model(){ return getOrModel(); }, format:'openai', authType:'header' },
+  { id:'groq', name:'Groq (Ultra Fast)', desc:'Free tier · Lightning inference', icon:'GQ', iconCls:'groq',
+    base:'https://api.groq.com/openai', path:'/v1/chat/completions', model:'llama-3.3-70b-versatile', format:'openai', authType:'header' }
+];
+
+function loadCustomApis(){
+  try { return JSON.parse(localStorage.getItem('vf_custom_apis') || '[]'); }
+  catch { return []; }
+}
+function saveCustomApis(arr){ localStorage.setItem('vf_custom_apis', JSON.stringify(arr)); }
+function allApis(){ return [...BUILTIN_APIS, ...loadCustomApis()]; }
+function activeApiId(){
+  const saved = localStorage.getItem('vf_active_api');
+  // migrate dead providers → new default
+  if (!saved || saved === 'gemini-15-flash') return 'gemini-35-flash';
+  return saved;
+}
+function setActiveApiId(id){ localStorage.setItem('vf_active_api', id); }
+function apiKey(id){ return localStorage.getItem('vf_key_' + id) || ''; }
+function saveApiKey(id, k){ localStorage.setItem('vf_key_' + id, k); }
+function activeApi(){ return allApis().find(a => a.id === activeApiId()) || BUILTIN_APIS[0]; }
+
+function renderApiList(){
+  const list = document.getElementById('apiList');
+  list.innerHTML = '';
+  const active = activeApiId();
+  allApis().forEach(api => {
+    const div = document.createElement('div');
+    div.className = 'api-item' + (api.id === active ? ' selected' : '');
+    const hasKey = !!apiKey(api.id);
+    const iconCls = api.iconCls || 'custom';
+    const icon = api.icon || (api.name[0] || '?');
+    div.innerHTML = `
+      <div class="api-icon ${iconCls}">${esc(icon)}</div>
+      <div class="api-info">
+        <div class="api-name">${esc(api.name)}</div>
+        <div class="api-desc">${esc(api.desc || api.model || '')}</div>
+      </div>
+      <div class="api-status">
+        <div class="status-dot ${api.id===active?'active':(hasKey?'ready':'')}"></div>
+        ${api.custom ? `<button type="button" class="api-remove" data-remove="${api.id}" title="Remove">✕</button>` : ''}
+      </div>
+    `;
+    div.addEventListener('click', (e) => {
+      if (e.target.closest('.api-remove')) return;
+      setActiveApiId(api.id);
+      document.getElementById('apiKey').value = apiKey(api.id);
+      document.getElementById('activeApiName').textContent = api.name;
+      updateOrModelSection();
+      renderApiList();
+      updateApiBadge();
+      updateSetupHint();
+      toast(t('toast_api_switched'), 'ok');
+    });
+    list.appendChild(div);
+  });
+  // wire remove
+  list.querySelectorAll('.api-remove').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.getAttribute('data-remove');
+      const arr = loadCustomApis().filter(x => x.id !== id);
+      saveCustomApis(arr);
+      if (activeApiId() === id) setActiveApiId('gemini-35-flash');
+      localStorage.removeItem('vf_key_' + id);
+      renderApiList();
+      updateApiBadge();
+    });
+  });
+  updateOrModelSection();
+}
+
+function updateOrModelSection(){
+  const sec = document.getElementById('orModelSection');
+  if (!sec) return;
+  const isOR = activeApiId() === 'openrouter';
+  sec.style.display = isOR ? 'block' : 'none';
+  if (!isOR) return;
+  const cur = getOrModel();
+  const sel = document.getElementById('orModelSelect');
+  const isCustom = !OR_FREE_MODELS.find(m => m.id === cur);
+  sel.innerHTML = OR_FREE_MODELS.map(m =>
+    `<option value="${esc(m.id)}" ${cur===m.id?'selected':''}>${esc(m.label)}</option>`
+  ).join('') +
+  `<option value="__custom__" ${isCustom?'selected':''}>✏️ ${isCustom ? esc(cur) : 'Custom model ID…'}</option>`;
+  sel.onchange = () => {
+    if (sel.value === '__custom__') {
+      const c = prompt('OpenRouter model ID লিখো\n(e.g. meta-llama/llama-3.3-70b-instruct:free):');
+      if (c && c.trim()) { setOrModel(c.trim()); updateOrModelSection(); }
+      else sel.value = cur;
+    } else {
+      setOrModel(sel.value);
+    }
+  };
+}
+
+function updateApiBadge(){
+  const api = activeApi();
+  document.getElementById('apiBadgeText').textContent = api.name.split('(')[0].trim();
+  document.getElementById('activeApiName').textContent = api.name;
+}
+
+function updateSetupHint(){
+  const hint = document.getElementById('setupHint');
+  const hasAnyKey = allApis().some(a => !!apiKey(a.id));
+  hint.style.display = hasAnyKey ? 'none' : 'flex';
+}
+
+// ---- Mode ----
+let currentMode = 'auto';
+function setMode(m){
+  currentMode = m;
+  document.querySelectorAll('.mode').forEach(el =>
+    el.classList.toggle('active', el.getAttribute('data-mode') === m));
+  updateModeBadge();
+}
+function updateModeBadge(){
+  const map = { auto:'mode_smart_auto', single:'mode_single', fastcut:'mode_fast', mixed:'mode_mixed' };
+  document.getElementById('modeBadge').textContent = t(map[currentMode]);
+}
+
+// ---- Rhythm Profile ----
+let currentRhythm = 'calm';
+const RHYTHM_PROFILES = {
+  calm: { name:'Calm Explainer', pacing:'slow and deliberate, 3-8s per scene, no jump cuts', motion:'minimal, smooth dolly/float, no shake', sfx:'soft ambient, subtle whoosh', bgm:'soft piano, lo-fi chill, ambient pads', assets:'prefer stock footage + avatar/talking head + clean text motion, avoid heavy AI generation', color:'clean bright or warm neutral', font:'clean sans-serif, moderate weight', hook:'educational opener, soft' },
+  viral: { name:'Viral Fast Hook', pacing:'ultra fast, 0.3-1.5s micro cuts, pattern interrupt', motion:'snap zoom, whip pan, quick shake', sfx:'punch, bass drop, riser, hit', bgm:'trap beat, EDM drop, high energy', assets:'mix of stock + AI image + motion text, fast B-roll', color:'high contrast, vibrant, neon accents', font:'bold condensed, CAPS, glitch effects', hook:'disruptive pattern interrupt, question/shock' },
+  premium: { name:'Premium Brand Ad', pacing:'measured, 3-6s per shot, confident pauses', motion:'elegant crane/slider, slow push-in', sfx:'subtle cinematic, signature ding', bgm:'orchestral swell, luxury jazz', assets:'AI image + stock footage (high-end lifestyle), minimal text animation', color:'deep teal-orange grade, film look', font:'serif or geometric, restrained elegance', hook:'aspirational lifestyle statement' },
+  emotional: { name:'Emotional Story', pacing:'flowing narrative, variable 2-7s, breathe on key moments', motion:'handheld intimate, slow zoom on face', sfx:'quiet room tone, emotional sting', bgm:'emotional strings, piano, swelling choir', assets:'real/stock footage preference, avatar for narrator, avoid AI image unless abstract', color:'warm golden, faded film, desaturated highlights', font:'script or light sans, lowercase', hook:'personal story or relatable pain point' },
+  documentary: { name:'Documentary', pacing:'journalistic pace 4-8s, b-roll heavy', motion:'observational pan/tilt, natural camera', sfx:'ambient environment, news sting', bgm:'minimal underscore, investigative tone', assets:'screen recording + infographic + stock, b-roll for every A-roll line', color:'natural grade, slight push', font:'clean news-style sans, lower thirds', hook:'bold statistic or question' },
+  islamic: { name:'Islamic / Motivational', pacing:'reverential pace 3-6s, weight on key ayah/hadith', motion:'slow upward reveal, gentle float', sfx:'nasheed accent, page turn, subtle duf', bgm:'nasheed instrumental, calm oud', assets:'Islamic calligraphy motion text + mosque/nature stock, minimal AI image', color:'deep emerald, gold, dark blue', font:'Arabic calligraphy + bold Arabic/Bangla, golden gradient text', hook:'Quran verse or inspiring hadith' },
+  faceless: { name:'Faceless Automation', pacing:'fast info delivery 1.5-4s, data-led', motion:'smooth slide/reveal text, no camera movement', sfx:'UI click, notification, digital beep', bgm:'lofi background, productivity beat', assets:'screen recording + motion text + infographic primarily, minimal live footage', color:'dark UI palette, brand colors', font:'tech/mono sans, clean system font', hook:'hook statistic or pain point number' }
+};
+
+function setRhythm(r){
+  currentRhythm = r;
+  document.querySelectorAll('.rhythm-chip').forEach(el =>
+    el.classList.toggle('active', el.getAttribute('data-rhythm') === r));
+}
+
+function rhythmInstruction(){
+  const p = RHYTHM_PROFILES[currentRhythm] || RHYTHM_PROFILES.calm;
+  return `RHYTHM PROFILE: ${p.name}
+- Pacing: ${p.pacing}
+- Motion style: ${p.motion}
+- SFX preference: ${p.sfx}
+- BGM style: ${p.bgm}
+- Asset preference: ${p.assets}
+- Color direction: ${p.color}
+- Font preference: ${p.font}
+- Hook style: ${p.hook}`;
+}
+
+// ---- Input Priority Engine ----
+function getInputPriority(hasAudio, hasVideo, hasScript, hasScriptLink, hasMediaLink, hasRefLink, hasClientReq){
+  const levels = [];
+  if (hasAudio || hasVideo || hasMediaLink) levels.push('REAL VO AUDIO/VIDEO (highest — use actual spoken timing)');
+  if (hasScriptLink) levels.push('SCRIPT LINK (treat as primary text source)');
+  if (hasScript) levels.push('SCRIPT TEXT');
+  if (hasClientReq) levels.push('CLIENT BRIEF (overrides default style choices)');
+  if (hasRefLink) levels.push('REFERENCE VIDEO (use for tone/pacing matching, override generic cinematic defaults)');
+  if (!levels.length) levels.push('DEFAULT CINEMATIC STYLE');
+  return 'INPUT PRIORITY ORDER (highest → lowest):\n' + levels.map((l,i)=>`  ${i+1}. ${l}`).join('\n');
+}
+
+function updatePriorityRow(){
+  const hasAudio = !!state.audioB64;
+  const hasVideo = !!state.videoB64;
+  const hasMediaLink = !!document.getElementById('mediaLink').value.trim();
+  const hasScript = !!document.getElementById('script').value.trim();
+  const hasScriptLink = !!document.getElementById('scriptLink').value.trim();
+  const hasBrief = !!document.getElementById('clientReq').value.trim();
+  const hasRef = !!document.getElementById('refLink').value.trim();
+  const hasVO = hasAudio || hasVideo || hasMediaLink;
+  const priVO = document.getElementById('priVO');
+  const priScript = document.getElementById('priScript');
+  const priBrief = document.getElementById('priBrief');
+  const priRef = document.getElementById('priRef');
+  if(priVO) priVO.className = hasVO ? 'pr-on' : 'pr-off';
+  if(priScript) priScript.className = (hasScript||hasScriptLink) ? 'pr-on' : 'pr-off';
+  if(priBrief) priBrief.className = hasBrief ? 'pr-on' : 'pr-off';
+  if(priRef) priRef.className = hasRef ? 'pr-on' : 'pr-off';
+}
+
+// ---- Client Presets ----
+function loadPresets(){ try { return JSON.parse(localStorage.getItem('vf_presets') || '[]'); } catch { return []; } }
+function savePresets(arr){ localStorage.setItem('vf_presets', JSON.stringify(arr)); }
+
+function saveCurrentPreset(){
+  const name = document.getElementById('presetName').value.trim();
+  if (!name){ toast('⚠️ ' + (LANG==='bn'?'প্রিসেটের নাম দাও':'Enter a preset name'), 'warn'); return; }
+  const p = {
+    id: 'p_' + Date.now(), name,
+    rhythm: currentRhythm,
+    font: document.getElementById('presetFont').value.trim(),
+    pacing: document.getElementById('presetPacing').value,
+    lang: document.getElementById('presetLang').value,
+    hook: document.getElementById('presetHook').value,
+    color: document.getElementById('presetColor').value,
+    density: document.getElementById('presetDensity').value,
+    savedAt: new Date().toISOString()
+  };
+  const arr = loadPresets().filter(x => x.name !== name);
+  arr.unshift(p);
+  savePresets(arr);
+  renderPresetList();
+  toast('✅ ' + t('toast_preset_saved'), 'ok');
+}
+
+function loadPreset(id){
+  const p = loadPresets().find(x => x.id === id);
+  if (!p) return;
+  setRhythm(p.rhythm || 'calm');
+  if(p.font) document.getElementById('presetFont').value = p.font;
+  if(p.pacing) document.getElementById('presetPacing').value = p.pacing;
+  if(p.lang) document.getElementById('presetLang').value = p.lang;
+  if(p.hook) document.getElementById('presetHook').value = p.hook;
+  if(p.color) document.getElementById('presetColor').value = p.color;
+  if(p.density) document.getElementById('presetDensity').value = p.density;
+  if(p.clientReq) document.getElementById('clientReq').value = p.clientReq;
+  closeModal('presetModal');
+  toast('✅ ' + t('toast_preset_loaded') + ': ' + p.name, 'ok');
+}
+
+function deletePreset(id){
+  savePresets(loadPresets().filter(x => x.id !== id));
+  renderPresetList();
+  toast(t('toast_preset_deleted'), 'ok');
+}
+
+function presetSummary(p){
+  const rhythm = RHYTHM_PROFILES[p.rhythm]?.name || p.rhythm;
+  return [rhythm, p.pacing, p.lang, p.color].filter(Boolean).join(' · ');
+}
+
+function renderPresetList(){
+  const list = document.getElementById('presetList');
+  if (!list) return;
+  const presets = loadPresets();
+  if (!presets.length){
+    list.innerHTML = `<div style="color:var(--muted-2);font-size:13px;padding:10px 0" data-i18n="preset_empty">${t('preset_empty')}</div>`;
+    return;
+  }
+  list.innerHTML = presets.map(p => `
+    <div class="preset-item">
+      <div style="min-width:0">
+        <div class="preset-name">${esc(p.name)}</div>
+        <div class="preset-meta">${esc(presetSummary(p))}</div>
+      </div>
+      <div class="preset-actions">
+        <button type="button" class="btn sm primary" data-load-preset="${esc(p.id)}">Load</button>
+        <button type="button" class="btn sm danger" data-del-preset="${esc(p.id)}">✕</button>
+      </div>
+    </div>
+  `).join('');
+  list.querySelectorAll('[data-load-preset]').forEach(b => b.addEventListener('click', () => loadPreset(b.dataset.loadPreset)));
+  list.querySelectorAll('[data-del-preset]').forEach(b => b.addEventListener('click', () => deletePreset(b.dataset.delPreset)));
+}
+
+function presetStyleNote(){
+  const pacing = document.getElementById('presetPacing')?.value;
+  const font = document.getElementById('presetFont')?.value.trim();
+  const lang = document.getElementById('presetLang')?.value;
+  const hook = document.getElementById('presetHook')?.value;
+  const color = document.getElementById('presetColor')?.value;
+  const density = document.getElementById('presetDensity')?.value;
+  const parts = [];
+  if(font) parts.push('Font preference: ' + font);
+  if(pacing) parts.push('Pacing: ' + pacing);
+  if(lang) parts.push('Language style: ' + lang);
+  if(hook) parts.push('Hook intensity: ' + hook);
+  if(color) parts.push('Color mood: ' + color);
+  if(density) parts.push('Visual density: ' + density);
+  return parts.length ? 'CLIENT PRESET OVERRIDES:\n' + parts.map(p=>'  - '+p).join('\n') : '';
+}
+
+// ---- File handling ----
+async function fileToBase64(file){
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+// ---- State ----
+const state = {
+  scenes: [],
+  audioB64: null, audioMime: null, audioName: null,
+  videoB64: null, videoMime: null, videoName: null,
+  busy: false
+};
+
+// ---- Logging ----
+function log(msg, type='info'){
+  const el = document.getElementById('log');
+  if (el.querySelector('.log-empty')) el.innerHTML = '';
+  const time = new Date().toLocaleTimeString();
+  const div = document.createElement('div');
+  div.className = type;
+  div.textContent = `[${time}] ${msg}`;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+}
+function setProgress(p, label=''){
+  document.getElementById('progressBar').style.width = Math.min(100, p) + '%';
+  document.getElementById('progressPercent').textContent = Math.round(p) + '%';
+  if (label) {
+    document.getElementById('phaseLabel').textContent = label;
+    document.getElementById('phaseText').textContent = label;
+  }
+}
+
+// ---- AI call ----
+async function callAI(prompt, systemInstruction, mediaParts=[]){
+  const api = activeApi();
+  const key = apiKey(api.id);
+  if (!key) throw new Error('NO_KEY');
+
+  const format = api.format || 'openai';
+  let url, options;
+
+  if (format === 'gemini') {
+    url = api.base + api.path + (api.authType === 'query' ? '?key=' + encodeURIComponent(key) : '');
+    const parts = [{ text: prompt }];
+    mediaParts.forEach(m => parts.push(m));
+    const body = {
+      contents: [{ role:'user', parts }],
+      generationConfig: { temperature:0.85, topP:0.95, maxOutputTokens:8192, responseMimeType:'application/json' }
+    };
+    if (systemInstruction) body.systemInstruction = { parts:[{ text: systemInstruction }] };
+    options = {
+      method:'POST',
+      headers: api.authType === 'header'
+        ? { 'Content-Type':'application/json', 'x-goog-api-key': key }
+        : { 'Content-Type':'application/json' },
+      body: JSON.stringify(body)
+    };
+  } else {
+    // openai-compatible
+    url = api.base + api.path;
+    let content = prompt;
+    if (mediaParts.length){
+      content = [{ type:'text', text: prompt }];
+      mediaParts.forEach(m => {
+        if (m.inline_data) {
+          content.push({
+            type:'image_url',
+            image_url:{ url:`data:${m.inline_data.mime_type};base64,${m.inline_data.data}` }
+          });
+        }
+      });
+    }
+    const messages = [];
+    if (systemInstruction) messages.push({ role:'system', content: systemInstruction });
+    messages.push({ role:'user', content });
+    const body = {
+      model: api.model, messages, temperature:0.85, max_tokens:8192,
+      response_format: { type:'json_object' }
+    };
+    if (api.id === 'openrouter') delete body.response_format;
+    options = {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer ' + key,
+        ...(api.id==='openrouter' ? { 'HTTP-Referer':(location.origin || location.href), 'X-Title':'Vision Flow Studio' } : {})
+      },
+      body: JSON.stringify(body)
+    };
+  }
+
+  const r = await fetch(url, options);
+  if (!r.ok){
+    const errTxt = await r.text();
+    throw new Error(`API ${r.status}: ${errTxt.slice(0,300) || r.statusText}`);
+  }
+  const data = await r.json();
+  let text;
+  if (format === 'gemini') {
+    text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  } else {
+    text = data?.choices?.[0]?.message?.content;
+  }
+  if (!text) throw new Error('Empty response from API');
+  return text;
+}
+
+// ---- JSON extraction ----
+function extractJSON(text){
+  if (!text) throw new Error('empty');
+  text = text.trim().replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/```\s*$/,'').trim();
+  try { return JSON.parse(text); } catch {}
+  const first = text.indexOf('{');
+  const last = text.lastIndexOf('}');
+  if (first < 0 || last < 0) throw new Error('No JSON braces');
+  let cand = text.slice(first, last+1);
+  cand = cand.replace(/,\s*([}\]])/g,'$1');
+  return JSON.parse(cand);
+}
+
+// ---- Master system prompt ----
+function systemPrompt(){
+  return `You are the master video editing director for Vision Flow Studio. Analyze script, real voiceover, reference media and editor brief, then produce a highly realistic, EDITOR-READY scene breakdown.
+
+═══ INPUT PRIORITY ENGINE (follow strictly) ═══
+When inputs conflict, always obey this hierarchy:
+1. REAL SPOKEN VOICEOVER (uploaded audio/video) → use actual cadence, NOT guessed durations
+2. VOICEOVER TEXT / SCRIPT LINK → primary text source
+3. CLIENT BRIEF → overrides all default style choices
+4. REFERENCE VIDEO → match its tone, pacing, and edit style — overrides generic cinematic defaults
+5. DEFAULT CINEMATIC STYLE → only when nothing else guides the decision
+
+═══ ASSET RECOMMENDATION RULES (per scene) ═══
+For every scene, decide the BEST asset type (asset_type field):
+- "ai_image" → when a specific cinematic still is needed and no real footage exists
+- "ai_video" → when motion/animation is critical AND no stock exists
+- "stock_footage" → when realistic human presence, lifestyle, or nature is needed
+- "motion_text" → when the message is data, list, or key word — text animation delivers better
+- "screen_recording" → when showing an app, UI, or screen process
+- "avatar" → when a talking-head narrator/spokesperson is most effective
+- "infographic" → when showing a process, comparison, chart, or step diagram
+Rule: NEVER force ai_image or ai_video when motion_text, stock_footage, or screen_recording fits better.
+
+═══ TIMELINE OUTPUT (fill all fields) ═══
+For every scene, also fill:
+- cut_point_sec: exact timestamp (e.g. 3.2) where the editor should cut
+- b_roll_notes: specific B-roll shot description the editor should source
+- sfx_cue: exact SFX description with timing (e.g. "whoosh on cut at 2.1s, impact at 2.4s")
+- transition_cue: how to transition INTO this scene (e.g. "J-cut from prev audio", "smash cut", "dissolve 12f")
+
+═══ SCENE RULES ═══
+1. Duration: 0.5s–12s per scene. Use REAL spoken cadence when audio uploaded.
+2. Do NOT force uniform scenes. Mix held shots, fast cuts, and emotional pauses based on content.
+3. Every scene must be visually DISTINCT. Vary camera, lighting, color, and font.
+4. AI prompts must be CINEMATIC and READY-TO-USE — shot type, subject, lens, light, grade, aspect ratio, motion. NOT generic.
+5. If stock/live/screen_recording/motion_text is better than AI generation, say so explicitly.
+6. sub_scenes array: ONLY when fastcut mode genuinely improves the scene.
+
+═══ FULL SCENE SCHEMA ═══
+{
+  "id": 1,
+  "start_sec": 0.0,
+  "end_sec": 3.5,
+  "mode": "single|fastcut|mixed",
+  "asset_type": "ai_image|ai_video|stock_footage|motion_text|screen_recording|avatar|infographic",
+  "voiceover_en": "...",
+  "voiceover_bn": "...",
+  "visual_direction": "...",
+  "camera_angle": "...",
+  "lighting": "...",
+  "color_palette": "...",
+  "font_used": "...",
+  "text_animation": "...",
+  "motion": "...",
+  "sfx": "...",
+  "bgm_mood": "...",
+  "on_screen_text": "...",
+  "ai_cob_image_prompt": "...",
+  "ai_cob_video_prompt": "...",
+  "cut_point_sec": 3.5,
+  "b_roll_notes": "...",
+  "sfx_cue": "...",
+  "transition_cue": "...",
+  "sub_scenes": []
+}
+
+Return STRICT JSON ONLY — no markdown, no explanation, no code fences.
+{
+  "project_title": "string",
+  "total_duration_sec": number,
+  "scenes": [ ... ]
+}`;
+}
+
+// ---- Analyze ----
+async function analyze(){
+  if (state.busy){ toast(t('toast_working'), 'warn'); return; }
+
+  const key = apiKey(activeApiId());
+  if (!key){
+    toast(t('toast_no_key'), 'err');
+    openModal('settingsModal');
+    return;
+  }
+
+  const script = document.getElementById('script').value.trim();
+  const scriptLink = document.getElementById('scriptLink').value.trim();
+  const mediaLink = document.getElementById('mediaLink').value.trim();
+  const refLink = document.getElementById('refLink').value.trim();
+  const clientReq = document.getElementById('clientReq').value.trim();
+  const totalDur = document.getElementById('totalDur').value.trim();
+
+  if (!script && !scriptLink && !state.audioB64 && !state.videoB64 && !mediaLink){
+    toast(t('toast_no_input'), 'err');
+    return;
+  }
+
+  state.busy = true;
+  state.scenes = [];
+  document.getElementById('btnAnalyze').disabled = true;
+  document.getElementById('log').innerHTML = '';
+
+  try {
+    setProgress(5, t('phase_working'));
+    log(t('log_start') + ' ' + currentMode, 'info');
+
+    // Step 1: extract VO lines
+    setProgress(20, t('phase_working'));
+    log(t('log_step1'), 'info');
+
+    const step1Prompt =
+`Extract every voiceover line from the content below and estimate a realistic duration in seconds for each line.
+
+CONTENT:
+${script ? 'SCRIPT:\n' + script : ''}
+${scriptLink ? '\nDRIVE/DOCS LINK: ' + scriptLink : ''}
+IMPORTANT: if script text and uploaded audio/video disagree, prioritize the REAL spoken voiceover from the uploaded audio/video.
+${state.audioB64 ? '\n[VOICEOVER AUDIO uploaded — transcribe & timestamp it]' : ''}
+${state.videoB64 ? '\n[VOICEOVER VIDEO uploaded — extract VO + real durations]' : ''}
+${mediaLink ? '\nMEDIA LINK: ' + mediaLink : ''}
+${refLink ? '\nREFERENCE STYLE: ' + refLink : ''}
+
+Return strictly JSON:
+{
+  "title": "string",
+  "estimated_total_sec": number,
+  "vo_lines": [
+    { "line_no": 1, "text_en": "...", "text_bn": "...", "estimated_sec": 2.8, "mood": "inspirational" }
+  ]
+}
+
+Realistic durations: very short hooks can be 0.3-1.2s, short lines 0.8-2s, medium 2-5s, long lines 5-12s. Both EN and BN for each line. If uploaded audio/video exists, use the actual spoken cadence instead of guessing from text only.`;
+
+    const mediaParts = [];
+    if (state.audioB64) mediaParts.push({ inline_data:{ mime_type: state.audioMime || 'audio/mpeg', data: state.audioB64 } });
+    if (state.videoB64) mediaParts.push({ inline_data:{ mime_type: state.videoMime || 'video/mp4', data: state.videoB64 } });
+
+    let voRaw;
+    try {
+      voRaw = await callAI(step1Prompt, 'You are an expert video editor. Return only JSON.', mediaParts);
+      log(t('log_step1_ok'), 'ok');
+    } catch(e){
+      log(t('log_step1_fail') + ': ' + e.message, 'err');
+      throw e;
+    }
+
+    let voData;
+    try { voData = extractJSON(voRaw); }
+    catch(e){ log(t('log_parse_fail') + ' — retrying step 2 with raw script', 'warn'); voData = { vo_lines: [] }; }
+
+    // fallback: split script by lines
+    if (!voData.vo_lines || !voData.vo_lines.length){
+      const lines = (script || '').split(/\n+/).filter(x => x.trim());
+      voData.vo_lines = lines.map((l,i) => ({ line_no:i+1, text_en:l, text_bn:l, estimated_sec: 3 + (l.length/25) }));
+    }
+    log(t('log_lines_found') + ' ' + voData.vo_lines.length, 'ok');
+
+    // Step 2: full breakdown
+    setProgress(55, t('phase_working'));
+    log(t('log_step2'), 'info');
+
+    const modeInstructions = {
+      auto:'Smart decide per line: hook words can become 0.3-1.2s fast cuts, medium lines can be a single scene, emotional/explainer lines can hold longer, and mixed rhythm is encouraged. Only add sub_scenes where fast cutting genuinely improves the edit.',
+      single:'Each VO line = 1 scene. Do NOT create sub_scenes. Each scene 2-8 seconds.',
+      fastcut:'Split each VO line into 2-3 sub-shots (each 0.5-2s). Fill sub_scenes[] for every scene. Trigger sub-cuts by keywords in the line.',
+      mixed:'Blend everything: some single, some fastcut, some mixed based on mood + client requirement.'
+    }[currentMode] || '';
+
+    const priorityNote = getInputPriority(
+      !!state.audioB64, !!state.videoB64, !!script, !!scriptLink, !!mediaLink, !!refLink, !!clientReq
+    );
+    const presetNote = presetStyleNote();
+
+    const step2Prompt =
+`Now generate the full professional scene breakdown for these voiceover lines.
+
+VO LINES:
+${JSON.stringify(voData.vo_lines, null, 2)}
+
+${priorityNote}
+
+${rhythmInstruction()}
+
+CLIENT REQUIREMENT: ${clientReq || 'Standard professional cinematic'}
+${refLink ? '\nREFERENCE STYLE (match tone/pacing exactly): ' + refLink : ''}
+${totalDur ? '\nTOTAL VIDEO LENGTH TARGET: ' + totalDur + ' seconds' : ''}
+${presetNote ? '\n' + presetNote : ''}
+
+MODE INSTRUCTION: ${modeInstructions}
+
+ASSET SELECTION GUIDANCE (from rhythm profile "${RHYTHM_PROFILES[currentRhythm]?.name}"):
+${RHYTHM_PROFILES[currentRhythm]?.assets || 'Use best asset per scene based on content'}
+
+MANDATORY for each scene:
+- Fill "asset_type" with: ai_image | ai_video | stock_footage | motion_text | screen_recording | avatar | infographic
+- Fill "cut_point_sec" with the exact second the editor should cut away from this scene
+- Fill "b_roll_notes" with specific B-roll shot description (what exactly to find or shoot)
+- Fill "sfx_cue" with exact SFX description and timing within the scene
+- Fill "transition_cue" with how to transition INTO this scene from the previous one
+
+Every scene must be visually distinct. When AI media is needed, prompts must be CINEMATIC & READY-TO-USE.
+Example: "Cinematic portrait of a young South Asian entrepreneur in a modern Dhaka office, golden hour side light, 35mm anamorphic lens, warm teal-orange grade, vertical 9:16, RED cinema, 8K, photorealistic."
+
+Return STRICT JSON only:
+{
+  "project_title":"...",
+  "total_duration_sec": number,
+  "scenes":[ ... ]
+}`;
+
+    let sceneRaw;
+    try {
+      sceneRaw = await callAI(step2Prompt, systemPrompt());
+      log(t('log_step2_ok'), 'ok');
+    } catch(e){
+      log(t('log_step2_fail') + ': ' + e.message, 'err');
+      throw e;
+    }
+
+    setProgress(85, t('phase_working'));
+    let sceneData;
+    try { sceneData = extractJSON(sceneRaw); }
+    catch(e){ log(t('log_parse_fail') + ': ' + e.message, 'err'); throw e; }
+
+    if (!sceneData.scenes || !sceneData.scenes.length) throw new Error('No scenes returned');
+
+    state.scenes = sceneData.scenes;
+    if (sceneData.project_title && !document.getElementById('projectTitle').value){
+      document.getElementById('projectTitle').value = sceneData.project_title;
+    }
+
+    setProgress(100, t('phase_done'));
+    log(t('log_done') + ' ' + state.scenes.length + ' scenes', 'ok');
+    renderScenes();
+    saveCurrentProject();
+    toast('✅ ' + t('log_done'), 'ok');
+  } catch(e){
+    setProgress(0, t('phase_error'));
+    toast('❌ ' + (e.message.includes('NO_KEY') ? t('toast_no_key') : e.message.slice(0,120)), 'err');
+    if (e.message === 'NO_KEY') openModal('settingsModal');
+  } finally {
+    state.busy = false;
+    document.getElementById('btnAnalyze').disabled = false;
+  }
+}
+
+// ---- Render scenes ----
+function renderScenes(){
+  const c = document.getElementById('scenes');
+  const empty = document.getElementById('emptyState');
+  document.getElementById('sceneCount').textContent = state.scenes.length + t('scenes');
+  if (!state.scenes.length){ c.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  c.innerHTML='';
+
+  state.scenes.forEach((s, i) => {
+    const modeClass = s.mode === 'fastcut' ? 'fastcut' : s.mode === 'mixed' ? 'mixed' : 'single';
+    const modeIcon = s.mode === 'fastcut' ? '⚡' : s.mode === 'mixed' ? '🎨' : '🎬';
+    const modeName = s.mode === 'fastcut' ? 'Fast Cut' : s.mode === 'mixed' ? 'Mixed' : 'Single';
+    const dur = (s.end_sec - s.start_sec).toFixed(1);
+
+    // Asset type badge
+    const AT_MAP = {
+      ai_image:     { cls:'at-ai-image',   icon:'🖼️', label:'AI Image' },
+      ai_video:     { cls:'at-ai-video',   icon:'🎬', label:'AI Video' },
+      stock_footage:{ cls:'at-stock',      icon:'📦', label:'Stock' },
+      motion_text:  { cls:'at-motion-text',icon:'✍️', label:'Motion Text' },
+      screen_recording:{ cls:'at-screen-rec',icon:'📱',label:'Screen Rec' },
+      avatar:       { cls:'at-avatar',     icon:'🙂', label:'Avatar' },
+      infographic:  { cls:'at-infographic',icon:'📊', label:'Infographic' }
+    };
+    const at = AT_MAP[s.asset_type] || null;
+    const atBadge = at ? `<span class="asset-type-badge ${at.cls}">${at.icon} ${at.label}</span>` : '';
+
+    const div = document.createElement('div');
+    div.className = 'scene';
+    div.innerHTML = `
+      <div class="scene-head">
+        <div class="left">
+          <div class="scene-num">${i+1}</div>
+          <span class="mode-tag ${modeClass}">${modeIcon} ${modeName}</span>
+          ${atBadge}
+          <span class="scene-time">${fmt(s.start_sec)}s → ${fmt(s.end_sec)}s</span>
+          <span class="scene-dur">${dur}s</span>
+        </div>
+        <button type="button" class="copy-btn" data-copy-scene="${i}">📋 Full Copy</button>
+      </div>
+
+      <div class="scene-fields two-col">
+        <div class="field">
+          <div class="field-label">${t('field_vo_en')} <button type="button" class="copy-btn" data-copy-field="${i}|voiceover_en">${t('copy')}</button></div>
+          <textarea data-i="${i}" data-f="voiceover_en" rows="2">${esc(s.voiceover_en)}</textarea>
+        </div>
+        <div class="field">
+          <div class="field-label">${t('field_vo_bn')} <button type="button" class="copy-btn" data-copy-field="${i}|voiceover_bn">${t('copy')}</button></div>
+          <textarea data-i="${i}" data-f="voiceover_bn" rows="2">${esc(s.voiceover_bn)}</textarea>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:10px">
+        <div class="field-label">${t('field_visual')} <button type="button" class="copy-btn" data-copy-field="${i}|visual_direction">${t('copy')}</button></div>
+        <textarea data-i="${i}" data-f="visual_direction" rows="3">${esc(s.visual_direction)}</textarea>
+      </div>
+
+      <div class="scene-fields two-col" style="margin-top:10px">
+        <div class="field">
+          <div class="field-label">${t('field_camera')}</div>
+          <textarea data-i="${i}" data-f="camera_angle" rows="2">${esc(s.camera_angle||'')}</textarea>
+        </div>
+        <div class="field">
+          <div class="field-label">${t('field_light')}</div>
+          <textarea data-i="${i}" data-f="lighting" rows="2">${esc((s.lighting||'') + (s.color_palette?' · '+s.color_palette:''))}</textarea>
+        </div>
+      </div>
+
+      <div class="scene-fields two-col" style="margin-top:10px">
+        <div class="field">
+          <div class="field-label">${t('field_font')}</div>
+          <textarea data-i="${i}" data-f="font_used" rows="2">${esc((s.font_used||'') + (s.text_animation?' · '+s.text_animation:''))}</textarea>
+        </div>
+        <div class="field">
+          <div class="field-label">${t('field_motion')}</div>
+          <textarea data-i="${i}" data-f="motion" rows="2">${esc((s.motion||'') + (s.sfx?' · SFX: '+s.sfx:'') + (s.bgm_mood?' · BGM: '+s.bgm_mood:''))}</textarea>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:10px">
+        <div class="field-label">${t('field_text')} <button type="button" class="copy-btn" data-copy-field="${i}|on_screen_text">${t('copy')}</button></div>
+        <textarea data-i="${i}" data-f="on_screen_text" rows="2">${esc(s.on_screen_text||'')}</textarea>
+      </div>
+
+      <div class="field" style="margin-top:12px">
+        <div class="field-label">${t('field_img')} <span class="cob-badge">Google Flow</span> <button type="button" class="copy-btn" data-copy-field="${i}|ai_cob_image_prompt">${t('copy')}</button></div>
+        <textarea class="cob" data-i="${i}" data-f="ai_cob_image_prompt" rows="4">${esc(s.ai_cob_image_prompt||'')}</textarea>
+      </div>
+
+      <div class="field" style="margin-top:10px">
+        <div class="field-label">${t('field_vid')} <span class="cob-badge">Google Flow</span> <button type="button" class="copy-btn" data-copy-field="${i}|ai_cob_video_prompt">${t('copy')}</button></div>
+        <textarea class="cob" data-i="${i}" data-f="ai_cob_video_prompt" rows="4">${esc(s.ai_cob_video_prompt||'')}</textarea>
+      </div>
+
+      ${s.sub_scenes && s.sub_scenes.length ? `
+      <div class="subscenes">
+        <div class="subscenes-title">⚡ ${t('subshots')} (${s.sub_scenes.length})</div>
+        ${s.sub_scenes.map((ss,j) => `
+          <div class="subscene">
+            <div class="subscene-head">
+              <div><strong>${i+1}.${j+1}</strong> · <span class="word">"${esc(ss.word||'')}"</span> · ${(ss.end_sec-ss.start_sec).toFixed(1)}s</div>
+              <button type="button" class="copy-btn" data-copy-sub="${i}|${j}">${t('copy')}</button>
+            </div>
+            <div class="field">
+              <div class="field-label">Visual</div>
+              <textarea data-i="${i}" data-sub="${j}" data-f="visual" rows="2">${esc(ss.visual||'')}</textarea>
+            </div>
+            <div class="field">
+              <div class="field-label">Image Prompt <span class="cob-badge">Flow</span></div>
+              <textarea class="cob" data-i="${i}" data-sub="${j}" data-f="image_prompt" rows="3">${esc(ss.image_prompt||'')}</textarea>
+            </div>
+          </div>
+        `).join('')}
+      </div>` : ''}
+
+      <div class="timeline-section">
+        <div class="timeline-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          ${t('field_timeline')} — Cut @ <strong>${fmt(s.cut_point_sec || s.end_sec)}s</strong>
+          &nbsp;·&nbsp; ${t('field_transition')}: <em style="color:var(--text-2);font-weight:500;font-style:normal">${esc(s.transition_cue||'—')}</em>
+        </div>
+        <div class="timeline-grid">
+          <div class="tl-field">
+            <div class="tl-label">${t('field_broll')}</div>
+            <textarea class="tl-field" data-i="${i}" data-f="b_roll_notes" rows="2">${esc(s.b_roll_notes||'')}</textarea>
+          </div>
+          <div class="tl-field">
+            <div class="tl-label">${t('field_sfxcue')}</div>
+            <textarea class="tl-field" data-i="${i}" data-f="sfx_cue" rows="2">${esc(s.sfx_cue||'')}</textarea>
+          </div>
+        </div>
+      </div>
+    `;
+    c.appendChild(div);
+  });
+
+  // wire textarea edits
+  c.querySelectorAll('textarea[data-i]').forEach(ta => {
+    ta.addEventListener('input', e => {
+      const idx = +e.target.dataset.i;
+      const f = e.target.dataset.f;
+      const sub = e.target.dataset.sub;
+      if (sub !== undefined) {
+        state.scenes[idx].sub_scenes[+sub][f] = e.target.value;
+      } else {
+        state.scenes[idx][f] = e.target.value;
+      }
+    });
+  });
+
+  // wire copy buttons
+  c.querySelectorAll('[data-copy-field]').forEach(b => {
+    b.addEventListener('click', e => {
+      e.stopPropagation();
+      const [i,f] = b.getAttribute('data-copy-field').split('|');
+      copyFieldValue(+i, f, b);
+    });
+  });
+  c.querySelectorAll('[data-copy-scene]').forEach(b => {
+    b.addEventListener('click', () => copyScene(+b.getAttribute('data-copy-scene'), b));
+  });
+  c.querySelectorAll('[data-copy-sub]').forEach(b => {
+    b.addEventListener('click', () => {
+      const [i,j] = b.getAttribute('data-copy-sub').split('|').map(Number);
+      copySubScene(i, j, b);
+    });
+  });
+}
+
+// ---- Copy helpers ----
+function copyFieldValue(i, f, btn){
+  const val = state.scenes[i][f] || '';
+  navigator.clipboard.writeText(val);
+  markCopied(btn);
+}
+function copySubScene(i, j, btn){
+  const ss = state.scenes[i].sub_scenes[j];
+  const txt = `${i+1}.${j+1} (${ss.start_sec}s → ${ss.end_sec}s)
+Trigger word: ${ss.word||''}
+Visual: ${ss.visual||''}
+Image Prompt: ${ss.image_prompt||''}`;
+  navigator.clipboard.writeText(txt);
+  markCopied(btn);
+}
+function copyScene(i, btn){
+  const s = state.scenes[i];
+  let txt = `═══════════════════════════════════════
+SCENE ${i+1}  ·  ${s.start_sec}s → ${s.end_sec}s  ·  [${s.mode||'single'}]
+═══════════════════════════════════════
+
+🎙️ VO (EN): ${s.voiceover_en||''}
+🎙️ VO (BN): ${s.voiceover_bn||''}
+
+🎨 Visual: ${s.visual_direction||''}
+📷 Camera: ${s.camera_angle||''}
+💡 Light/Color: ${s.lighting||''} · ${s.color_palette||''}
+🔤 Font: ${s.font_used||''}
+✨ Text Anim: ${s.text_animation||''}
+🎞️ Motion: ${s.motion||''}
+💥 SFX: ${s.sfx||''}
+🎵 BGM: ${s.bgm_mood||''}
+📝 On-Screen Text: ${s.on_screen_text||''}
+
+━━━ IMAGE PROMPT (Google Flow) ━━━
+${s.ai_cob_image_prompt||''}
+
+━━━ VIDEO PROMPT (Google Flow) ━━━
+${s.ai_cob_video_prompt||''}`;
+  if (s.sub_scenes?.length){
+    txt += `\n\n━━━ FAST-CUT SUB-SHOTS ━━━`;
+    s.sub_scenes.forEach((ss,j) => {
+      txt += `\n\n${i+1}.${j+1}  [${ss.start_sec}s → ${ss.end_sec}s]  "${ss.word||''}"
+Visual: ${ss.visual||''}
+Image: ${ss.image_prompt||''}`;
+    });
+  }
+  navigator.clipboard.writeText(txt);
+  markCopied(btn);
+}
+function copyAll(){
+  if (!state.scenes.length){ toast(t('empty_title'),'warn'); return; }
+  const title = document.getElementById('projectTitle').value || 'Untitled';
+  let out = `═════════════════════════════════════════════
+  ${title}
+  Total scenes: ${state.scenes.length}
+  Generated by Vision Flow Studio
+═════════════════════════════════════════════\n\n`;
+  state.scenes.forEach((s,i) => {
+    out += `\n═══ SCENE ${i+1}  ·  ${s.start_sec}s → ${s.end_sec}s  ·  [${s.mode||'single'}] ═══\n`;
+    out += `VO (EN): ${s.voiceover_en||''}\nVO (BN): ${s.voiceover_bn||''}\n`;
+    out += `Visual: ${s.visual_direction||''}\nCamera: ${s.camera_angle||''}\nLight/Color: ${s.lighting||''} · ${s.color_palette||''}\n`;
+    out += `Font: ${s.font_used||''}\nText Anim: ${s.text_animation||''}\nMotion: ${s.motion||''}\nSFX: ${s.sfx||''}\nBGM: ${s.bgm_mood||''}\n`;
+    out += `On-Screen Text: ${s.on_screen_text||''}\n\n[IMAGE PROMPT]\n${s.ai_cob_image_prompt||''}\n\n[VIDEO PROMPT]\n${s.ai_cob_video_prompt||''}\n`;
+    if (s.sub_scenes?.length){
+      out += `\n[SUB-SHOTS]\n`;
+      s.sub_scenes.forEach((ss,j) => {
+        out += `  ${i+1}.${j+1} [${ss.start_sec}-${ss.end_sec}s] "${ss.word||''}"\n    Visual: ${ss.visual||''}\n    Image: ${ss.image_prompt||''}\n`;
+      });
+    }
+  });
+  navigator.clipboard.writeText(out);
+  toast('✅ ' + t('toast_copied') + ' (' + state.scenes.length + ')', 'ok');
+}
+function markCopied(btn){
+  if (!btn) return;
+  btn.classList.add('copied');
+  const orig = btn.textContent;
+  btn.textContent = '✓ ' + t('copied');
+  setTimeout(() => { btn.classList.remove('copied'); btn.textContent = orig; }, 1500);
+  toast('✓ ' + t('toast_copied'), 'ok');
+}
+
+// ---- Export ----
+function download(name, content, mime){
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+function exportJSON(){
+  const data = {
+    project_title: document.getElementById('projectTitle').value || 'Untitled',
+    generated_at: new Date().toISOString(),
+    generated_by: 'Vision Flow Studio',
+    total_duration_sec: state.scenes.length ? state.scenes[state.scenes.length-1].end_sec : 0,
+    scene_count: state.scenes.length,
+    scenes: state.scenes
+  };
+  download('vision-flow-' + Date.now() + '.json', JSON.stringify(data, null, 2), 'application/json');
+  closeModal('exportModal');
+  toast('✅ JSON exported', 'ok');
+}
+function exportCSV(){
+  const headers = ['#','start','end','mode','VO_EN','VO_BN','Visual','Camera','Lighting','Color','Font','TextAnim','Motion','SFX','BGM','OnScreenText','ImagePrompt','VideoPrompt'];
+  const rows = [headers.join(',')];
+  const esc2 = v => `"${String(v==null?'':v).replace(/"/g,'""').replace(/\n/g,' ⏎ ')}"`;
+  state.scenes.forEach((s,i) => {
+    rows.push([
+      i+1,s.start_sec,s.end_sec,s.mode||'',
+      s.voiceover_en,s.voiceover_bn,s.visual_direction,s.camera_angle,s.lighting,s.color_palette,
+      s.font_used,s.text_animation,s.motion,s.sfx,s.bgm_mood,s.on_screen_text,
+      s.ai_cob_image_prompt,s.ai_cob_video_prompt
+    ].map(esc2).join(','));
+  });
+  download('vision-flow-' + Date.now() + '.csv', rows.join('\n'), 'text/csv');
+  closeModal('exportModal');
+  toast('✅ CSV exported', 'ok');
+}
+function exportTXT(){
+  const title = document.getElementById('projectTitle').value || 'Untitled';
+  let out = `${title}\nTotal scenes: ${state.scenes.length}\n\n`;
+  state.scenes.forEach((s,i) => {
+    out += `\n=== SCENE ${i+1} (${s.start_sec}s → ${s.end_sec}s) ===\n`;
+    out += `VO EN: ${s.voiceover_en||''}\nVO BN: ${s.voiceover_bn||''}\n`;
+    out += `Visual: ${s.visual_direction||''}\nCamera: ${s.camera_angle||''}\n`;
+    out += `Light: ${s.lighting||''} | Color: ${s.color_palette||''}\n`;
+    out += `Font: ${s.font_used||''} | Anim: ${s.text_animation||''}\n`;
+    out += `Motion: ${s.motion||''} | SFX: ${s.sfx||''} | BGM: ${s.bgm_mood||''}\n`;
+    out += `Text: ${s.on_screen_text||''}\n`;
+    out += `\n[IMAGE PROMPT]\n${s.ai_cob_image_prompt||''}\n\n[VIDEO PROMPT]\n${s.ai_cob_video_prompt||''}\n`;
+    if (s.sub_scenes?.length) s.sub_scenes.forEach((ss,j) => {
+      out += `  Sub ${i+1}.${j+1} [${ss.start_sec}-${ss.end_sec}s] "${ss.word||''}": ${ss.visual||''}\n`;
+    });
+  });
+  download('vision-flow-' + Date.now() + '.txt', out, 'text/plain');
+  closeModal('exportModal');
+  toast('✅ TXT exported', 'ok');
+}
+function exportMD(){
+  const title = document.getElementById('projectTitle').value || 'Untitled';
+  let md = `# ${title}\n\n> Generated by Vision Flow Studio · ${state.scenes.length} scenes\n\n`;
+  state.scenes.forEach((s,i) => {
+    md += `\n## Scene ${i+1}  \`${s.start_sec}s → ${s.end_sec}s\` · ${s.mode||'single'}\n\n`;
+    md += `**🎙️ VO (EN):** ${s.voiceover_en||''}  \n**🎙️ VO (BN):** ${s.voiceover_bn||''}\n\n`;
+    md += `**🎨 Visual:** ${s.visual_direction||''}  \n**📷 Camera:** ${s.camera_angle||''}  \n**💡 Light/Color:** ${s.lighting||''} · ${s.color_palette||''}  \n`;
+    md += `**🔤 Font:** ${s.font_used||''}  \n**✨ Text Anim:** ${s.text_animation||''}  \n**🎞️ Motion:** ${s.motion||''}  \n**💥 SFX:** ${s.sfx||''}  \n**🎵 BGM:** ${s.bgm_mood||''}  \n`;
+    md += `**📝 On-screen:** ${s.on_screen_text||''}\n\n`;
+    md += `**🖼️ Image Prompt:**\n\`\`\`\n${s.ai_cob_image_prompt||''}\n\`\`\`\n\n`;
+    md += `**🎬 Video Prompt:**\n\`\`\`\n${s.ai_cob_video_prompt||''}\n\`\`\`\n`;
+    if (s.sub_scenes?.length){
+      md += `\n**⚡ Sub-shots:**\n`;
+      s.sub_scenes.forEach((ss,j) => {
+        md += `- **${i+1}.${j+1}** \`${ss.start_sec}-${ss.end_sec}s\` "${ss.word||''}" — ${ss.visual||''}\n`;
+      });
+    }
+  });
+  download('vision-flow-' + Date.now() + '.md', md, 'text/markdown');
+  closeModal('exportModal');
+  toast('✅ Markdown exported', 'ok');
+}
+
+// ---- Projects ----
+function getProjects(){ try { return JSON.parse(localStorage.getItem('vf_projects')||'[]'); } catch { return []; } }
+function saveProjects(p){ localStorage.setItem('vf_projects', JSON.stringify(p)); }
+function saveCurrentProject(){
+  if (!state.scenes.length) return;
+  const title = document.getElementById('projectTitle').value || ('Project ' + new Date().toLocaleString());
+  const list = getProjects();
+  list.unshift({
+    id: 'vf_' + Date.now(),
+    title, mode: currentMode, api: activeApiId(),
+    scene_count: state.scenes.length,
+    saved_at: Date.now(),
+    scenes: state.scenes
+  });
+  if (list.length > 30) list.length = 30;
+  saveProjects(list);
+}
+function loadProject(id){
+  const p = getProjects().find(x => x.id === id);
+  if (!p) return;
+  state.scenes = p.scenes || [];
+  document.getElementById('projectTitle').value = p.title || '';
+  if (p.mode) setMode(p.mode);
+  renderScenes();
+  closeModal('historyModal');
+  toast('✅ ' + t('toast_project_loaded') + ': ' + p.title, 'ok');
+}
+function deleteProject(id){
+  saveProjects(getProjects().filter(x => x.id !== id));
+  renderHistory();
+}
+function renderHistory(){
+  const list = getProjects();
+  const c = document.getElementById('historyList');
+  if (!list.length){ c.innerHTML = `<div class="empty" style="padding:30px 20px"><div class="icon">📂</div><p>${t('hist_empty')}</p></div>`; return; }
+  c.innerHTML = list.map(p => `
+    <div class="history-item">
+      <div class="h-info">
+        <div class="h-title">${esc(p.title)}</div>
+        <div class="h-meta">
+          <span>${new Date(p.saved_at).toLocaleString()}</span>
+          <span>· ${p.scene_count}${t('scenes')}</span>
+          <span class="badge cyan" style="padding:1px 6px;font-size:10px">${p.mode||'auto'}</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:4px;flex-shrink:0">
+        <button type="button" class="btn sm primary" data-load="${p.id}">${t('open_action')}</button>
+        <button type="button" class="btn sm danger" data-del="${p.id}">🗑️</button>
+      </div>
+    </div>
+  `).join('');
+  c.querySelectorAll('[data-load]').forEach(b => b.addEventListener('click', () => loadProject(b.getAttribute('data-load'))));
+  c.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => deleteProject(b.getAttribute('data-del'))));
+}
+
+// ---- Test API ----
+async function testApi(){
+  const key = document.getElementById('apiKey').value.trim();
+  if (!key){ toast(t('toast_no_key'),'err'); return; }
+  saveApiKey(activeApiId(), key);
+  const btn = document.getElementById('btnTestKey');
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    const r = await callAI('Respond with JSON: {"ok":true,"msg":"hello"}', 'Return only JSON.');
+    extractJSON(r);
+    toast('✅ ' + t('toast_test_ok'), 'ok');
+    renderApiList();
+    updateSetupHint();
+  } catch(e){
+    let msg = e.message.slice(0,150);
+    if (msg.includes('404')) msg = '❌ 404: Model টা পাওয়া যায়নি। অন্য একটা Model ট্রাই করো (যেমন Gemini 3.5 Flash)।';
+    else if (msg.includes('429')) msg = '❌ 429: Quota শেষ। এই key-এর quota exceeded — নতুন key নাও বা paid plan করো।';
+    else if (msg.includes('403')) msg = '❌ 403: API key টা valid না বা permission নেই।';
+    else if (msg.includes('NO_KEY')) msg = '❌ API key নেই। আগে key paste করো।';
+    toast(t('toast_test_fail') + ': ' + msg, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = orig;
+  }
+}
+
+// ==================================================
+//   INITIALIZATION — wire everything up on DOM ready
+// ==================================================
+function init(){
+  // Language
+  applyLang();
+  document.querySelectorAll('.lang-toggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      LANG = b.getAttribute('data-lang');
+      localStorage.setItem('vf_lang', LANG);
+      applyLang();
+    });
+  });
+
+  // Mode click
+  document.querySelectorAll('.mode').forEach(m => {
+    m.addEventListener('click', () => setMode(m.getAttribute('data-mode')));
+  });
+
+  // Rhythm chips
+  document.querySelectorAll('.rhythm-chip').forEach(chip => {
+    chip.addEventListener('click', () => setRhythm(chip.getAttribute('data-rhythm')));
+  });
+
+  // Priority row — update on any input change
+  ['script','scriptLink','mediaLink','refLink','clientReq'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', updatePriorityRow);
+  });
+  document.getElementById('audioFile').addEventListener('change', updatePriorityRow);
+  document.getElementById('videoFile').addEventListener('change', updatePriorityRow);
+  updatePriorityRow();
+
+  // Preset button + modal
+  document.getElementById('btnPreset').addEventListener('click', () => {
+    renderPresetList();
+    openModal('presetModal');
+  });
+  document.getElementById('btnSavePreset').addEventListener('click', saveCurrentPreset);
+
+  // Top actions
+  document.getElementById('btnSettings').addEventListener('click', () => {
+    renderApiList();
+    document.getElementById('apiKey').value = apiKey(activeApiId());
+    openModal('settingsModal');
+  });
+  document.getElementById('btnOpenSetup').addEventListener('click', () => {
+    renderApiList();
+    document.getElementById('apiKey').value = apiKey(activeApiId());
+    openModal('settingsModal');
+  });
+  document.getElementById('btnHistory').addEventListener('click', () => {
+    renderHistory();
+    openModal('historyModal');
+  });
+  document.getElementById('btnNew').addEventListener('click', () => {
+    if (state.scenes.length && !confirm(t('toast_new_confirm'))) return;
+    state.scenes = [];
+    state.audioB64 = state.videoB64 = null;
+    ['script','clientReq','projectTitle','scriptLink','mediaLink','refLink','totalDur','audioFile','videoFile'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.value = '';
+    });
+    document.getElementById('audioUploadLabel').classList.remove('uploaded');
+    document.getElementById('videoUploadLabel').classList.remove('uploaded');
+    document.getElementById('audioUploadText').textContent = t('upload_audio');
+    document.getElementById('videoUploadText').textContent = t('upload_video');
+    ['adScript','adAudio','adVideo','adLink'].forEach(id => document.getElementById(id).textContent = t('asset_none'));
+    ['assetScript','assetAudio','assetVideo','assetLink'].forEach(id => document.getElementById(id).classList.remove('filled'));
+    renderScenes();
+    setProgress(0, t('phase_idle'));
+    document.getElementById('log').innerHTML = `<div class="log-empty">${t('log_empty')}</div>`;
+  });
+
+  document.getElementById('btnAnalyze').addEventListener('click', analyze);
+  document.getElementById('btnRegen').addEventListener('click', () => {
+    if (!state.scenes.length){ toast('Nothing to regenerate','warn'); return; }
+    if (!confirm(t('toast_regen_confirm'))) return;
+    analyze();
+  });
+  document.getElementById('btnCopyAll').addEventListener('click', copyAll);
+  document.getElementById('btnExport').addEventListener('click', () => {
+    if (!state.scenes.length){ toast('Nothing to export','warn'); return; }
+    openModal('exportModal');
+  });
+  document.getElementById('btnExpJSON').addEventListener('click', exportJSON);
+  document.getElementById('btnExpCSV').addEventListener('click', exportCSV);
+  document.getElementById('btnExpTXT').addEventListener('click', exportTXT);
+  document.getElementById('btnExpMD').addEventListener('click', exportMD);
+
+  // Modal close (bg + X)
+  document.querySelectorAll('.modal-close').forEach(b => {
+    b.addEventListener('click', () => closeModal(b.getAttribute('data-close')));
+  });
+  document.querySelectorAll('.modal-overlay').forEach(ov => {
+    ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('show'); });
+  });
+
+  // File upload wiring
+  document.getElementById('audioFile').addEventListener('change', async e => {
+    const f = e.target.files[0]; if (!f) return;
+    state.audioB64 = await fileToBase64(f);
+    state.audioMime = f.type;
+    state.audioName = f.name;
+    const label = f.name + ' (' + (f.size/1024/1024).toFixed(2) + 'MB)';
+    document.getElementById('adAudio').textContent = label;
+    document.getElementById('assetAudio').classList.add('filled');
+    document.getElementById('audioUploadLabel').classList.add('uploaded');
+    document.getElementById('audioUploadText').textContent = '✓ ' + f.name.slice(0,20);
+    toast('✅ Audio loaded', 'ok');
+    if (f.size > 18*1024*1024) toast('⚠️ বড় অডিও ফাইল মোবাইলে ধীর হতে পারে — বড় ফাইল হলে link ব্যবহার করা better', 'warn');
+  });
+  document.getElementById('videoFile').addEventListener('change', async e => {
+    const f = e.target.files[0]; if (!f) return;
+    state.videoB64 = await fileToBase64(f);
+    state.videoMime = f.type;
+    state.videoName = f.name;
+    document.getElementById('adVideo').textContent = f.name + ' (' + (f.size/1024/1024).toFixed(2) + 'MB)';
+    document.getElementById('assetVideo').classList.add('filled');
+    document.getElementById('videoUploadLabel').classList.add('uploaded');
+    document.getElementById('videoUploadText').textContent = '✓ ' + f.name.slice(0,20);
+    toast('✅ Video loaded', 'ok');
+    if (f.size > 18*1024*1024) toast('⚠️ বড় ভিডিও ফাইল মোবাইলে ধীর হতে পারে — বড় ফাইল হলে link ব্যবহার করা better', 'warn');
+  });
+  document.getElementById('script').addEventListener('input', e => {
+    const lines = e.target.value.trim().split('\n').filter(x => x.trim()).length;
+    document.getElementById('adScript').textContent = lines ? lines + ' lines' : '—';
+    document.getElementById('assetScript').classList.toggle('filled', lines > 0);
+  });
+  ['scriptLink','mediaLink','refLink'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      const any = ['scriptLink','mediaLink','refLink'].some(x => document.getElementById(x).value);
+      document.getElementById('adLink').textContent = any ? '✓ Linked' : '—';
+      document.getElementById('assetLink').classList.toggle('filled', any);
+    });
+  });
+
+  // Custom API form
+  document.getElementById('btnAddCustom').addEventListener('click', () => {
+    document.getElementById('customForm').classList.toggle('show');
+  });
+  document.getElementById('btnCancelCustom').addEventListener('click', () => {
+    document.getElementById('customForm').classList.remove('show');
+    ['cfName','cfBase','cfPath','cfModel'].forEach(id => document.getElementById(id).value = '');
+  });
+  document.getElementById('btnSaveCustom').addEventListener('click', () => {
+    const name = document.getElementById('cfName').value.trim();
+    const base = document.getElementById('cfBase').value.trim().replace(/\/$/,'');
+    const path = document.getElementById('cfPath').value.trim();
+    const model = document.getElementById('cfModel').value.trim();
+    const format = document.getElementById('cfFormat').value;
+    if (!name || !base || !path || !model){ toast(t('toast_custom_missing'),'err'); return; }
+    const arr = loadCustomApis();
+    const id = 'custom_' + Date.now();
+    arr.push({ id, name, desc:'Custom · ' + model, base, path, model, format, authType:'header', custom:true });
+    saveCustomApis(arr);
+    document.getElementById('customForm').classList.remove('show');
+    ['cfName','cfBase','cfPath','cfModel'].forEach(x => document.getElementById(x).value = '');
+    renderApiList();
+    toast('✅ ' + t('toast_custom_saved'), 'ok');
+  });
+
+  // API key save/test
+  document.getElementById('btnSaveKey').addEventListener('click', () => {
+    const key = document.getElementById('apiKey').value.trim();
+    if (!key){ toast(t('toast_no_key'),'err'); return; }
+    saveApiKey(activeApiId(), key);
+    renderApiList();
+    updateSetupHint();
+    toast('✅ ' + t('toast_key_saved'), 'ok');
+  });
+  document.getElementById('btnTestKey').addEventListener('click', testApi);
+
+  // Clear history
+  document.getElementById('btnClearHistory').addEventListener('click', () => {
+    if (!confirm(t('toast_clear_hist_confirm'))) return;
+    saveProjects([]);
+    renderHistory();
+  });
+
+  // Initial UI
+  updateApiBadge();
+  updateSetupHint();
+  renderApiList();
+  document.getElementById('apiKey').value = apiKey(activeApiId());
+  setProgress(0, t('phase_idle'));
+}
+
+if (document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>
