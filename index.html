@@ -3,42 +3,43 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<meta name="theme-color" content="#06090c" />
+<meta name="theme-color" content="#030610" />
 <title>Vision Flow Studio v6 — AI Video Breakdown</title>
 <meta name="description" content="Vision Flow Agency's professional AI video breakdown studio — transform scripts, voiceovers, audio, and video into scene-by-scene edit plans." />
 <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%231a2b36'/><stop offset='1' stop-color='%230a9f95'/></linearGradient><linearGradient id='a' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%230fc5b8'/><stop offset='1' stop-color='%232dd9cc'/></linearGradient></defs><rect rx='22' width='100' height='100' fill='url(%23g)'/><rect x='14' y='14' width='72' height='17' rx='5' fill='rgba(15,197,184,0.2)'/><rect x='14' y='14' width='15' height='17' rx='3' fill='url(%23a)' opacity='0.9'/><rect x='37' y='14' width='12' height='17' fill='url(%23a)' opacity='0.7'/><rect x='57' y='14' width='12' height='17' fill='url(%23a)' opacity='0.7'/><text x='50' y='78' text-anchor='middle' fill='%23fff' font-size='38' font-weight='900' font-family='system-ui' letter-spacing='-2'>VS</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ===== DESIGN SYSTEM — VISION FLOW AGENCY — v4 ===== */
 :root {
   /* Background layers */
-  --bg:       #06090c;
-  --bg-2:     #0b0f15;
-  --panel:    #0e1318;
-  --panel-2:  #111920;
-  --panel-3:  #16202a;
+  --bg:       #030610;
+  --bg-2:     #070b18;
+  --panel:    rgba(15,23,42,.55);
+  --panel-2:  rgba(15,23,42,.7);
+  --panel-3:  rgba(30,41,59,.6);
 
   /* Borders */
-  --border:   rgba(255,255,255,0.055);
-  --border-2: rgba(255,255,255,0.10);
-  --border-3: rgba(255,255,255,0.17);
+  --border:      rgba(255,255,255,0.055);
+  --border-2:    rgba(255,255,255,0.10);
+  --border-3:    rgba(255,255,255,0.17);
+  --border-glow: rgba(6,182,212,.25);
 
   /* Text */
-  --text:     #e6eff4;
-  --text-2:   #b0c5d0;
-  --muted:    #7f99a8;
-  --muted-2:  #47606e;
+  --text:     #f8fafc;
+  --text-2:   #cbd5e1;
+  --muted:    #94a3b8;
+  --muted-2:  #64748b;
 
-  /* Brand teal — pulled from logo */
-  --primary:   #0fc5b8;
-  --primary-2: #2dd9cc;
-  --primary-3: #0a9f95;
+  /* Brand teal/cyan — matching agency */
+  --primary:   #06b6d4;
+  --primary-2: #22d3ee;
+  --primary-3: #0891b2;
 
-  /* Accent (same teal family) */
-  --accent:    #0fc5b8;
-  --accent-2:  #2dd9cc;
+  /* Accent (purple - secondary) */
+  --accent:    #8b5cf6;
+  --accent-2:  #a78bfa;
 
   /* Gold — used for primary CTA */
   --gold:   #f0a500;
@@ -51,22 +52,23 @@
   --danger:    #ef4444;
 
   /* Radius */
-  --radius:    12px;
+  --radius:    10px;
   --radius-sm: 8px;
-  --radius-lg: 18px;
+  --radius-lg: 16px;
 
   /* Shadows */
-  --shadow:    0 4px 24px rgba(0,0,0,.55);
-  --shadow-lg: 0 16px 56px rgba(0,0,0,.7);
+  --shadow:      0 4px 24px rgba(0,0,0,.55);
+  --shadow-lg:   0 16px 56px rgba(0,0,0,.7);
+  --shadow-glow: 0 0 40px rgba(6,182,212,.15);
 
   /* Gradients */
-  --grad-primary:   linear-gradient(135deg, #0fc5b8 0%, #0a9f95 100%);
-  --grad-primary-2: linear-gradient(135deg, #0fc5b8 0%, #0a9f95 100%);
+  --grad-primary:   linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+  --grad-primary-2: linear-gradient(135deg, #06b6d4, #0ea5e9);
   --grad-gold:      linear-gradient(135deg, #f0a500 0%, #f97316 100%);
-  --grad-card:      linear-gradient(180deg, rgba(15,197,184,.035), transparent);
+  --grad-card:      linear-gradient(180deg, rgba(6,182,212,.035), transparent);
 
-  /* Logo-accurate brand gradient: dark charcoal → teal */
-  --grad-brand: linear-gradient(135deg, #1c2c38 0%, #0fc5b8 100%);
+  /* Logo-accurate brand gradient */
+  --grad-brand:     linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
 }
 
 /* ===== RESET ===== */
@@ -76,7 +78,7 @@ html, body { margin: 0; padding: 0; }
 body {
   min-height: 100dvh;
   background:
-    radial-gradient(ellipse 1000px 700px at 102% -5%, rgba(15,197,184,.09), transparent 55%),
+    radial-gradient(ellipse 1000px 700px at 102% -5%, rgba(6,182,212,.09), transparent 55%),
     var(--bg);
   background-attachment: fixed;
   color: var(--text);
@@ -86,10 +88,10 @@ body {
 body.lang-bn { font-family: 'Hind Siliguri', 'Inter', system-ui, sans-serif; }
 
 h1, h2, h3, h4, .brand-heading {
-  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  font-family: 'Outfit', 'Inter', system-ui, sans-serif;
 }
 
-::selection { background: rgba(15,197,184,.3); color: #fff; }
+::selection { background: rgba(6,182,212,.3); color: #fff; }
 a { color: var(--primary-2); text-decoration: none; }
 a:hover { color: var(--accent-2); opacity: .85; }
 button { font-family: inherit; }
@@ -97,7 +99,7 @@ button { font-family: inherit; }
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius: 99px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--primary), var(--accent)); border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.13); }
 
 /* ===== LAYOUT ===== */
@@ -896,6 +898,46 @@ footer.vf .vf-brand {
   color:var(--text-2); line-height:1.6;
 }
 .privacy-note strong { color:var(--primary-2); }
+
+/* ===== WORKSPACE TABS ===== */
+.workspace-tabs {
+  position:sticky; top:60px; z-index:70;
+  background:rgba(3,6,16,.85);
+  backdrop-filter:blur(20px) saturate(1.4);
+  border-bottom:1px solid var(--border);
+  transition:background .3s;
+}
+.workspace-tabs .container { padding:0 22px; }
+.tab-list {
+  display:flex; gap:2px; overflow-x:auto;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.tab-list::-webkit-scrollbar { display:none; }
+.tab-list .tab {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:12px 18px; border:none; background:transparent;
+  color:var(--muted); font-size:13px; font-weight:600;
+  cursor:pointer; white-space:nowrap;
+  border-bottom:2px solid transparent;
+  transition:all .2s;
+  font-family:inherit;
+}
+.tab-list .tab:hover { color:var(--text); background:rgba(255,255,255,.03); }
+.tab-list .tab.active {
+  color:var(--primary);
+  border-bottom-color:var(--primary);
+  background:rgba(6,182,212,.05);
+}
+.tab-list .tab.active svg { stroke:var(--primary); }
+.tab-panel { animation:fadeIn .25s ease; }
+.tab-panel:not(.active) { display:none !important; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+@media(max-width:640px) {
+  .tab-list .tab { padding:10px 12px; font-size:12px; }
+  .tab-list .tab span { display:none; }
+  .workspace-tabs { top:52px; }
+}
 </style>
 </head>
 <body class="lang-en">
@@ -960,7 +1002,32 @@ footer.vf .vf-brand {
   </div>
 </header>
 
-<main class="container" style="padding-bottom:40px">
+<!-- WORKSPACE TAB BAR -->
+<nav class="workspace-tabs" id="workspaceTabs">
+  <div class="container">
+    <div class="tab-list" role="tablist">
+      <button type="button" class="tab active" data-tab="breakdown" role="tab" aria-selected="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        <span>AI Breakdown</span>
+      </button>
+      <button type="button" class="tab" data-tab="capcut" role="tab" aria-selected="false">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        <span>CapCut Export</span>
+      </button>
+      <button type="button" class="tab" data-tab="tools" role="tab" aria-selected="false">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a3 3 0 0 1-4.2 4.2L8.5 18.5a2.1 2.1 0 0 1-3-3l8.8-8.8a3 3 0 0 1 4.2-4.2z"/></svg>
+        <span>Video Tools</span>
+      </button>
+      <button type="button" class="tab" data-tab="download" role="tab" aria-selected="false">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        <span>Downloader</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- TAB: AI BREAKDOWN (existing content) -->
+<main class="container tab-panel active" id="panel-breakdown" style="padding-bottom:40px">
 
   <!-- HERO -->
   <section class="hero">
@@ -1234,6 +1301,214 @@ footer.vf .vf-brand {
     </div>
   </footer>
 </main>
+
+<!-- TAB: CAPCUT EXPORT -->
+<div class="container tab-panel" id="panel-capcut" style="padding-bottom:40px;display:none">
+  <section class="hero" style="margin-top:16px">
+    <div class="hero-head">
+      <div>
+        <h2>📱 CapCut Auto Export</h2>
+        <p class="sub">Phone থেকে CapCut projects scan করো, select করো, এবং automatic export করো PC তে — সব কিছু এখান থেকে control করো।</p>
+      </div>
+      <div class="hero-badges">
+        <span class="badge" id="ccDeviceStatus" style="background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.2)"><span class="dot" style="background:#f87171"></span> Disconnected</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Device Connection -->
+  <div class="card" style="margin-top:16px">
+    <h3 style="margin-bottom:12px">🔌 Device Connection</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div>
+        <label style="font-size:12px;color:var(--muted)">ADB Path</label>
+        <input type="text" id="ccAdbPath" value="D:\AndroidSDK\platform-tools\adb.exe" class="input" style="margin-top:4px">
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--muted)">Device IP (Wireless)</label>
+        <input type="text" id="ccDeviceIp" placeholder="192.168.0.xxx" class="input" style="margin-top:4px">
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button type="button" class="btn sm" onclick="ccConnect('usb')">🔌 USB Connect</button>
+      <button type="button" class="btn sm" onclick="ccConnect('wireless')">📡 Wireless</button>
+      <button type="button" class="btn sm" onclick="ccCheckDevice()">🔍 Check Device</button>
+    </div>
+    <div id="ccDeviceInfo" class="card" style="margin-top:12px;display:none;font-size:13px;padding:12px;background:var(--bg-2)">
+      <!-- Device info will be populated via API -->
+    </div>
+  </div>
+
+  <!-- Export Settings -->
+  <div class="card" style="margin-top:12px">
+    <h3 style="margin-bottom:12px">⚙️ Export Settings</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+      <div>
+        <label style="font-size:12px;color:var(--muted)">Output Path</label>
+        <input type="text" id="ccOutputPath" value="E:\Downloads\" class="input" style="margin-top:4px">
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--muted)">Export Count</label>
+        <input type="number" id="ccExportCount" value="1" min="1" max="50" class="input" style="margin-top:4px">
+      </div>
+      <div>
+        <label style="font-size:12px;color:var(--muted)">Lock Screen PIN</label>
+        <input type="password" id="ccPin" placeholder="PIN (optional)" class="input" style="margin-top:4px">
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Scanner -->
+  <div class="card" style="margin-top:12px">
+    <h3 style="margin-bottom:12px">📦 Project Scanner</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Phone এর CapCut Spaces scan করে project list দেখাবে। যেগুলো export করতে চাও select করো।</p>
+    <button type="button" class="btn sm primary" id="ccScanBtn" onclick="ccScanProjects()">🔍 Scan Projects</button>
+    <div id="ccProjectGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:14px">
+      <!-- Scanned projects will appear here -->
+    </div>
+  </div>
+
+  <!-- Export Control -->
+  <div class="card" style="margin-top:12px">
+    <div style="display:flex;gap:10px;align-items:center">
+      <button type="button" class="btn primary" id="ccExportBtn" onclick="ccStartExport()" style="flex:1">
+        🚀 Start Export
+      </button>
+      <button type="button" class="btn sm" id="ccStopBtn" onclick="ccStopExport()" style="display:none">
+        ⏹️ Stop
+      </button>
+    </div>
+  </div>
+
+  <!-- Live Progress -->
+  <div class="card" style="margin-top:12px;display:none" id="ccProgressCard">
+    <h3 style="margin-bottom:10px">📊 Export Progress</h3>
+    <div id="ccStepTracker" style="font-size:13px">
+      <!-- Steps will be populated dynamically -->
+    </div>
+    <div style="margin-top:12px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:4px">
+        <span id="ccProgressLabel">Waiting...</span>
+        <span id="ccProgressPct">0%</span>
+      </div>
+      <div style="height:6px;background:var(--bg);border-radius:99px;overflow:hidden">
+        <div id="ccProgressBar" style="height:100%;width:0%;background:var(--grad-primary);transition:width 0.3s;border-radius:99px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Log -->
+  <div class="card" style="margin-top:12px">
+    <h3 style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
+      📋 Live Log
+      <button type="button" class="btn sm" onclick="document.getElementById('ccLog').textContent=''">Clear</button>
+    </h3>
+    <pre id="ccLog" style="max-height:300px;overflow-y:auto;font-size:11.5px;font-family:'JetBrains Mono',monospace;color:var(--text-2);background:var(--bg);padding:12px;border-radius:var(--radius-sm);white-space:pre-wrap;word-break:break-all;line-height:1.6"></pre>
+  </div>
+
+  <!-- Backend Status Note -->
+  <div style="margin-top:16px;padding:14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12.5px;color:var(--muted)">
+    ⚠️ <strong>Backend Required:</strong> CapCut Export তে Python backend (Flask server at <code>localhost:5050</code>) চলমান থাকতে হবে।
+    <code style="display:block;margin-top:6px;color:var(--primary)">cd D:\DevTools\capcut_mod && python web_ui.py</code>
+  </div>
+</div>
+
+<!-- TAB: VIDEO TOOLS -->
+<div class="container tab-panel" id="panel-tools" style="padding-bottom:40px;display:none">
+  <section class="hero" style="margin-top:16px">
+    <div class="hero-head">
+      <div>
+        <h2>🛠️ Video Tools</h2>
+        <p class="sub">Transcript extract, format convert, audio extract, trim/merge — FFmpeg powered tools সব এক জায়গায়।</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transcript Extractor -->
+  <div class="card" style="margin-top:16px">
+    <h3 style="margin-bottom:12px">📝 Universal Transcript</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">YouTube, Drive, বা যেকোনো video/audio URL paste করো — AI transcript generate করবে।</p>
+    <div style="display:flex;gap:8px">
+      <input type="text" id="toolTranscriptUrl" placeholder="Paste video/audio URL..." class="input" style="flex:1">
+      <button type="button" class="btn sm primary" onclick="toolExtractTranscript()">Extract</button>
+    </div>
+    <textarea id="toolTranscriptOutput" rows="8" class="input" style="margin-top:10px;font-size:13px" placeholder="Transcript will appear here..."></textarea>
+  </div>
+
+  <!-- FFmpeg Tools -->
+  <div class="card" style="margin-top:12px">
+    <h3 style="margin-bottom:12px">🎬 FFmpeg Quick Tools</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px">
+      <button type="button" class="btn sm" onclick="toolFFmpeg('extract-audio')">🔊 Extract Audio</button>
+      <button type="button" class="btn sm" onclick="toolFFmpeg('convert-mp4')">📹 Convert to MP4</button>
+      <button type="button" class="btn sm" onclick="toolFFmpeg('trim')">✂️ Trim Video</button>
+      <button type="button" class="btn sm" onclick="toolFFmpeg('merge')">🔗 Merge Videos</button>
+      <button type="button" class="btn sm" onclick="toolFFmpeg('compress')">📦 Compress</button>
+      <button type="button" class="btn sm" onclick="toolFFmpeg('gif')">🎞️ Make GIF</button>
+    </div>
+    <div id="toolFFmpegOutput" style="margin-top:12px;display:none;padding:12px;background:var(--bg);border-radius:var(--radius-sm);font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text-2)"></div>
+  </div>
+
+  <!-- File Browser -->
+  <div class="card" style="margin-top:12px">
+    <h3 style="margin-bottom:12px">📂 File Browser</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Local files browse করো এবং drag-and-drop করে কাজ করো।</p>
+    <div style="border:2px dashed var(--border-2);border-radius:var(--radius);padding:40px;text-align:center;cursor:pointer" id="toolDropZone">
+      <div style="font-size:32px;margin-bottom:8px">📁</div>
+      <div style="color:var(--muted)">Drag & drop files here or <span style="color:var(--primary);text-decoration:underline;cursor:pointer">click to browse</span></div>
+    </div>
+    <div id="toolFileList" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<!-- TAB: DOWNLOADER -->
+<div class="container tab-panel" id="panel-download" style="padding-bottom:40px;display:none">
+  <section class="hero" style="margin-top:16px">
+    <div class="hero-head">
+      <div>
+        <h2>⬇️ Video Downloader</h2>
+        <p class="sub">YouTube, Facebook, Instagram, TikTok — যেকোনো platform থেকে video download করো।</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="card" style="margin-top:16px">
+    <h3 style="margin-bottom:12px">🔗 Paste Video URL</h3>
+    <div style="display:flex;gap:8px">
+      <input type="text" id="dlUrl" placeholder="Paste YouTube / Facebook / Instagram / TikTok URL..." class="input" style="flex:1">
+      <button type="button" class="btn primary" onclick="dlAnalyze()">Analyze</button>
+    </div>
+  </div>
+
+  <!-- Video Preview -->
+  <div class="card" style="margin-top:12px;display:none" id="dlPreview">
+    <div style="display:flex;gap:16px">
+      <div id="dlThumb" style="width:200px;height:112px;background:var(--bg);border-radius:var(--radius-sm);flex-shrink:0;overflow:hidden">
+        <img id="dlThumbImg" style="width:100%;height:100%;object-fit:cover" alt="">
+      </div>
+      <div style="flex:1">
+        <h4 id="dlTitle" style="margin-bottom:6px"></h4>
+        <p id="dlDuration" style="font-size:12px;color:var(--muted)"></p>
+        <div id="dlFormats" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Download Progress -->
+  <div class="card" style="margin-top:12px;display:none" id="dlProgress">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span style="font-size:13px;font-weight:600" id="dlProgressLabel">Downloading...</span>
+      <span style="font-size:12px;color:var(--primary);font-family:'JetBrains Mono',monospace" id="dlProgressPct">0%</span>
+    </div>
+    <div style="height:6px;background:var(--bg);border-radius:99px;overflow:hidden">
+      <div id="dlProgressBar" style="height:100%;width:0%;background:var(--grad-primary);transition:width .3s;border-radius:99px"></div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12.5px;color:var(--muted)">
+    ⚠️ <strong>Backend Required:</strong> Downloader features এ Python backend + yt-dlp চলমান থাকতে হবে।
+  </div>
+</div>
 
 <!-- SETTINGS MODAL -->
 <div class="modal-overlay" id="settingsModal">
@@ -3647,6 +3922,282 @@ async function transcribeDriveMedia() {
 }
 
 // Vision Flow Studio v6 — Production-ready. Security hardened. API keys moved to headers. XSS fixed. Dead code removed.
+
+// ═══════════════════════════════════════════════════════════════════
+// WORKSPACE TABS — Switch between AI Breakdown, CapCut, Tools, Downloader
+// ═══════════════════════════════════════════════════════════════════
+
+document.querySelectorAll('.tab-list .tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+    // Update tab buttons
+    document.querySelectorAll('.tab-list .tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.tab === target);
+      t.setAttribute('aria-selected', t.dataset.tab === target ? 'true' : 'false');
+    });
+    // Update panels
+    document.querySelectorAll('.tab-panel').forEach(p => {
+      const isTarget = p.id === 'panel-' + target;
+      p.classList.toggle('active', isTarget);
+      p.style.display = isTarget ? '' : 'none';
+    });
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════
+// CAPCUT EXPORT — Frontend API calls to Python Flask backend (port 5050)
+// ═══════════════════════════════════════════════════════════════════
+
+const CC_API = 'http://localhost:5050/api';
+let ccPolling = null;
+let ccSelectedProjects = [];
+
+function ccLog(msg) {
+  const el = document.getElementById('ccLog');
+  const ts = new Date().toLocaleTimeString();
+  el.textContent += `[${ts}] ${msg}\n`;
+  el.scrollTop = el.scrollHeight;
+}
+
+async function ccCheckDevice() {
+  try {
+    ccLog('Checking device connection...');
+    const r = await fetch(CC_API + '/device_info');
+    if (!r.ok) throw new Error('Backend not running');
+    const d = await r.json();
+    const badge = document.getElementById('ccDeviceStatus');
+    const info = document.getElementById('ccDeviceInfo');
+    if (d.connected) {
+      badge.style.background = 'rgba(16,185,129,.12)';
+      badge.style.color = '#34d399';
+      badge.style.borderColor = 'rgba(16,185,129,.2)';
+      badge.innerHTML = '<span class="dot" style="background:#34d399"></span> ' + (d.model || 'Connected');
+      info.style.display = 'block';
+      info.innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div>📱 <strong>Model:</strong> ${d.model || 'Unknown'}</div>
+          <div>🔋 <strong>Battery:</strong> ${d.battery || '?'}%</div>
+          <div>💾 <strong>Storage:</strong> ${d.storage || '?'}</div>
+          <div>🔗 <strong>Type:</strong> ${d.connection || 'USB'}</div>
+        </div>`;
+      ccLog('✅ Device connected: ' + (d.model || 'Unknown'));
+    } else {
+      badge.style.background = 'rgba(239,68,68,.12)';
+      badge.style.color = '#f87171';
+      badge.innerHTML = '<span class="dot" style="background:#f87171"></span> Disconnected';
+      info.style.display = 'none';
+      ccLog('❌ No device found');
+    }
+  } catch(e) {
+    ccLog('❌ Backend not running — start: python web_ui.py');
+    toast('CapCut backend not running at localhost:5050', 'err');
+  }
+}
+
+async function ccConnect(mode) {
+  try {
+    ccLog(`Connecting via ${mode}...`);
+    const body = { mode };
+    if (mode === 'wireless') body.ip = document.getElementById('ccDeviceIp').value;
+    const r = await fetch(CC_API + '/connect', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const d = await r.json();
+    ccLog(d.message || 'Connection attempt complete');
+    ccCheckDevice();
+  } catch(e) {
+    ccLog('❌ Connection failed: ' + e.message);
+  }
+}
+
+async function ccScanProjects() {
+  const btn = document.getElementById('ccScanBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Scanning...';
+  ccLog('Scanning CapCut projects on phone...');
+  try {
+    const r = await fetch(CC_API + '/scan');
+    if (!r.ok) throw new Error('Scan failed');
+    const d = await r.json();
+    ccSelectedProjects = [];
+    const grid = document.getElementById('ccProjectGrid');
+    if (!d.projects || !d.projects.length) {
+      grid.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:20px;text-align:center">No projects found. Make sure CapCut is showing Spaces.</div>';
+      ccLog('⚠️ No projects found');
+    } else {
+      grid.innerHTML = d.projects.map((p, i) => `
+        <div class="card" style="padding:10px;cursor:pointer;border:2px solid var(--border);transition:all .2s" 
+             onclick="ccToggleProject(this,${i})" data-idx="${i}">
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px">${p.name || 'Project ' + (i+1)}</div>
+          <div style="font-size:11px;color:var(--muted)">Position: (${p.x}, ${p.y})</div>
+        </div>`).join('');
+      ccLog(`✅ Found ${d.projects.length} projects`);
+    }
+    // Store projects data
+    window._ccProjects = d.projects;
+  } catch(e) {
+    ccLog('❌ Scan failed: ' + e.message);
+    toast('Scan failed — is the backend running?', 'err');
+  }
+  btn.disabled = false;
+  btn.textContent = '🔍 Scan Projects';
+}
+
+function ccToggleProject(el, idx) {
+  const isSelected = el.style.borderColor === 'var(--primary)';
+  if (isSelected) {
+    el.style.borderColor = 'var(--border)';
+    el.style.background = '';
+    ccSelectedProjects = ccSelectedProjects.filter(i => i !== idx);
+  } else {
+    el.style.borderColor = 'var(--primary)';
+    el.style.background = 'rgba(6,182,212,.06)';
+    ccSelectedProjects.push(idx);
+  }
+}
+
+async function ccStartExport() {
+  const count = parseInt(document.getElementById('ccExportCount').value) || 1;
+  const pin = document.getElementById('ccPin').value;
+  const outputPath = document.getElementById('ccOutputPath').value;
+
+  const body = { count, pin, output_path: outputPath };
+  
+  // If specific projects selected from scanner
+  if (ccSelectedProjects.length > 0 && window._ccProjects) {
+    body.selected_projects = ccSelectedProjects.map(i => window._ccProjects[i]);
+  }
+
+  ccLog('🚀 Starting export...');
+  document.getElementById('ccProgressCard').style.display = 'block';
+  document.getElementById('ccExportBtn').disabled = true;
+  document.getElementById('ccStopBtn').style.display = '';
+
+  try {
+    const r = await fetch(CC_API + '/start', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const d = await r.json();
+    ccLog(d.message || 'Export started');
+    // Start polling for status
+    ccPolling = setInterval(ccPollStatus, 2000);
+  } catch(e) {
+    ccLog('❌ Failed to start: ' + e.message);
+    document.getElementById('ccExportBtn').disabled = false;
+    document.getElementById('ccStopBtn').style.display = 'none';
+  }
+}
+
+async function ccPollStatus() {
+  try {
+    const r = await fetch(CC_API + '/status');
+    const d = await r.json();
+    // Update progress bar
+    if (d.progress !== undefined) {
+      document.getElementById('ccProgressPct').textContent = d.progress + '%';
+      document.getElementById('ccProgressBar').style.width = d.progress + '%';
+    }
+    document.getElementById('ccProgressLabel').textContent = d.current_step || d.status || 'Working...';
+    // Update log with new messages
+    if (d.logs && d.logs.length) {
+      d.logs.forEach(l => ccLog(l));
+    }
+    // Check completion
+    if (d.status === 'complete' || d.status === 'error' || d.status === 'idle') {
+      clearInterval(ccPolling);
+      ccPolling = null;
+      document.getElementById('ccExportBtn').disabled = false;
+      document.getElementById('ccStopBtn').style.display = 'none';
+      if (d.status === 'complete') {
+        ccLog('✅ Export complete!');
+        toast('✅ CapCut export complete!', 'ok');
+      }
+    }
+  } catch(e) { /* backend offline, keep polling */ }
+}
+
+async function ccStopExport() {
+  try {
+    await fetch(CC_API + '/stop', { method: 'POST' });
+    ccLog('⏹️ Export stopped by user');
+  } catch(e) {}
+  if (ccPolling) { clearInterval(ccPolling); ccPolling = null; }
+  document.getElementById('ccExportBtn').disabled = false;
+  document.getElementById('ccStopBtn').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// VIDEO TOOLS — Transcript, FFmpeg, File Browser (stubs — need backend)
+// ═══════════════════════════════════════════════════════════════════
+
+async function toolExtractTranscript() {
+  const url = document.getElementById('toolTranscriptUrl').value.trim();
+  if (!url) { toast('Please paste a URL first', 'warn'); return; }
+  toast('⏳ Extracting transcript...', '');
+  // Use the existing Gemini transcribe flow if it's a Drive link
+  const isDrive = /drive\.google\.com\/file\/d\//i.test(url);
+  if (isDrive) {
+    // Extract file ID and use existing transcribeDriveMedia
+    const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (m) {
+      document.getElementById('mediaLink').value = url;
+      const out = document.getElementById('toolTranscriptOutput');
+      out.value = '⏳ Using Gemini AI to transcribe Drive file...';
+      // Trigger existing transcribe
+      document.querySelector('[data-tab="breakdown"]').click();
+      document.getElementById('mediaLink').value = url;
+      toast('Switch to AI Breakdown tab — Drive link loaded. Use the Transcribe button there.', '');
+    }
+  } else {
+    document.getElementById('toolTranscriptOutput').value = 
+      '⚠️ Non-Drive transcript extraction requires a backend with whisper/yt-dlp.\n\n' +
+      'For now, use:\n' +
+      '1. AI Breakdown tab → Drive AI Transcribe (for Google Drive files)\n' +
+      '2. TurboScribe.ai (external tool)\n' +
+      '3. yt-dlp + whisper locally';
+  }
+}
+
+function toolFFmpeg(action) {
+  const output = document.getElementById('toolFFmpegOutput');
+  output.style.display = 'block';
+  const cmds = {
+    'extract-audio': 'ffmpeg -i input.mp4 -vn -acodec copy output.aac',
+    'convert-mp4':   'ffmpeg -i input.mov -c:v libx264 -c:a aac output.mp4',
+    'trim':          'ffmpeg -i input.mp4 -ss 00:00:10 -to 00:01:30 -c copy output.mp4',
+    'merge':         'ffmpeg -f concat -i list.txt -c copy output.mp4',
+    'compress':      'ffmpeg -i input.mp4 -vcodec libx264 -crf 28 -preset fast output.mp4',
+    'gif':           'ffmpeg -i input.mp4 -vf "fps=12,scale=480:-1" -loop 0 output.gif'
+  };
+  output.innerHTML = `<strong style="color:var(--primary)">FFmpeg Command:</strong>\n\n<code>${cmds[action] || 'Unknown action'}</code>\n\n<span style="color:var(--muted)">⚠️ Full FFmpeg integration coming soon — for now, copy and run in terminal.</span>`;
+}
+
+function dlAnalyze() {
+  const url = document.getElementById('dlUrl').value.trim();
+  if (!url) { toast('Please paste a URL first', 'warn'); return; }
+  toast('⚠️ Video downloader requires a backend with yt-dlp. Coming soon!', 'warn');
+}
+
+// File browser drag-and-drop
+const dropZone = document.getElementById('toolDropZone');
+if (dropZone) {
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.style.borderColor = 'var(--primary)'; });
+  dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = 'var(--border-2)'; });
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.style.borderColor = 'var(--border-2)';
+    const files = e.dataTransfer.files;
+    const list = document.getElementById('toolFileList');
+    list.innerHTML = Array.from(files).map(f =>
+      `<div style="padding:8px 12px;background:var(--panel);border-radius:var(--radius-sm);margin-bottom:4px;display:flex;justify-content:space-between;font-size:13px">
+        <span>📄 ${f.name}</span>
+        <span style="color:var(--muted)">${(f.size/1024/1024).toFixed(2)} MB</span>
+      </div>`
+    ).join('');
+  });
+}
 
 </script>
 </body>
