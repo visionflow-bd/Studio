@@ -2557,7 +2557,7 @@ Return STRICT JSON only:
     const callStep2Batch = async (lines, sceneOffset, timeOffset) => {
       let raw;
       try {
-        raw = await callAI(buildStep2Prompt(lines, sceneOffset, timeOffset), systemPrompt(), [], 16384);
+        raw = await callAI(buildStep2Prompt(lines, sceneOffset, timeOffset), systemPrompt(), [], 8192);
         log(t('log_step2_ok'), 'ok');
       } catch(e){
         log(t('log_step2_fail') + ': ' + e.message, 'err');
@@ -3445,13 +3445,15 @@ async function fetchDocsContent() {
   // 1. Try direct (works if CORS is open, e.g. published docs)
   try { text = await tryUrl(url); } catch(_) {}
 
-  // 2. Try corsproxy.io (most reliable CORS proxy, free)
+  // 2. Try corsproxy.io — NOTE: document text passes through a third-party proxy server
   if (!text) {
+    console.warn('[VFS] Direct fetch failed — routing through corsproxy.io (third-party proxy)');
     try { text = await tryUrl('https://corsproxy.io/?' + encodeURIComponent(url)); } catch(_) {}
   }
 
-  // 3. Try allorigins.win as last resort
+  // 3. Try allorigins.win as last resort — same privacy caveat
   if (!text) {
+    console.warn('[VFS] corsproxy failed — trying allorigins.win (third-party proxy)');
     try { text = await tryAllOrigins(); } catch(_) {}
   }
 
