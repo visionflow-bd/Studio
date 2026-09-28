@@ -1022,6 +1022,10 @@ footer.vf .vf-brand {
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
         <span>Downloader</span>
       </button>
+      <button type="button" class="tab" data-tab="codex" role="tab" aria-selected="false">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Codex Switcher</span>
+      </button>
     </div>
   </div>
 </nav>
@@ -1509,6 +1513,241 @@ footer.vf .vf-brand {
     ⚠️ <strong>Backend Required:</strong> Downloader features এ Python backend + yt-dlp চলমান থাকতে হবে।
   </div>
 </div>
+
+<!-- ═══ TAB: CODEX SWITCHER ═══ -->
+<section class="container tab-panel" id="panel-codex" style="padding-bottom:40px">
+  <section class="hero" style="margin-top:20px">
+    <div class="hero-head">
+      <div>
+        <h2 style="background:linear-gradient(135deg,#fff 0%,#22d3ee 100%);-webkit-background-clip:text;background-clip:text;color:transparent">CodexSwitch</h2>
+        <p class="sub">Multiple Codex desktop account manage koro — ekbar login korle ar 2FA lagbe na! Session swap diye instant switch.</p>
+      </div>
+      <div class="hero-badges">
+        <span class="badge green"><span class="dot"></span> <span id="csx-status-text">Ready</span></span>
+        <span class="badge cyan">Active: <span id="csx-active-name">None</span></span>
+      </div>
+    </div>
+    <div class="setup-hint" id="csx-setup-hint" style="display:none">
+      <div class="hint-icon">&#9881;</div>
+      <div class="hint-text">
+        <strong>First-time setup needed!</strong> Protocol register korte hobe browser theke Codex control korar jonno.
+        <br><code style="background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px;font-size:12px">D:\DevTools\AccountSwitcher\setup-protocol.bat</code> double-click koro (ekbarei).
+        <br><button class="btn sm gold" onclick="csxMarkSetupDone()" style="margin-top:8px">Setup Done</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid main" style="margin-top:18px">
+    <div class="card">
+      <h3><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Saved Profiles <span class="pill" id="csx-count">0</span></h3>
+      <div style="margin-bottom:14px">
+        <div style="display:flex;gap:8px">
+          <input type="text" id="csx-new-name" placeholder="Profile name (e.g., Account-1)" style="flex:1;font-size:13px">
+          <button class="btn sm primary" onclick="csxAddProfile()">+ Add</button>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:5px">Codex-e login thakte hobe, tarpor Add koro</div>
+      </div>
+      <div id="csx-profiles" style="max-height:400px;overflow:auto"></div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn sm" onclick="csxAction('open')" title="Open Codex">Open Codex</button>
+        <button class="btn sm danger" onclick="csxAction('close')" title="Close Codex">Close Codex</button>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <h3><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Quick Switch <span class="pill">One Click</span></h3>
+        <div id="csx-quick-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">
+          <div class="empty" style="padding:30px"><span class="icon" style="font-size:40px;display:block;margin-bottom:12px">&#128273;</span><h4>No profiles yet</h4><p>Add a profile from the left panel first</p></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> TOTP Code Generator <span class="pill">Offline</span></h3>
+        <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+          <input type="text" id="csx-totp-name" placeholder="Account label" style="flex:1;min-width:120px;font-size:13px">
+          <input type="text" id="csx-totp-key" placeholder="TOTP Secret Key (Base32)" style="flex:1.5;min-width:180px;font-size:13px;font-family:'JetBrains Mono',monospace">
+          <button class="btn sm primary" onclick="csxAddTotp()">+ Add</button>
+        </div>
+        <div id="csx-totp-list"></div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <h3><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg> Activity Log</h3>
+        <div id="csx-log" class="log" style="max-height:120px"><div class="log-empty">No activity yet</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ═══ CodexSwitch — Vision Flow Studio Integration ═══ */
+(function(){
+var CSX_P='csx_profiles',CSX_A='csx_active',CSX_S='csx_setup_done',CSX_T='csx_totp_keys',CSX_L='csx_log';
+function gp(){try{return JSON.parse(localStorage.getItem(CSX_P)||'[]')}catch(e){return[]}}
+function sp(p){localStorage.setItem(CSX_P,JSON.stringify(p))}
+function ga(){return localStorage.getItem(CSX_A)||''}
+function sa(id){localStorage.setItem(CSX_A,id)}
+
+window.csxAddProfile=function(){
+  var ni=document.getElementById('csx-new-name'),name=ni.value.trim();
+  if(!name){alert('Profile name dao!');return}
+  var id=name.replace(/[^a-zA-Z0-9\-_]/g,'_'),ps=gp();
+  if(ps.find(function(p){return p.id===id})){
+    if(!confirm("'"+name+"' already exists. Overwrite?")){return}
+    ps=ps.filter(function(p){return p.id!==id});
+  }
+  ps.push({id:id,name:name,created:new Date().toISOString()});
+  sp(ps);csxAction('save/'+id);sa(id);ni.value='';
+  csxLog('Profile "'+name+'" saved');csxRender();
+};
+
+window.csxRemoveProfile=function(id){
+  if(!confirm('Delete this profile?'))return;
+  sp(gp().filter(function(p){return p.id!==id}));
+  if(ga()===id)sa('');
+  csxLog('Profile removed: '+id);csxRender();
+};
+
+window.csxAction=function(ap){
+  var url='codexswitch://'+ap;csxLog('Triggering: '+url);
+  if(ap.indexOf('switch/')===0){
+    var param=ap.split('/')[1],ps=gp(),t=null;
+    if(/^\d+$/.test(param)){t=ps[parseInt(param)-1]}
+    else{t=ps.find(function(p){return p.id===param})}
+    if(t){sa(t.id);csxLog('Switching to: '+t.name)}
+  }
+  window.location.href=url;
+  setTimeout(csxRender,500);
+};
+
+window.csxSwitchTo=function(id){
+  var ps=gp(),idx=-1;
+  for(var i=0;i<ps.length;i++){if(ps[i].id===id){idx=i;break}}
+  if(idx>=0)csxAction('switch/'+(idx+1));
+};
+
+/* TOTP */
+function b32d(s){
+  var a='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';s=s.toUpperCase().replace(/[^A-Z2-7]/g,'');
+  var b='';for(var i=0;i<s.length;i++){var v=a.indexOf(s[i]);if(v>=0)b+=('00000'+v.toString(2)).slice(-5)}
+  var r=new Uint8Array(Math.floor(b.length/8));
+  for(var j=0;j<r.length;j++)r[j]=parseInt(b.substr(j*8,8),2);return r;
+}
+async function genTOTP(sk){
+  try{
+    var sec=b32d(sk),c=Math.floor(Date.now()/1000/30),buf=new ArrayBuffer(8),dv=new DataView(buf);
+    dv.setUint32(0,0);dv.setUint32(4,c);
+    var k=await crypto.subtle.importKey('raw',sec.buffer,{name:'HMAC',hash:'SHA-1'},false,['sign']);
+    var h=new Uint8Array(await crypto.subtle.sign('HMAC',k,buf)),o=h[19]&0x0f;
+    var cd=(((h[o]&0x7f)<<24)|((h[o+1]&0xff)<<16)|((h[o+2]&0xff)<<8)|(h[o+3]&0xff))%1000000;
+    return cd.toString().padStart(6,'0');
+  }catch(e){return'------'}
+}
+function gtk(){try{return JSON.parse(localStorage.getItem(CSX_T)||'[]')}catch(e){return[]}}
+function stk(k){localStorage.setItem(CSX_T,JSON.stringify(k))}
+
+window.csxAddTotp=function(){
+  var n=document.getElementById('csx-totp-name').value.trim();
+  var k=document.getElementById('csx-totp-key').value.trim().replace(/\s+/g,'').toUpperCase();
+  if(!n||!k){alert('Name and key both required!');return}
+  if(!/^[A-Z2-7]+=*$/.test(k)){alert('Invalid Base32 key!');return}
+  var ks=gtk();ks.push({id:Date.now().toString(36),name:n,key:k});stk(ks);
+  document.getElementById('csx-totp-name').value='';
+  document.getElementById('csx-totp-key').value='';
+  csxLog('TOTP key added: '+n);csxRenderTotp();
+};
+window.csxRemoveTotp=function(id){
+  if(!confirm('Delete this TOTP key?'))return;
+  stk(gtk().filter(function(k){return k.id!==id}));csxRenderTotp();
+};
+window.csxCopyCode=async function(id){
+  var el=document.getElementById('totp-code-'+id);if(!el)return;
+  var code=el.textContent.replace(/\s/g,'');
+  try{await navigator.clipboard.writeText(code)}catch(e){
+    var ta=document.createElement('textarea');ta.value=code;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+  }
+  var btn=document.getElementById('totp-btn-'+id);
+  if(btn){var ot=btn.textContent;btn.textContent='Copied!';setTimeout(function(){btn.textContent=ot},1200)}
+};
+
+/* Logging */
+function csxLog(msg){
+  var logs=JSON.parse(localStorage.getItem(CSX_L)||'[]');
+  logs.unshift({time:new Date().toLocaleTimeString(),msg:msg});
+  if(logs.length>50)logs.length=50;
+  localStorage.setItem(CSX_L,JSON.stringify(logs));csxRenderLog();
+}
+window.csxLog=csxLog;
+
+function csxRenderLog(){
+  var el=document.getElementById('csx-log');if(!el)return;
+  var logs=JSON.parse(localStorage.getItem(CSX_L)||'[]');
+  if(!logs.length){el.innerHTML='<div class="log-empty">No activity yet</div>';return}
+  el.innerHTML=logs.slice(0,20).map(function(l){return'<div><span class="info">['+l.time+']</span> '+l.msg+'</div>'}).join('');
+}
+
+/* Render */
+window.csxRender=function(){
+  var ps=gp(),active=ga();
+  var hint=document.getElementById('csx-setup-hint');
+  if(hint)hint.style.display=localStorage.getItem(CSX_S)?'none':'flex';
+  var ce=document.getElementById('csx-count');if(ce)ce.textContent=ps.length;
+  var an=document.getElementById('csx-active-name');
+  if(an){var ap=ps.find(function(p){return p.id===active});an.textContent=ap?ap.name:'None'}
+
+  var le=document.getElementById('csx-profiles');
+  if(le){
+    if(!ps.length){le.innerHTML='<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">No profiles saved yet</div>'}
+    else{le.innerHTML=ps.map(function(p,i){
+      var ia=p.id===active,bc=ia?'rgba(16,185,129,.4)':'var(--border-2)',bg=ia?'rgba(16,185,129,.06)':'rgba(6,9,12,.45)';
+      return'<div class="asset-item" style="border-color:'+bc+';background:'+bg+'"><span style="font-size:16px">'+(ia?'&#9654;':'&#9898;')+'</span><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13.5px;color:var(--text)">'+p.name+'</div><div style="font-size:11px;color:var(--muted)">Profile #'+(i+1)+(ia?' - ACTIVE':'')+'</div></div>'+(ia?'':'<button class="btn sm primary" onclick="csxSwitchTo(\''+p.id+'\')" style="padding:6px 14px;font-size:12px">Switch</button>')+'<button class="btn sm" onclick="csxRemoveProfile(\''+p.id+'\')" style="padding:6px 8px;font-size:12px;color:#f87171" title="Delete">Del</button></div>'
+    }).join('')}
+  }
+
+  var ge=document.getElementById('csx-quick-grid');
+  if(ge){
+    if(!ps.length){ge.innerHTML='<div class="empty" style="padding:30px;grid-column:1/-1"><span class="icon" style="font-size:40px;display:block;margin-bottom:12px">&#128273;</span><h4>No profiles yet</h4><p>Add a profile from the left panel</p></div>'}
+    else{ge.innerHTML=ps.map(function(p){
+      var ia=p.id===active;
+      var st=ia?'background:linear-gradient(145deg,rgba(16,185,129,.15),rgba(16,185,129,.05));border:1px solid var(--success)':'background:rgba(6,9,12,.5);border:1px solid var(--border-2)';
+      return'<div style="'+st+';border-radius:var(--radius);padding:16px;cursor:pointer;transition:all .2s;text-align:center" onclick="'+(ia?'':'csxSwitchTo(\''+p.id+'\')')+'" '+(ia?'':'onmouseover="this.style.borderColor=\'var(--primary)\';this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.borderColor=\'var(--border-2)\';this.style.transform=\'\'"')+'><div style="font-size:28px;margin-bottom:6px">'+(ia?'&#10004;':'&#128260;')+'</div><div style="font-weight:700;font-size:14px;color:var(--text)">'+p.name+'</div><div style="font-size:11.5px;color:'+(ia?'var(--success-2)':'var(--muted)')+';margin-top:3px;font-weight:600">'+(ia?'Active Now':'Click to Switch')+'</div></div>'
+    }).join('')}
+  }
+  csxRenderLog();
+};
+window.csxMarkSetupDone=function(){localStorage.setItem(CSX_S,'true');csxLog('Protocol setup done');csxRender()};
+
+/* TOTP Render */
+async function csxRenderTotp(){
+  var el=document.getElementById('csx-totp-list');if(!el)return;
+  var keys=gtk();
+  if(!keys.length){el.innerHTML='<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">No TOTP keys. Secret key pele ekhane add koro.</div>';return}
+  var now=Math.floor(Date.now()/1000),rem=30-(now%30),exp=rem<=5;
+  var html=[];
+  for(var i=0;i<keys.length;i++){
+    var k=keys[i],code=await genTOTP(k.key),f=code.substring(0,3)+' '+code.substring(3);
+    var cc=exp?'#f85149':'var(--primary-2)';
+    html.push('<div class="asset-item" style="border-color:rgba(15,197,184,.2);background:rgba(15,197,184,.03)"><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px;color:var(--text)">'+k.name+'</div><div style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:var(--muted-2)">'+k.key.substring(0,6)+'****'+k.key.slice(-4)+'</div></div><div style="font-family:\'JetBrains Mono\',monospace;font-size:22px;font-weight:700;color:'+cc+';letter-spacing:3px;min-width:110px;text-align:center" id="totp-code-'+k.id+'">'+f+'</div><div style="font-size:13px;font-weight:700;color:'+(exp?'#f85149':'var(--muted)')+';min-width:28px;text-align:center">'+rem+'s</div><button class="copy-btn" id="totp-btn-'+k.id+'" onclick="csxCopyCode(\''+k.id+'\')">Copy</button><button style="background:none;border:none;cursor:pointer;color:#f87171;font-size:12px;padding:4px" onclick="csxRemoveTotp(\''+k.id+'\')" title="Delete">Del</button></div>');
+  }
+  el.innerHTML=html.join('');
+}
+window.csxRenderTotp=csxRenderTotp;
+setInterval(csxRenderTotp,1000);
+
+/* Init on panel visible */
+var _csxInit=false;
+function csxInit(){if(_csxInit)return;_csxInit=true;csxRender();csxRenderTotp()}
+var obs=new MutationObserver(function(){
+  var p=document.getElementById('panel-codex');
+  if(p&&p.classList.contains('active'))csxInit();
+});
+var tabs=document.getElementById('workspaceTabs');
+if(tabs)obs.observe(tabs,{subtree:true,attributes:true,attributeFilter:['class']});
+document.addEventListener('DOMContentLoaded',function(){
+  var p=document.getElementById('panel-codex');
+  if(p&&p.classList.contains('active'))csxInit();
+});
+})();
+</script>
 
 <!-- SETTINGS MODAL -->
 <div class="modal-overlay" id="settingsModal">
