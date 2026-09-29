@@ -1815,7 +1815,7 @@ document.addEventListener('DOMContentLoaded',function(){var p=document.getElemen
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" style="display:none"></div>
 
 <script>
 'use strict';
@@ -2081,10 +2081,10 @@ function applyLang(){
 // ---- Utility ----
 function toast(msg, type = '') {
   const el = document.getElementById('toast');
-  el.className = 'toast show ' + type;
+  el.style.display='flex';el.className = 'toast show ' + type;
   el.textContent = msg;
   clearTimeout(toast._t);
-  toast._t = setTimeout(() => el.classList.remove('show'), 3500);
+  toast._t = setTimeout(() => {el.classList.remove('show');setTimeout(()=>el.style.display='none',400)}, 3500);
 }
 function openModal(id) { document.getElementById(id).classList.add('show'); }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
