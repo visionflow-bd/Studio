@@ -1524,8 +1524,8 @@ footer.vf .vf-brand {
 </div>
 
 <!-- ═══ TAB: CODEX SWITCHER ═══ -->
-<section class="container tab-panel" id="panel-codex" style="padding-bottom:0">
-  <div class="card" style="margin-top:18px;padding:0;overflow:hidden;position:relative;border-bottom:none">
+<section class="container tab-panel" id="panel-codex" style="padding:0;margin:0;height:calc(100vh - 124px)">
+  <div class="card" style="margin:0;padding:0;overflow:hidden;position:relative;border-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0;display:flex;flex-direction:column;height:100%;border-top:0">
     <div id="nr-iframe-bar" style="display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(6,9,12,.6);border-bottom:1px solid var(--border-2)">
       <span class="dot" id="nr-dot" style="width:8px;height:8px;background:#f87171"></span>
       <span style="font-size:12px;font-weight:600" id="nr-status-text">Checking...</span>
@@ -1534,7 +1534,7 @@ footer.vf .vf-brand {
       <button class="btn sm" onclick="document.getElementById('nr-frame').src='http://127.0.0.1:20128/dashboard'" style="font-size:11px;padding:4px 10px">Reload</button>
       <button class="btn sm" onclick="window.open('http://127.0.0.1:20128/dashboard','_blank')" style="font-size:11px;padding:4px 10px">Pop Out</button>
     </div>
-    <iframe id="nr-frame" src="http://127.0.0.1:20128/dashboard" style="width:100%;height:calc(100vh - 180px);border:none;background:#0d1117;overflow:hidden" scrolling="no" allow="clipboard-write"></iframe>
+    <iframe id="nr-frame" src="http://127.0.0.1:20128/dashboard" style="width:100%;flex:1;border:none;background:#0d1117;overflow:hidden;min-height:0" scrolling="no" allow="clipboard-write"></iframe>
     <div id="nr-offline-overlay" style="display:none;position:absolute;top:40px;left:0;right:0;bottom:0;background:rgba(6,9,12,.95);flex-direction:column;align-items:center;justify-content:center;gap:16px">
       <div style="font-size:48px">&#9888;</div>
       <div style="font-size:16px;font-weight:700;color:#f87171">9Router Offline</div>
