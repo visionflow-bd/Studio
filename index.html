@@ -1529,7 +1529,7 @@ footer.vf .vf-brand {
       <button class="btn sm" onclick="document.getElementById('nr-frame').src='http://127.0.0.1:20128/dashboard'" style="font-size:11px;padding:4px 10px">Reload</button>
       <button class="btn sm" onclick="window.open('http://127.0.0.1:20128/dashboard','_blank')" style="font-size:11px;padding:4px 10px">Pop Out</button>
     </div>
-    <iframe id="nr-frame" src="http://127.0.0.1:20128/dashboard" style="width:100%;height:calc(100vh - 180px);border:none;background:#0d1117" allow="clipboard-write"></iframe>
+    <iframe id="nr-frame" src="http://127.0.0.1:20128/dashboard" style="width:100%;height:calc(100vh - 180px);border:none;background:#0d1117;overflow:hidden" scrolling="no" allow="clipboard-write"></iframe>
     <div id="nr-offline-overlay" style="display:none;position:absolute;top:40px;left:0;right:0;bottom:0;background:rgba(6,9,12,.95);flex-direction:column;align-items:center;justify-content:center;gap:16px">
       <div style="font-size:48px">&#9888;</div>
       <div style="font-size:16px;font-weight:700;color:#f87171">9Router Offline</div>
