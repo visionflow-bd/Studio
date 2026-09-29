@@ -649,11 +649,11 @@ footer.vf .vf-brand {
   background: var(--panel-3); border: 1px solid var(--border-3);
   color: var(--text); padding: 12px 18px; border-radius: 11px;
   font-size: 13px; font-weight: 500; z-index: 200;
-  transition: transform .32s cubic-bezier(.34,1.56,.64,1);
+  transition: transform .32s cubic-bezier(.34,1.56,.64,1), opacity .2s;
   box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 8px;
-  max-width: 90vw;
+  max-width: 90vw; opacity: 0; pointer-events: none;
 }
-.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
 .toast.ok   { border-color: rgba(16,185,129,.45); background: linear-gradient(135deg, rgba(16,185,129,.12), var(--panel-3)); }
 .toast.err  { border-color: rgba(239,68,68,.45);  background: linear-gradient(135deg, rgba(239,68,68,.12),  var(--panel-3)); }
 .toast.warn { border-color: rgba(240,165,0,.4);   background: linear-gradient(135deg, rgba(240,165,0,.12),  var(--panel-3)); }
@@ -1519,14 +1519,22 @@ footer.vf .vf-brand {
 </div>
 
 <!-- ═══ TAB: CODEX SWITCHER ═══ -->
-<section class="container tab-panel" id="panel-codex" style="padding:0;max-width:100%">
-  <div style="position:relative;width:100%">
-    <iframe id="nr-frame" src="http://127.0.0.1:20128/dashboard" style="width:100%;height:calc(100vh - 120px);border:none;background:#0d1117" allow="clipboard-write"></iframe>
-    <div id="nr-offline-overlay" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(6,9,12,.95);flex-direction:column;align-items:center;justify-content:center;gap:16px">
+<section class="container tab-panel" id="panel-codex" style="padding-bottom:20px">
+  <div class="card" style="margin-top:18px;padding:0;overflow:hidden;position:relative">
+    <div id="nr-iframe-bar" style="display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(6,9,12,.6);border-bottom:1px solid var(--border-2)">
+      <span class="dot" id="nr-dot" style="width:8px;height:8px;background:#f87171"></span>
+      <span style="font-size:12px;font-weight:600" id="nr-status-text">Checking...</span>
+      <span style="font-size:11px;color:var(--muted);margin-left:4px" id="nr-accounts"></span>
+      <span style="flex:1"></span>
+      <button class="btn sm" onclick="document.getElementById('nr-frame').src='http://127.0.0.1:20128/dashboard'" style="font-size:11px;padding:4px 10px">Reload</button>
+      <button class="btn sm" onclick="window.open('http://127.0.0.1:20128/dashboard','_blank')" style="font-size:11px;padding:4px 10px">Pop Out</button>
+    </div>
+    <iframe id="nr-frame" src="http://127.0.0.1:20128/dashboard" style="width:100%;height:calc(100vh - 180px);border:none;background:#0d1117" allow="clipboard-write"></iframe>
+    <div id="nr-offline-overlay" style="display:none;position:absolute;top:40px;left:0;right:0;bottom:0;background:rgba(6,9,12,.95);flex-direction:column;align-items:center;justify-content:center;gap:16px">
       <div style="font-size:48px">&#9888;</div>
       <div style="font-size:16px;font-weight:700;color:#f87171">9Router Offline</div>
-      <div style="font-size:13px;color:var(--muted)">Server is starting... please wait.</div>
-      <button class="btn sm" onclick="nrCheckStatus()" style="margin-top:4px">Retry</button>
+      <div style="font-size:13px;color:var(--muted)">Server is starting... please wait a moment.</div>
+      <button class="btn sm primary" onclick="nrCheckStatus()" style="margin-top:4px">Retry</button>
     </div>
   </div>
 </section>
@@ -1545,13 +1553,20 @@ footer.vf .vf-brand {
 (function(){
 var NR='http://127.0.0.1:20128',CSX_T='csx_totp_keys';
 window.nrCheckStatus=async function(){
+  var dot=document.getElementById('nr-dot'),txt=document.getElementById('nr-status-text'),acc=document.getElementById('nr-accounts');
   var overlay=document.getElementById('nr-offline-overlay'),frame=document.getElementById('nr-frame');
   try{var h=await fetch(NR+'/api/health',{signal:AbortSignal.timeout(3000)});
     if(h.ok){
+      if(dot)dot.style.background='#10b981';
+      if(txt)txt.textContent='Online';
       if(overlay)overlay.style.display='none';
       if(frame&&!frame.src.includes('127.0.0.1'))frame.src=NR+'/dashboard';
+      try{var d=await fetch(NR+'/api/providers');if(d.ok){var j=await d.json();var n=j.connections?j.connections.length:0;if(acc)acc.textContent='Accounts: '+n}}catch(e){}
       return;
     }}catch(e){}
+  if(dot)dot.style.background='#f87171';
+  if(txt)txt.textContent='Offline';
+  if(acc)acc.textContent='';
   if(overlay)overlay.style.display='flex';
 };
 function b32d(s){var a='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';s=s.toUpperCase().replace(/[^A-Z2-7]/g,'');var b='';for(var i=0;i<s.length;i++){var v=a.indexOf(s[i]);if(v>=0)b+=('00000'+v.toString(2)).slice(-5)}var r=new Uint8Array(Math.floor(b.length/8));for(var j=0;j<r.length;j++)r[j]=parseInt(b.substr(j*8,8),2);return r}
