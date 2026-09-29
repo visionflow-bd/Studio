@@ -1515,44 +1515,14 @@ footer.vf .vf-brand {
 </div>
 
 <!-- ═══ TAB: CODEX SWITCHER ═══ -->
-<section class="container tab-panel" id="panel-codex" style="padding-bottom:40px">
-  <section class="hero" style="margin-top:20px">
-    <div class="hero-head">
-      <div>
-        <h2 style="background:linear-gradient(135deg,#fff 0%,#22d3ee 100%);-webkit-background-clip:text;background-clip:text;color:transparent">9Router Hub</h2>
-        <p class="sub">Multiple Codex account auto-rotate — limit shesh hole automatic next account!</p>
-      </div>
-      <div class="hero-badges">
-        <span class="badge" id="nr-status-badge" style="background:rgba(239,68,68,.15);color:#f87171"><span class="dot" id="nr-status-dot" style="background:#f87171"></span> <span id="nr-status-text">Checking...</span></span>
-        <span class="badge cyan">Accounts: <span id="csx-total">0</span></span>
-      </div>
-    </div>
-  </section>
-  <div style="margin-top:18px">
-    <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden;position:relative">
-      <div id="nr-iframe-bar" style="display:flex;align-items:center;gap:10px;padding:10px 16px;background:rgba(6,9,12,.6);border-bottom:1px solid var(--border-2)">
-        <span class="dot" id="nr-dot2" style="width:8px;height:8px;background:#f87171"></span>
-        <span style="font-size:12px;font-weight:600;flex:1" id="nr-bar-text">9Router Dashboard</span>
-        <button class="btn sm" onclick="document.getElementById('nr-frame').src='http://127.0.0.1:20128/dashboard'" style="font-size:11px;padding:4px 10px">Reload</button>
-        <button class="btn sm" onclick="window.open('http://127.0.0.1:20128/dashboard','_blank')" style="font-size:11px;padding:4px 10px">Pop Out</button>
-      </div>
-      <iframe id="nr-frame" src="http://127.0.0.1:20128/dashboard" style="width:100%;height:600px;border:none;background:#0d1117" allow="clipboard-write"></iframe>
-      <div id="nr-offline-overlay" style="display:none;position:absolute;top:40px;left:0;right:0;bottom:0;background:rgba(6,9,12,.95);flex-direction:column;align-items:center;justify-content:center;gap:16px">
-        <div style="font-size:48px">&#9888;</div>
-        <div style="font-size:16px;font-weight:700;color:#f87171">9Router Offline</div>
-        <div style="font-size:13px;color:var(--muted);text-align:center;max-width:400px">Server chalu nei. Nicher button e click kore start koro.</div>
-        <button class="btn primary" onclick="nrStartFromStudio()" style="padding:10px 28px;font-size:14px;font-weight:700">Start 9Router</button>
-        <button class="btn sm" onclick="nrCheckStatus()" style="margin-top:4px;font-size:11px">Check Again</button>
-      </div>
-    </div>
-    <div class="card">
-      <h3><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> TOTP Code Generator <span class="pill">Offline</span></h3>
-      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-        <input type="text" id="csx-totp-name" placeholder="Account label" style="flex:1;min-width:120px;font-size:13px">
-        <input type="text" id="csx-totp-key" placeholder="TOTP Secret Key (Base32)" style="flex:1.5;min-width:180px;font-size:13px;font-family:'JetBrains Mono',monospace">
-        <button class="btn sm primary" onclick="csxAddTotp()">+ Add</button>
-      </div>
-      <div id="csx-totp-list"></div>
+<section class="container tab-panel" id="panel-codex" style="padding:0;max-width:100%">
+  <div style="position:relative;width:100%">
+    <iframe id="nr-frame" src="http://127.0.0.1:20128/dashboard" style="width:100%;height:calc(100vh - 120px);border:none;background:#0d1117" allow="clipboard-write"></iframe>
+    <div id="nr-offline-overlay" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(6,9,12,.95);flex-direction:column;align-items:center;justify-content:center;gap:16px">
+      <div style="font-size:48px">&#9888;</div>
+      <div style="font-size:16px;font-weight:700;color:#f87171">9Router Offline</div>
+      <div style="font-size:13px;color:var(--muted)">Server is starting... please wait.</div>
+      <button class="btn sm" onclick="nrCheckStatus()" style="margin-top:4px">Retry</button>
     </div>
   </div>
 </section>
@@ -1560,25 +1530,14 @@ footer.vf .vf-brand {
 (function(){
 var NR='http://127.0.0.1:20128',CSX_T='csx_totp_keys';
 window.nrCheckStatus=async function(){
-  var badge=document.getElementById('nr-status-badge'),dot=document.getElementById('nr-status-dot'),txt=document.getElementById('nr-status-text');
-  var dot2=document.getElementById('nr-dot2'),overlay=document.getElementById('nr-offline-overlay'),frame=document.getElementById('nr-frame');
+  var overlay=document.getElementById('nr-offline-overlay'),frame=document.getElementById('nr-frame');
   try{var h=await fetch(NR+'/api/health',{signal:AbortSignal.timeout(3000)});
     if(h.ok){
-      badge.style.background='rgba(16,185,129,.15)';badge.style.color='#10b981';dot.style.background='#10b981';txt.textContent='Online';
-      if(dot2)dot2.style.background='#10b981';
       if(overlay)overlay.style.display='none';
       if(frame&&!frame.src.includes('127.0.0.1'))frame.src=NR+'/dashboard';
-      try{var d=await fetch(NR+'/api/providers',{credentials:'include'});if(d.ok){var j=await d.json();var n=j.connections?j.connections.filter(function(c){return c.provider==='codex'}).length:0;document.getElementById('csx-total').textContent=n}}catch(e){}
       return;
     }}catch(e){}
-  badge.style.background='rgba(239,68,68,.15)';badge.style.color='#f87171';dot.style.background='#f87171';txt.textContent='Offline';
-  if(dot2)dot2.style.background='#f87171';
   if(overlay)overlay.style.display='flex';
-  document.getElementById('csx-total').textContent='0';
-};
-window.nrStartFromStudio=function(){
-  var f=document.createElement('iframe');f.style.display='none';f.src='9router://start';document.body.appendChild(f);setTimeout(function(){document.body.removeChild(f)},2000);
-  setTimeout(function(){nrCheckStatus()},6000);
 };
 function b32d(s){var a='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';s=s.toUpperCase().replace(/[^A-Z2-7]/g,'');var b='';for(var i=0;i<s.length;i++){var v=a.indexOf(s[i]);if(v>=0)b+=('00000'+v.toString(2)).slice(-5)}var r=new Uint8Array(Math.floor(b.length/8));for(var j=0;j<r.length;j++)r[j]=parseInt(b.substr(j*8,8),2);return r}
 async function genTOTP(sk){try{var sec=b32d(sk),c=Math.floor(Date.now()/1000/30),buf=new ArrayBuffer(8),dv=new DataView(buf);dv.setUint32(0,0);dv.setUint32(4,c);var k=await crypto.subtle.importKey('raw',sec.buffer,{name:'HMAC',hash:'SHA-1'},false,['sign']);var h=new Uint8Array(await crypto.subtle.sign('HMAC',k,buf)),o=h[19]&0x0f;var cd=(((h[o]&0x7f)<<24)|((h[o+1]&0xff)<<16)|((h[o+2]&0xff)<<8)|(h[o+3]&0xff))%1000000;return cd.toString().padStart(6,'0')}catch(e){return'------'}}
