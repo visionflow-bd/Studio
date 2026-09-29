@@ -642,6 +642,11 @@ footer.vf .vf-brand {
   background-clip: text; color: transparent; font-weight: 800;
 }
 
+
+/* Hide scrollbar on 9Router iframe card */
+#panel-codex .card { overflow: hidden; }
+#panel-codex .card::-webkit-scrollbar { display: none; }
+#nr-frame { overflow: hidden; }
 /* Toast */
 .toast {
   position: fixed; bottom: 24px; left: 50%;
@@ -1520,7 +1525,7 @@ footer.vf .vf-brand {
 
 <!-- ═══ TAB: CODEX SWITCHER ═══ -->
 <section class="container tab-panel" id="panel-codex" style="padding-bottom:20px">
-  <div class="card" style="margin-top:18px;padding:0;overflow:hidden;position:relative">
+  <div class="card" style="margin-top:18px;padding:0;overflow:hidden;position:relative;border-bottom:none">
     <div id="nr-iframe-bar" style="display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(6,9,12,.6);border-bottom:1px solid var(--border-2)">
       <span class="dot" id="nr-dot" style="width:8px;height:8px;background:#f87171"></span>
       <span style="font-size:12px;font-weight:600" id="nr-status-text">Checking...</span>
