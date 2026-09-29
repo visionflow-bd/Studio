@@ -1537,11 +1537,12 @@ footer.vf .vf-brand {
         <button class="btn sm" onclick="window.open('http://127.0.0.1:20128/dashboard','_blank')" style="font-size:11px;padding:4px 10px">Pop Out</button>
       </div>
       <iframe id="nr-frame" src="http://127.0.0.1:20128/dashboard" style="width:100%;height:600px;border:none;background:#0d1117" allow="clipboard-write"></iframe>
-      <div id="nr-offline-overlay" style="display:none;position:absolute;top:40px;left:0;right:0;bottom:0;background:rgba(6,9,12,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
+      <div id="nr-offline-overlay" style="display:none;position:absolute;top:40px;left:0;right:0;bottom:0;background:rgba(6,9,12,.95);flex-direction:column;align-items:center;justify-content:center;gap:16px">
         <div style="font-size:48px">&#9888;</div>
         <div style="font-size:16px;font-weight:700;color:#f87171">9Router Offline</div>
-        <div style="font-size:13px;color:var(--muted);text-align:center;max-width:400px">Server chalu nei. PC restart korle auto-start hobe.<br>Manual start: <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px">Win+R</code> &rarr; <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px">D:\DevTools\VisionFlowRouter\run-server.bat</code></div>
-        <button class="btn sm primary" onclick="nrCheckStatus()" style="margin-top:8px">Check Again</button>
+        <div style="font-size:13px;color:var(--muted);text-align:center;max-width:400px">Server chalu nei. Nicher button e click kore start koro.</div>
+        <button class="btn primary" onclick="nrStartFromStudio()" style="padding:10px 28px;font-size:14px;font-weight:700">Start 9Router</button>
+        <button class="btn sm" onclick="nrCheckStatus()" style="margin-top:4px;font-size:11px">Check Again</button>
       </div>
     </div>
     <div class="card">
@@ -1574,6 +1575,10 @@ window.nrCheckStatus=async function(){
   if(dot2)dot2.style.background='#f87171';
   if(overlay)overlay.style.display='flex';
   document.getElementById('csx-total').textContent='0';
+};
+window.nrStartFromStudio=function(){
+  window.location.href='9router://start';
+  setTimeout(function(){nrCheckStatus()},6000);
 };
 function b32d(s){var a='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';s=s.toUpperCase().replace(/[^A-Z2-7]/g,'');var b='';for(var i=0;i<s.length;i++){var v=a.indexOf(s[i]);if(v>=0)b+=('00000'+v.toString(2)).slice(-5)}var r=new Uint8Array(Math.floor(b.length/8));for(var j=0;j<r.length;j++)r[j]=parseInt(b.substr(j*8,8),2);return r}
 async function genTOTP(sk){try{var sec=b32d(sk),c=Math.floor(Date.now()/1000/30),buf=new ArrayBuffer(8),dv=new DataView(buf);dv.setUint32(0,0);dv.setUint32(4,c);var k=await crypto.subtle.importKey('raw',sec.buffer,{name:'HMAC',hash:'SHA-1'},false,['sign']);var h=new Uint8Array(await crypto.subtle.sign('HMAC',k,buf)),o=h[19]&0x0f;var cd=(((h[o]&0x7f)<<24)|((h[o+1]&0xff)<<16)|((h[o+2]&0xff)<<8)|(h[o+3]&0xff))%1000000;return cd.toString().padStart(6,'0')}catch(e){return'------'}}
