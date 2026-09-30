@@ -4,9 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 <meta name="theme-color" content="#030610" />
-<title>Vision Flow Studio v6 — AI Video Breakdown</title>
-<meta name="description" content="Vision Flow Agency's professional AI video breakdown studio — transform scripts, voiceovers, audio, and video into scene-by-scene edit plans." />
-<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%231a2b36'/><stop offset='1' stop-color='%230a9f95'/></linearGradient><linearGradient id='a' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%230fc5b8'/><stop offset='1' stop-color='%232dd9cc'/></linearGradient></defs><rect rx='22' width='100' height='100' fill='url(%23g)'/><rect x='14' y='14' width='72' height='17' rx='5' fill='rgba(15,197,184,0.2)'/><rect x='14' y='14' width='15' height='17' rx='3' fill='url(%23a)' opacity='0.9'/><rect x='37' y='14' width='12' height='17' fill='url(%23a)' opacity='0.7'/><rect x='57' y='14' width='12' height='17' fill='url(%23a)' opacity='0.7'/><text x='50' y='78' text-anchor='middle' fill='%23fff' font-size='38' font-weight='900' font-family='system-ui' letter-spacing='-2'>VS</text></svg>" />
+<title>Vision Flow Studio — All-in-One Video Production Platform</title>
+<meta name="description" content="Vision Flow Agency's all-in-one video production platform — AI scene breakdown, CapCut auto-export, video download, transcript extraction, FFmpeg tools, and more." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2306b6d4'/%3E%3Cstop offset='1' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%23030610'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='system-ui' font-size='22' font-weight='900' fill='url(%23g)'%3EVS%3C/text%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -779,7 +779,7 @@ footer.vf .vf-brand {
 /* ===== TRANSCRIBE PANEL ===== */
 #transcribePanel { transition: all 0.2s; }
 #btnTranscribeDrive {
-  background: linear-gradient(135deg, #0fc5b8, #0a9f95);
+  background: var(--grad-primary);
   color:#fff; border:none; padding:8px 16px; border-radius:var(--radius-sm);
   font-weight:700; font-size:13px; cursor:pointer; display:inline-flex;
   align-items:center; gap:6px; transition:opacity .2s, transform .15s;
@@ -897,8 +897,8 @@ footer.vf .vf-brand {
 
 /* ===== PRIVACY NOTE IN SETTINGS ===== */
 .privacy-note {
-  background:linear-gradient(135deg,rgba(15,197,184,.06),rgba(6,9,12,.4));
-  border:1px solid rgba(15,197,184,.2); border-radius:10px;
+  background:linear-gradient(135deg,rgba(6,182,212,.06),rgba(3,6,16,.4));
+  border:1px solid rgba(6,182,212,.2); border-radius:10px;
   padding:12px 14px; margin-top:12px; font-size:12px;
   color:var(--text-2); line-height:1.6;
 }
@@ -955,12 +955,12 @@ footer.vf .vf-brand {
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" width="42" height="42" style="display:block">
             <defs>
               <linearGradient id="vfs-bg" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#1a2b36"/>
-                <stop offset="1" stop-color="#0a9f95"/>
+                <stop offset="0" stop-color="#050810"/>
+                <stop offset="1" stop-color="#06b6d4"/>
               </linearGradient>
               <linearGradient id="vfs-accent" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#0fc5b8"/>
-                <stop offset="1" stop-color="#2dd9cc"/>
+                <stop offset="0" stop-color="#06b6d4"/>
+                <stop offset="1" stop-color="#8b5cf6"/>
               </linearGradient>
             </defs>
             <!-- Main rounded square -->
@@ -4126,13 +4126,15 @@ async function ccScanProjects() {
 }
 
 function ccToggleProject(el, idx) {
-  const isSelected = el.style.borderColor === 'var(--primary)';
+  const isSelected = el.dataset.selected === '1';
   if (isSelected) {
-    el.style.borderColor = 'var(--border)';
+    el.dataset.selected = '0';
+    el.style.borderColor = '';
     el.style.background = '';
     ccSelectedProjects = ccSelectedProjects.filter(i => i !== idx);
   } else {
-    el.style.borderColor = 'var(--primary)';
+    el.dataset.selected = '1';
+    el.style.borderColor = '#06b6d4';
     el.style.background = 'rgba(6,182,212,.06)';
     ccSelectedProjects.push(idx);
   }
@@ -4177,10 +4179,24 @@ async function ccPollStatus() {
     const d = await r.json();
     // Update progress bar
     if (d.progress !== undefined) {
-      document.getElementById('ccProgressPct').textContent = d.progress + '%';
-      document.getElementById('ccProgressBar').style.width = d.progress + '%';
+      const pct = Math.round(d.progress * 10) / 10;
+      document.getElementById('ccProgressPct').textContent = pct + '%';
+      document.getElementById('ccProgressBar').style.width = pct + '%';
     }
     document.getElementById('ccProgressLabel').textContent = d.current_step || d.status || 'Working...';
+    
+    // Render step tracker
+    if (d.steps && d.steps.length) {
+      const icons = { pending: '⬜', running: '🔄', done: '✅', error: '❌' };
+      document.getElementById('ccStepTracker').innerHTML = d.steps.map(s => {
+        const icon = icons[s.status] || '⬜';
+        const time = s.time ? ` → ${s.time}s` : '';
+        const prog = (s.status === 'running' && s.progress) ? ` (${Math.round(s.progress)}%)` : '';
+        const color = s.status === 'running' ? 'var(--primary)' : s.status === 'done' ? 'var(--success)' : s.status === 'error' ? 'var(--danger)' : 'var(--muted)';
+        return `<div style="padding:3px 0;color:${color}">${icon} ${s.name}${prog}${time}</div>`;
+      }).join('');
+    }
+    
     // Update log with new messages
     if (d.logs && d.logs.length) {
       d.logs.forEach(l => ccLog(l));
@@ -4194,6 +4210,9 @@ async function ccPollStatus() {
       if (d.status === 'complete') {
         ccLog('✅ Export complete!');
         toast('✅ CapCut export complete!', 'ok');
+      } else if (d.status === 'error') {
+        ccLog('❌ Export failed');
+        toast('❌ Export failed — check log', 'err');
       }
     }
   } catch(e) { /* backend offline, keep polling */ }
