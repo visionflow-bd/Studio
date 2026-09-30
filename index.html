@@ -4022,6 +4022,8 @@ document.querySelectorAll('.tab-list .tab').forEach(tab => {
       p.classList.toggle('active', isTarget);
       p.style.display = isTarget ? '' : 'none';
     });
+    // Auto-check device when CapCut tab opened
+    if (target === 'capcut') ccCheckDevice();
   });
 });
 
@@ -4070,8 +4072,13 @@ async function ccCheckDevice() {
       ccLog('❌ No device found');
     }
   } catch(e) {
-    ccLog('❌ Backend not running — start: python web_ui.py');
-    toast('CapCut backend not running at localhost:5050', 'err');
+    const badge = document.getElementById('ccDeviceStatus');
+    badge.style.background = 'rgba(251,191,36,.12)';
+    badge.style.color = '#fbbf24';
+    badge.innerHTML = '<span class="dot" style="background:#fbbf24"></span> Backend Offline';
+    ccLog('⚠️ Backend not running on localhost:5050');
+    ccLog('💡 Fix: Double-click "Start Studio.vbs" from Desktop');
+    ccLog('   Or run: cd D:\\DevTools\\capcut_mod && python web_ui.py');
   }
 }
 
