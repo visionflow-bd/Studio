@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' blob: data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Free browser tools for subtitles, images and links. Your files stay in your browser.">
+  <meta name="theme-color" content="#172c30">
+  <title>Vision Flow Tools - Free creator utilities</title>
+  <link rel="stylesheet" href="./free-tools.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" data-studio-link href="https://visionflow-bd.github.io/Studio/" aria-label="Vision Flow Studio home"><span class="brand-mark">VF</span><span>VISION FLOW<small>STUDIO</small></span></a>
+    <nav aria-label="Primary navigation"><a data-studio-link href="https://visionflow-bd.github.io/Studio/">Studio</a><a class="active" href="./" aria-current="page">Free tools</a></nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">VISION FLOW / FREE UTILITIES</p>
+      <h1>Small tools that<br><em>remove friction.</em></h1>
+      <p class="lede">Subtitle, image and link helpers for creators. Everything on this page runs in your browser; files are not uploaded.</p>
+      <div class="hero-note"><span>PRIVATE BY DEFAULT</span><span>NO ACCOUNT REQUIRED</span><span>FREE TO USE</span></div>
+    </section>
+
+    <section class="tool-grid" aria-label="Free tools">
+      <article class="tool-card tool-wide">
+        <div class="tool-heading"><div><p class="eyebrow">01 / SUBTITLES</p><h2>Subtitle Lab</h2></div><span class="tool-tag">SRT / VTT</span></div>
+        <p class="tool-copy">Paste or load subtitles, shift timing, and export a clean file for your editor or platform.</p>
+        <div class="two-col">
+          <div><label for="subtitleInput">Subtitle text</label><textarea id="subtitleInput" maxlength="2097152" rows="12" placeholder="Paste SRT or WebVTT captions here"></textarea><label for="subtitleFile">Or load .srt / .vtt (up to 2 MB)</label><input id="subtitleFile" type="file" accept=".srt,.vtt,text/plain,text/vtt"></div>
+          <div class="tool-controls"><label for="subtitleOffset">Shift timing (seconds)</label><input id="subtitleOffset" type="number" step="0.1" value="0"><label for="subtitleFormat">Export format</label><select id="subtitleFormat"><option value="srt">SRT</option><option value="vtt">WebVTT</option></select><button id="subtitlePreview" class="button primary" type="button">Preview timing</button><button id="subtitleDownload" class="button secondary" type="button" disabled>Download subtitle</button><p id="subtitleStatus" class="status" role="status">Paste a subtitle file to begin.</p></div>
+        </div>
+        <pre id="subtitleOutput" class="output" aria-live="polite"></pre>
+      </article>
+
+      <article class="tool-card">
+        <div class="tool-heading"><div><p class="eyebrow">02 / IMAGES</p><h2>Image Quick Lab</h2></div><span class="tool-tag">NO UPLOAD</span></div>
+        <p class="tool-copy">Resize and export a lighter image without sending it to a server.</p>
+        <label for="imageFile">PNG, JPEG or WebP (up to 12 MB / 20 MP)</label><input id="imageFile" type="file" accept="image/png,image/jpeg,image/webp">
+        <div id="imagePreview" class="image-preview"><span>Your preview appears here.</span></div>
+        <div class="form-row"><div><label for="imageWidth">Max width</label><input id="imageWidth" type="number" min="64" max="4096" step="1" value="1920"></div><div><label for="imageFormat">Format</label><select id="imageFormat"><option value="image/webp">WebP</option><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option></select></div></div>
+        <label for="imageQuality">Quality <output id="imageQualityValue">82%</output></label><input id="imageQuality" type="range" min="30" max="100" value="82"><button id="imageDownload" class="button primary" type="button" disabled>Export image</button><p id="imageStatus" class="status" role="status">Choose an image to begin.</p>
+      </article>
+
+      <article class="tool-card">
+        <div class="tool-heading"><div><p class="eyebrow">03 / LINKS</p><h2>Link Check</h2></div><span class="tool-tag">SHAREABLE</span></div>
+        <p class="tool-copy">Make an official YouTube short link, preserve timestamps, or format a website link. No sign-up, no redirect service.</p>
+        <label for="linkInput">Paste a link</label><input id="linkInput" type="url" placeholder="https://example.com/video"><label class="check-label"><input id="removeTracking" type="checkbox"> Remove common tracking parameters</label><div id="linkResult" class="link-result" aria-live="polite"><span>Waiting for a link.</span></div><div class="button-row"><button id="linkCheck" class="button primary" type="button">Check link</button><button id="linkCopy" class="button secondary" type="button" disabled>Copy URL</button></div><p class="status">This tool validates and formats links. It does not bypass platform permissions or download protected content.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer><span>VISION FLOW STUDIO</span><span>Useful tools, wherever your work starts.</span><a data-studio-link href="https://visionflow-bd.github.io/Studio/">Open the workspace</a></footer>
+  <script src="./free-tools-core.js"></script><script src="./free-tools.js"></script>
+</body>
+</html>

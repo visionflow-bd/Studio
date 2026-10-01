@@ -1,0 +1,40 @@
+{
+  "product": "Vision Flow free tools preview",
+  "files": [
+    {
+      "file": "index.html",
+      "bytes": 5605,
+      "sha256": "c12bace2bfc3e0c23bbc079596c56247a74caff98d86584b0c082528631ab5c0"
+    },
+    {
+      "file": "free-tools.css",
+      "bytes": 5546,
+      "sha256": "f1520e9f5fbccf8ddf4d9bcc4d84756e64eb69f331c5f870e6d76d5cc78045b6"
+    },
+    {
+      "file": "free-tools-core.js",
+      "bytes": 6816,
+      "sha256": "1f3d7e8331946a9bfb94c4dafd6f75ad4d0c1a98ce0b52ad7f4e9ec6bb8f403b"
+    },
+    {
+      "file": "free-tools.js",
+      "bytes": 7251,
+      "sha256": "a392c0e8cc2c5b277689d61ee80a24078a9184ac095e837fe936f7bbfce1f338"
+    },
+    {
+      "file": "fonts/Outfit.ttf",
+      "bytes": 110884,
+      "sha256": "fc7287273e66929776e2ba54f144fe699080bec29f61bf649d70d871468aeade"
+    },
+    {
+      "file": "fonts/OFL.txt",
+      "bytes": 4481,
+      "sha256": "612e5b5159ea1e1f1642d8954ad42070901ae34f590d88ba2d9cedde302ca78b"
+    },
+    {
+      "file": "_headers",
+      "bytes": 383,
+      "sha256": "970b9376a74f8d6ccfee8784bb19ead7010f7da1ca4f70fe62e15ff36f9c6621"
+    }
+  ]
+}
