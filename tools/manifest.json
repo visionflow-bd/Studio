@@ -3,23 +3,23 @@
   "files": [
     {
       "file": "index.html",
-      "bytes": 5605,
-      "sha256": "c12bace2bfc3e0c23bbc079596c56247a74caff98d86584b0c082528631ab5c0"
+      "bytes": 5663,
+      "sha256": "65e2ef2084f0dd1d42d92b75a8244faad39474cb8bab61e298e549d360fe05da"
     },
     {
       "file": "free-tools.css",
-      "bytes": 5546,
-      "sha256": "f1520e9f5fbccf8ddf4d9bcc4d84756e64eb69f331c5f870e6d76d5cc78045b6"
+      "bytes": 5552,
+      "sha256": "ed222e7a1c6ca062a1bfa0803b5c5a3a6e0d922413a723b48138944304bd84b3"
     },
     {
       "file": "free-tools-core.js",
-      "bytes": 6816,
-      "sha256": "1f3d7e8331946a9bfb94c4dafd6f75ad4d0c1a98ce0b52ad7f4e9ec6bb8f403b"
+      "bytes": 6905,
+      "sha256": "d2c0815e429a39318ae8fc061511c380bd85e556c5ab1ae177595f734364b7ff"
     },
     {
       "file": "free-tools.js",
-      "bytes": 7251,
-      "sha256": "a392c0e8cc2c5b277689d61ee80a24078a9184ac095e837fe936f7bbfce1f338"
+      "bytes": 7357,
+      "sha256": "8d587904cd098e19c07e08291df22cc2bdf1c32380cd524b04ab4b69f1f51c23"
     },
     {
       "file": "fonts/Outfit.ttf",
