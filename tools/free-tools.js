@@ -1,7 +1,7 @@
 "use strict";
 (() => {
   const $ = id => document.getElementById(id);
-  const {convertSubtitles, formatLink} = VisionFlowTools;
+  const {convertSubtitles, formatLink, makeQr, qrSvg, describeMedia, scriptToCaptions} = VisionFlowTools;
   function download(name, blob) {
     const url = URL.createObjectURL(blob), link = document.createElement("a");
     link.href = url; link.download = name; link.click();
@@ -102,5 +102,82 @@
     const value = cleanUrl; if (!value) return;
     try { await navigator.clipboard.writeText(value); if (cleanUrl === value) $("linkCopy").textContent = "Copied"; }
     catch { if (cleanUrl === value) $("linkResult").append(" Clipboard unavailable. Select and copy the URL above."); }
+  });
+
+  let qr = null;
+  function resetQr() { qr = null; $("qrPng").disabled = $("qrSvg").disabled = true; }
+  function makeQrCode() {
+    resetQr();
+    try {
+      qr = makeQr($("qrInput").value, $("qrLevel").value);
+      const quiet = 4, full = qr.size + quiet * 2, canvas = document.createElement("canvas"), scale = 8;
+      canvas.width = canvas.height = full * scale; canvas.setAttribute("role", "img"); canvas.setAttribute("aria-label", "Generated QR code");
+      const context = canvas.getContext("2d"); context.fillStyle = "#fff"; context.fillRect(0, 0, canvas.width, canvas.height); context.fillStyle = "#000";
+      qr.modules.forEach((row, y) => row.forEach((dark, x) => { if (dark) context.fillRect((x + quiet) * scale, (y + quiet) * scale, scale, scale); }));
+      $("qrPreview").replaceChildren(canvas);
+      $("qrStatus").textContent = `QR version ${qr.version} (${qr.size} x ${qr.size}), ${qr.bytes} bytes, error correction ${qr.ecl}. Test-scan before printing.`;
+      $("qrPng").disabled = $("qrSvg").disabled = false;
+    } catch (error) { $("qrPreview").replaceChildren(); $("qrStatus").textContent = error.message; }
+  }
+  $("qrInput").addEventListener("input", resetQr);
+  $("qrLevel").addEventListener("change", resetQr);
+  $("qrMake").addEventListener("click", makeQrCode);
+  $("qrSvg").addEventListener("click", () => { if (qr) download("vision-flow-qr.svg", new Blob([qrSvg(qr)], {type: "image/svg+xml"})); });
+  $("qrPng").addEventListener("click", () => {
+    if (!qr) return;
+    const scale = $("qrScale").valueAsNumber;
+    if (!Number.isInteger(scale) || scale < 2 || scale > 40) { $("qrStatus").textContent = "Use a whole-number size between 2 and 40."; return; }
+    const source = qr, quiet = 4, canvas = document.createElement("canvas"); canvas.width = canvas.height = (source.size + quiet * 2) * scale;
+    const context = canvas.getContext("2d"); context.fillStyle = "#fff"; context.fillRect(0, 0, canvas.width, canvas.height); context.fillStyle = "#000";
+    source.modules.forEach((row, y) => row.forEach((dark, x) => { if (dark) context.fillRect((x + quiet) * scale, (y + quiet) * scale, scale, scale); }));
+    canvas.toBlob(blob => { if (blob) download("vision-flow-qr.png", blob); else $("qrStatus").textContent = "This browser could not export the PNG."; canvas.width = canvas.height = 0; }, "image/png");
+  });
+
+  let mediaTicket = 0, mediaUrl = null;
+  $("mediaFile").addEventListener("change", event => {
+    const file = event.target.files[0], ticket = ++mediaTicket;
+    $("mediaResult").replaceChildren();
+    if (mediaUrl) URL.revokeObjectURL(mediaUrl); mediaUrl = null;
+    if (!file) return;
+    const kind = ["image", "video", "audio"].find(type => file.type.startsWith(type + "/"));
+    if (!kind) { $("mediaStatus").textContent = "Choose an image, video or audio file."; return; }
+    if (file.size > 8 * 1024 * 1024 * 1024) { $("mediaStatus").textContent = "Choose a file up to 8 GB."; return; }
+    $("mediaStatus").textContent = "Reading file details...";
+    const url = mediaUrl = URL.createObjectURL(file);
+    const finish = values => {
+      if (ticket !== mediaTicket) return;
+      URL.revokeObjectURL(url); if (mediaUrl === url) mediaUrl = null;
+      try {
+        const info = describeMedia({kind, bytes: file.size, ...values});
+        const rows = [["Type", `${kind} (${file.type})`], ["File size", info.size]];
+        if (info.width) rows.push(["Dimensions", `${info.width} x ${info.height} px (${info.megapixels} MP, ${info.orientation})`], ["Aspect ratio", `${info.exactRatio} - nearest ${info.nearest}`], ["Best fit", info.fit]);
+        if (info.durationText) rows.push(["Duration", info.durationText], ["Average bitrate", `${info.bitrateKbps} kbps`]);
+        $("mediaResult").replaceChildren(...rows.flatMap(([term, value]) => { const dt = document.createElement("dt"), dd = document.createElement("dd"); dt.textContent = term; dd.textContent = value; return [dt, dd]; }));
+        $("mediaStatus").textContent = info.warnings.length ? info.warnings.join(" ") : "Details read locally. Nothing was uploaded.";
+      } catch (error) { $("mediaStatus").textContent = error.message; }
+    };
+    const failed = () => { if (ticket !== mediaTicket) return; URL.revokeObjectURL(url); if (mediaUrl === url) mediaUrl = null; $("mediaStatus").textContent = "This browser could not read this file. Try another format."; };
+    if (kind === "image") { const img = new Image(); img.onload = () => finish({width: img.naturalWidth, height: img.naturalHeight}); img.onerror = failed; img.src = url; }
+    else { const media = document.createElement(kind); media.preload = "metadata"; media.muted = true;
+      media.onloadedmetadata = () => finish({width: media.videoWidth || 0, height: media.videoHeight || 0, duration: media.duration}); media.onerror = failed; media.src = url; }
+  });
+
+  let captionResult = null;
+  function makeCaptions() {
+    captionResult = null; $("captionDownload").disabled = true; $("captionOutput").textContent = "";
+    try {
+      captionResult = scriptToCaptions($("captionScript").value, {wordsPerMinute: $("captionWpm").valueAsNumber, maxChars: $("captionChars").valueAsNumber, format: $("captionFormat").value});
+      $("captionOutput").textContent = captionResult.preview;
+      $("captionStatus").textContent = `${captionResult.count} captions, about ${Math.round(captionResult.durationSeconds)} seconds. Timing is an estimate; align to your voiceover in the editor.`;
+      $("captionDownload").disabled = false;
+    } catch (error) { $("captionStatus").textContent = error.message; }
+  }
+  for (const id of ["captionScript", "captionWpm", "captionChars"]) $(id).addEventListener("input", () => { captionResult = null; $("captionDownload").disabled = true; });
+  $("captionFormat").addEventListener("change", makeCaptions);
+  $("captionMake").addEventListener("click", makeCaptions);
+  $("captionDownload").addEventListener("click", () => {
+    makeCaptions(); if (!captionResult) return;
+    const format = $("captionFormat").value;
+    download(`vision-flow-captions.${format}`, new Blob([captionResult.content], {type: `${format === "vtt" ? "text/vtt" : "application/x-subrip"};charset=utf-8`}));
   });
 })();

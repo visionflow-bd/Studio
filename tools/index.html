@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' blob: data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' blob: data:; media-src blob:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
   <meta name="referrer" content="no-referrer">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Free browser tools for subtitles, images and links. Your files stay in your browser.">
+  <meta name="description" content="Free browser tools for subtitles, captions, QR codes, media checks, images and links. Your files stay in your browser.">
   <meta name="theme-color" content="#172c30">
   <title>Vision Flow Tools - Free creator utilities</title>
   <link rel="stylesheet" href="./free-tools.css">
@@ -48,6 +48,32 @@
         <div class="tool-heading"><div><p class="eyebrow">03 / LINKS</p><h2>Link Check</h2></div><span class="tool-tag">SHAREABLE</span></div>
         <p class="tool-copy">Make an official YouTube short link, preserve timestamps, or format a website link. No sign-up, no redirect service.</p>
         <label for="linkInput">Paste a link</label><input id="linkInput" type="url" placeholder="https://example.com/video"><label class="check-label"><input id="removeTracking" type="checkbox"> Remove common tracking parameters</label><div id="linkResult" class="link-result" aria-live="polite"><span>Waiting for a link.</span></div><div class="button-row"><button id="linkCheck" class="button primary" type="button">Check link</button><button id="linkCopy" class="button secondary" type="button" disabled>Copy URL</button></div><p class="status">This tool validates and formats links. It does not bypass platform permissions or download protected content.</p>
+      </article>
+
+      <article class="tool-card">
+        <div class="tool-heading"><div><p class="eyebrow">04 / QR</p><h2>QR Code Maker</h2></div><span class="tool-tag">PNG / SVG</span></div>
+        <p class="tool-copy">Turn a link or text into a QR code for posters, thumbnails and end screens. <span lang="bn">লিংক বা লেখা থেকে QR কোড বানান — কোনো সাইনআপ ছাড়া।</span></p>
+        <label for="qrInput">Link or text</label><textarea id="qrInput" rows="3" maxlength="1200" placeholder="https://visionflowgroup.com/"></textarea>
+        <div class="form-row"><div><label for="qrLevel">Error correction</label><select id="qrLevel"><option value="L">Low (7%)</option><option value="M" selected>Medium (15%)</option><option value="Q">Quartile (25%)</option><option value="H">High (30%)</option></select></div><div><label for="qrScale">PNG size (px per module)</label><input id="qrScale" type="number" min="2" max="40" step="1" value="10"></div></div>
+        <div id="qrPreview" class="image-preview qr-preview"><span>Your QR code appears here.</span></div>
+        <div class="button-row"><button id="qrMake" class="button primary" type="button">Make QR</button><button id="qrPng" class="button secondary" type="button" disabled>Download PNG</button><button id="qrSvg" class="button secondary" type="button" disabled>Download SVG</button></div><p id="qrStatus" class="status" role="status">Enter a link or text to begin.</p>
+      </article>
+
+      <article class="tool-card">
+        <div class="tool-heading"><div><p class="eyebrow">05 / MEDIA CHECK</p><h2>Size &amp; Aspect Check</h2></div><span class="tool-tag">NO UPLOAD</span></div>
+        <p class="tool-copy">See dimensions, aspect ratio, duration, file size and bitrate before you upload or edit. <span lang="bn">আপলোডের আগে রেশিও, সাইজ ও ডিউরেশন দেখে নিন।</span></p>
+        <label for="mediaFile">Image, video or audio file</label><input id="mediaFile" type="file" accept="image/*,video/*,audio/*">
+        <dl id="mediaResult" class="media-result" aria-live="polite"></dl><p id="mediaStatus" class="status" role="status">Choose a file. It is read only by your browser.</p>
+      </article>
+
+      <article class="tool-card tool-wide">
+        <div class="tool-heading"><div><p class="eyebrow">06 / CAPTIONS</p><h2>Script to Captions</h2></div><span class="tool-tag">SRT / VTT</span></div>
+        <p class="tool-copy">Paste a voiceover script and get evenly timed caption lines to fine-tune in your editor. Works with English and Bangla (। ends a sentence). <span lang="bn">স্ক্রিপ্ট পেস্ট করুন, টাইম করা সাবটাইটেল ফাইল নিন।</span></p>
+        <div class="two-col">
+          <div><label for="captionScript">Script</label><textarea id="captionScript" maxlength="2097152" rows="10" placeholder="Paste your script or voiceover here"></textarea></div>
+          <div class="tool-controls"><label for="captionWpm">Speaking speed (words per minute)</label><input id="captionWpm" type="number" min="60" max="300" step="5" value="150"><label for="captionChars">Max characters per caption</label><input id="captionChars" type="number" min="16" max="80" step="1" value="42"><label for="captionFormat">Export format</label><select id="captionFormat"><option value="srt">SRT</option><option value="vtt">WebVTT</option></select><button id="captionMake" class="button primary" type="button">Make captions</button><button id="captionDownload" class="button secondary" type="button" disabled>Download captions</button><p id="captionStatus" class="status" role="status">Paste a script to begin.</p></div>
+        </div>
+        <pre id="captionOutput" class="output" aria-live="polite"></pre>
       </article>
     </section>
   </main>
