@@ -941,15 +941,72 @@
       <section id="step-04" class="step-panel">
         <div class="hero-banner">
           <div>
-            <span class="eyebrow">04 / ZERO-SIGNOUT MULTI-ACCOUNT GOOGLE FLOW DISPATCHER</span>
-            <h1 class="serif-display">Background generation across your <em>logged-in Flow profiles.</em></h1>
-            <p>No cookie copying, no CDP port 9222 warning popups, and zero mouse/window focus stealing. Load the extension once inside each Chrome profile where Google Flow is logged in.</p>
+            <span class="eyebrow">04 / DIRECT CUSTOM GENERATOR (FLOW / FREEPIK STYLE) + MULTI-ACCOUNT ROUTER</span>
+            <h1 class="serif-display">Generate directly without an agent, or <em>batch-queue full scripts.</em></h1>
+            <p>Users can generate single custom videos/images freely just like Google Flow or Freepik (Text-to-Video, Image-to-Video, Ingredients, Aspect Ratio, Camera Motion, and 1-Click Re-Roll / Take 2), OR dispatch full multi-scene scripts from Step 02.</p>
           </div>
           <div class="btn-row">
-            <button class="btn primary" id="btnEnqueueScript1" onclick="enqueueFlowScenes(1)">Enqueue Active Script Scenes (Reseller Pool)</button>
+            <button class="btn primary" id="btnEnqueueScript1" onclick="enqueueFlowScenes(1)">Enqueue Active Script Scenes (Agent Batch)</button>
             <button class="btn" onclick="enqueueFlowScenes(null)">Enqueue All Scripts</button>
             <button class="btn" onclick="clearFlowQueue()">Clear Queue</button>
             <button class="btn" onclick="goStep('step-05')">Next: Step 05 (Clip Auditor) →</button>
+          </div>
+        </div>
+
+        <!-- Direct Self-Serve Playground (Flow / Freepik Style — No Agent Required) -->
+        <div class="card">
+          <div class="card-head">
+            <h2>Mode A: Direct Custom Video &amp; Image Playground (Flow / Freepik Style — Zero Agent Required)</h2>
+            <span class="badge-pill mint mono">100% Manual Control + 1-Click Re-Roll</span>
+          </div>
+          <div class="grid-4" style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:12px;">
+            <div>
+              <label class="field-label">Generation Mode</label>
+              <select id="directGenMode">
+                <option value="text_to_video" selected>Text to Video (Veo 3)</option>
+                <option value="image_to_video">Image / Frame to Video</option>
+                <option value="ingredients_ref">Ingredients (Char + Product Ref)</option>
+                <option value="text_to_image">Text to Image (Imagen 3)</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label">AI Model &amp; Credit Cost</label>
+              <select id="directModelSelect">
+                <option value="veo-3-quality" selected>Veo 3 Quality (15 Cr / video)</option>
+                <option value="veo-3-fast">Veo 3 Fast (10 Cr / video)</option>
+                <option value="imagen-3">Imagen 3 Ultra (2 Cr / image)</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label">Aspect Ratio &amp; Takes</label>
+              <select id="directAspectTakes">
+                <option value="9:16|2" selected>9:16 Vertical (Reels/TikTok) • 2x Takes</option>
+                <option value="9:16|1">9:16 Vertical (Reels/TikTok) • 1x Take</option>
+                <option value="16:9|2">16:9 Landscape (YouTube/Film) • 2x Takes</option>
+                <option value="1:1|2">1:1 Square • 2x Takes</option>
+                <option value="9:16|4">9:16 Vertical • 4x Variations</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label">Camera Control</label>
+              <select id="directCameraMotion">
+                <option value="auto" selected>Auto Natural Camera</option>
+                <option value="static_tripod">Static Tripod Lock</option>
+                <option value="slow_push_in">Slow Push-In (1.05x)</option>
+                <option value="handheld_ugc">Natural Handheld UGC</option>
+                <option value="orbit_macro">Macro Product Orbit</option>
+              </select>
+            </div>
+          </div>
+          <label class="field-label">Write Any Custom Prompt Directly (No Agent Filter — Runs Exactly What You Type)</label>
+          <textarea id="directCustomPromptInput" rows="3" placeholder="Type any custom video or image prompt here just like Google Flow or Freepik...">Cinematic 9:16 close-up of a matte black espresso machine pouring rich golden crema into a warm ceramic cup in morning sunlight, shallow depth of field, 24fps natural motion.</textarea>
+          <div class="btn-row" style="margin-top:12px;">
+            <button class="btn primary" id="btnDirectGenerate" onclick="submitDirectCustomGeneration(false)">
+              Generate Custom Prompt Now →
+            </button>
+            <button class="btn" id="btnDirectReroll" onclick="submitDirectCustomGeneration(true)">
+              Re-Roll / Take +1 (New Seed Variation)
+            </button>
           </div>
         </div>
 
@@ -968,21 +1025,21 @@
 
         <div class="card">
           <div class="card-head">
-            <h2>Live Google Flow Dispatch Queue</h2>
+            <h2>Live Google Flow Dispatch Queue (Custom Direct + Agent Scenes)</h2>
           </div>
           <table>
             <thead>
               <tr>
                 <th>Job ID</th>
-                <th>Script / Scene</th>
-                <th>Assigned Profile Tag</th>
+                <th>Mode / Scene</th>
+                <th>Assigned Tank Account</th>
                 <th>Takes</th>
-                <th>9-Tag Prompt Preview</th>
-                <th>Status</th>
+                <th>Prompt Preview</th>
+                <th>Status &amp; Re-Roll</th>
               </tr>
             </thead>
             <tbody id="flowQueueTableBody">
-              <tr><td colspan="6" style="color:var(--text-dim);">No jobs in queue. Click "Enqueue Active Script Scenes" above.</td></tr>
+              <tr><td colspan="6" style="color:var(--text-dim);">No jobs in queue. Click "Generate Custom Prompt Now" or "Enqueue Active Script Scenes" above.</td></tr>
             </tbody>
           </table>
         </div>

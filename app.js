@@ -456,33 +456,115 @@ async function enqueueFlowScenes(scriptNum = null, sceneNum = null) {
   }
 }
 
+let standaloneFlowQueue = [];
+
+async function submitDirectCustomGeneration(isReroll = false) {
+  const customPrompt = document.getElementById('directCustomPromptInput')?.value.trim() || '';
+  if (!customPrompt) {
+    showToast('Please enter a custom prompt first.');
+    return;
+  }
+  const genMode = document.getElementById('directGenMode')?.value || 'text_to_video';
+  const modelId = document.getElementById('directModelSelect')?.value || 'veo-3-quality';
+  const aspectTakes = document.getElementById('directAspectTakes')?.value || '9:16|2';
+  const [aspectRatio, takesStr] = aspectTakes.split('|');
+  const takes = parseInt(takesStr || '2', 10);
+  const cameraMotion = document.getElementById('directCameraMotion')?.value || 'auto';
+
+  try {
+    const res = await fetch('/api/flow-queue/direct-generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        prompt_text: customPrompt,
+        generation_mode: genMode,
+        model_id: modelId,
+        aspect_ratio: aspectRatio,
+        camera_motion: cameraMotion,
+        takes,
+        is_reroll: isReroll
+      })
+    });
+    const data = await res.json();
+    if (data.ok && data.job) {
+      document.getElementById('flowQueueTopBadge').textContent = `Flow Queue: ${data.queue_total} Jobs`;
+      await refreshFlowQueueTable();
+      showToast(`${isReroll ? 'Re-Roll / Take +1' : 'Direct Custom Generation'} dispatched (${data.job.job_id} • ${modelId} • ${aspectRatio} • ${takes}x takes)!`);
+      return;
+    }
+  } catch (e) {}
+
+  // 24/7 Cloud Standalone Fallback
+  const jobId = `${isReroll ? 'REROLL' : 'CUSTOM'}-${Math.random().toString(16).slice(2, 8).toUpperCase()}`;
+  const activeAcc = (standaloneTankAccounts.find(a => a.remaining_credits > 0) || {}).account_id || 'flow_acc_01';
+  standaloneFlowQueue.unshift({
+    job_id: jobId,
+    script_number: 0,
+    scene_number: 0,
+    time_range: `${genMode.toUpperCase()} • ${aspectRatio} • ${modelId}`,
+    prompt_text: `[Mode: ${genMode} | Model: ${modelId} | Aspect: ${aspectRatio} | Camera: ${cameraMotion}] ${customPrompt}`,
+    raw_user_prompt: customPrompt,
+    takes,
+    account_tag: activeAcc,
+    status: 'queued'
+  });
+  document.getElementById('flowQueueTopBadge').textContent = `Flow Queue: ${standaloneFlowQueue.length} Jobs`;
+  await refreshFlowQueueTable();
+  showToast(`${isReroll ? 'Re-Roll / Take +1' : 'Direct Custom Generation'} queued (${jobId} -> ${activeAcc})!`);
+}
+
+async function rerollExistingJob(rawPrompt) {
+  const inp = document.getElementById('directCustomPromptInput');
+  if (inp && rawPrompt) inp.value = rawPrompt;
+  await submitDirectCustomGeneration(true);
+}
+
 async function clearFlowQueue() {
-  await fetch('/api/flow-queue/clear', { method: 'POST' });
+  standaloneFlowQueue = [];
+  try {
+    await fetch('/api/flow-queue/clear', { method: 'POST' });
+  } catch (e) {}
   document.getElementById('flowQueueTopBadge').textContent = 'Flow Queue: 0 Jobs';
   await refreshFlowQueueTable();
 }
 
 async function refreshFlowQueueTable() {
-  const res = await fetch('/api/flow-queue/status');
-  const data = await res.json();
   const tbody = document.getElementById('flowQueueTableBody');
   if (!tbody) return;
-  if (!data.ok || !data.queue || data.queue.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="color:var(--text-dim);">Queue is empty.</td></tr>';
+  let queueList = standaloneFlowQueue;
+  try {
+    const res = await fetch('/api/flow-queue/status');
+    const data = await res.json();
+    if (data.ok && Array.isArray(data.queue)) {
+      queueList = data.queue;
+    }
+  } catch (e) {}
+
+  if (!queueList || queueList.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="color:var(--text-dim);">Queue is empty. Use Mode A (Direct Custom Prompt) or Mode B (Script Batch) above.</td></tr>';
     return;
   }
-  tbody.innerHTML = data.queue.map(j => `
-    <tr>
-      <td class="mono">${escapeHtml(j.job_id)}</td>
-      <td>Script ${j.script_number} • Scene ${j.scene_number} (${escapeHtml(j.time_range)})</td>
-      <td><span class="badge-pill mint mono">${escapeHtml(j.account_tag)}</span></td>
-      <td class="mono">${j.takes}x</td>
-      <td class="mono" style="max-width:420px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-        ${escapeHtml(j.prompt_text.slice(0, 115))}...
-      </td>
-      <td><span class="badge-pill mint mono">${escapeHtml(j.status.toUpperCase())}</span></td>
-    </tr>
-  `).join('');
+  tbody.innerHTML = queueList.map(j => {
+    const modeLabel = j.script_number === 0
+      ? `<span class="badge-pill mint mono">DIRECT CUSTOM</span> ${escapeHtml(j.time_range)}`
+      : `Script ${j.script_number} • Scene ${j.scene_number} (${escapeHtml(j.time_range)})`;
+    const safeRaw = escapeHtml(j.raw_user_prompt || j.prompt_text || '').replace(/'/g, "\\'");
+    return `
+      <tr>
+        <td class="mono">${escapeHtml(j.job_id)}</td>
+        <td>${modeLabel}</td>
+        <td><span class="badge-pill mint mono">${escapeHtml(j.account_tag)}</span></td>
+        <td class="mono">${j.takes}x</td>
+        <td class="mono" style="max-width:380px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+          ${escapeHtml((j.prompt_text || '').slice(0, 110))}...
+        </td>
+        <td>
+          <span class="badge-pill mint mono">${escapeHtml((j.status || 'queued').toUpperCase())}</span>
+          <button class="btn" style="padding:4px 8px; font-size:11px; margin-left:6px;" onclick="rerollExistingJob('${safeRaw}')">Re-Roll +1</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
 }
 
 async function runClipAudit() {
