@@ -465,10 +465,13 @@ async function submitDirectCustomGeneration(isReroll = false) {
     return;
   }
   const genMode = document.getElementById('directGenMode')?.value || 'text_to_video';
-  const modelId = document.getElementById('directModelSelect')?.value || 'veo-3-quality';
+  const rawModelVal = document.getElementById('directModelSelect')?.value || 'omni-flash-10s|15';
+  const [modelId, unitCrStr] = rawModelVal.split('|');
+  const unitCredits = parseInt(unitCrStr || '15', 10);
   const aspectTakes = document.getElementById('directAspectTakes')?.value || '9:16|2';
   const [aspectRatio, takesStr] = aspectTakes.split('|');
   const takes = parseInt(takesStr || '2', 10);
+  const totalRealCredits = unitCredits * takes;
   const cameraMotion = document.getElementById('directCameraMotion')?.value || 'auto';
 
   try {
@@ -482,6 +485,7 @@ async function submitDirectCustomGeneration(isReroll = false) {
         aspect_ratio: aspectRatio,
         camera_motion: cameraMotion,
         takes,
+        unit_credits: unitCredits,
         is_reroll: isReroll
       })
     });
@@ -489,7 +493,7 @@ async function submitDirectCustomGeneration(isReroll = false) {
     if (data.ok && data.job) {
       document.getElementById('flowQueueTopBadge').textContent = `Flow Queue: ${data.queue_total} Jobs`;
       await refreshFlowQueueTable();
-      showToast(`${isReroll ? 'Re-Roll / Take +1' : 'Direct Custom Generation'} dispatched (${data.job.job_id} • ${modelId} • ${aspectRatio} • ${takes}x takes)!`);
+      showToast(`${isReroll ? 'Re-Roll / Take +1' : 'Direct Custom Generation'} dispatched (${data.job.job_id} • ${modelId} • ${takes}x = ${totalRealCredits} Cr)!`);
       return;
     }
   } catch (e) {}
